@@ -109,16 +109,12 @@ const Header = () => {
                     </Link>
                   ) : 
                       <div className="">
-                        
+                        <Link to={"/profile"} flag={false}>
                         <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                        onClick={() => setOpen(!open)}  >
+                         >
                            <FaUserAlt /> View profile
                         </p>
-                        {
-                        open ? (
-                          <Profile setOpen={setOpen} />
-                        ) : null
-                      }
+                        </Link>
                       {/* <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
                         <MdEdit /> Edit profile
                       </p> */}
@@ -182,16 +178,12 @@ const Header = () => {
               ) :
                 (
                   <div className="">
-                    
+                    <Link to={"/profile"} flag={false}>
                     <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                    onClick={() => setOpen(!open)} >
+                    >
                       <FaUserAlt /> View profile
                     </p>
-                    {
-                        open ? (
-                          <Profile setOpen={setOpen} />
-                        ) : null
-                      }
+                    </Link>
                   </div>
 
                 )

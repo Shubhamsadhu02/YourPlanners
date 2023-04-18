@@ -11,12 +11,14 @@ import Avatar from "../img/avatar.png";
 import { useStateValue } from "../context/StateProvider";
 import { doc, getFirestore, onSnapshot } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import UploadImage from "./UploadImage";
 
 export default function Profile({ setOpen }) {
   const [isdotMenu, setisdotMenu] = useState(false);
   const database = getFirestore();
   const [{ user }] = useStateValue();
   const [data, setData] = useState(null);
+  const[openImage, setOpenImage]=useState(false);
 
   console.log(user);
   useEffect(() => {
@@ -47,18 +49,19 @@ export default function Profile({ setOpen }) {
   const handleTabClick = (e) => {
     setCurrentTab(e.target.id)
   }
+  
   return (
     <>
       <div className="">
         {user ? (
           <div className="">
             <div key={data?.id} className="fixed w-full h-screen top-8  md:top-16 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-              <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
-                <RxCross2
+              <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
+                {/* <RxCross2
                   size={30}
                   className="absolute right-3 top-3 z-50 cursor-pointer"
                   onClick={() => setOpen(false)}
-                />
+                /> */}
                 <div className="flex flex-col justify-center items-center md:grid md:grid-cols-2 gap-2">
                   <div className="py-2 md:px-16 flex md:justify-end md:items-end">
                     <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-36 h-28 md:h-36' />
@@ -84,6 +87,7 @@ export default function Profile({ setOpen }) {
                 </div>
 
                 {/* tabs */}
+                <div className="container">
                 <div className="px-0 md:px-12 mt-12">
                   <div className="tabs flex flex-column justify-between border-b-2 border-indigo-200">
                     {data ? (
@@ -118,9 +122,15 @@ export default function Profile({ setOpen }) {
                               className="w-52 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute top-12 right-0"
                             >
                               <div className="">
-                                <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
+                                <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                                   onClick={() => setOpenImage(!openImage)} >
                                   <GrDocumentUpload className="text-xl text-textColor" /> Upload Image
                                 </p>
+                                {
+                                    openImage ? (
+                                    <UploadImage setOpenImage={setOpenImage} />
+                                    ) : null
+                                }
                                 <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
                                   <RiVideoUploadFill className="text-xl text-textColor" /> Upload Video
                                 </p>
@@ -153,6 +163,7 @@ export default function Profile({ setOpen }) {
                       </div>
                     }
                   </div>
+                </div>
                 </div>
               </div>
             </div>

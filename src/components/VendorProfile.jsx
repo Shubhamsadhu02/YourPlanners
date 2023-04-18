@@ -46,7 +46,7 @@ export default function VendorProfile({ setOpen, data }) {
       {
         data ? (
             <div key={data?.id} className="fixed w-full h-screen top-8  md:top-16 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-              <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
+              <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
                 <RxCross2
                   size={30}
                   className="absolute right-3 top-3 z-50 cursor-pointer"
@@ -86,6 +86,7 @@ export default function VendorProfile({ setOpen, data }) {
                 </div>
 
                 {/* tabs */}
+                <div className="container">
                 <div className="px-0 md:px-12 mt-12">
                   <div className="tabs flex flex-column border-b-2 border-indigo-200">
                     <button type="submit" className="p-3" 
@@ -107,6 +108,7 @@ export default function VendorProfile({ setOpen, data }) {
                       </div>
                     }
                   </div>
+                </div>
                 </div>
               </div>
             </div>
