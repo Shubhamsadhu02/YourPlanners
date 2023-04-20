@@ -188,12 +188,13 @@ const Header = () => {
 
                 )
               }
+              <Link to={"/planner-form"}>
               <p
                 className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-blue-500 text-white gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-base"
               >
                 Become A planner
               </p>
-
+              </Link>
               <p
                 className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"
                 onClick={logout}
