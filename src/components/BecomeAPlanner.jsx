@@ -85,7 +85,7 @@ export default function BecomeAPlanner() {
         });
     };
 
-    function fetchAreaFromPincode(pinCode){
+    async function fetchAreaFromPincode(pinCode){
         const url = `https://api.postalpincode.in/pincode/${pinCode}`;
         return axios.get(url)
           .then(response => {

@@ -95,7 +95,7 @@ export default function Profile() {
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start">
                     <h2 className='text-xl w-72 md:w-96 font-bold md:text-2xl text-gray-700 capitalize break-words text-center'>{data?.company || user?.displayName}</h2>
-                    <p className={` text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified ? "Verified" : "Pending"}</p>
+                    <p className={` text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified !== undefined ? (data.isVerified ? "Verified" : "Pending") : "NA"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register || "Customer"}</p>
                     <div className="flex items-center">
                       <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'>{data?.area || "N/A"}</p>
