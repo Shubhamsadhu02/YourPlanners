@@ -6,6 +6,7 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import VendorProfile from "./VendorProfile";
 import Avatar from "../img/avatar.png";
+import axios from "axios";
 
 const RowContainer = ({ flag, data, scrollValue }) => {
   const rowContainer = useRef();
@@ -28,6 +29,34 @@ const RowContainer = ({ flag, data, scrollValue }) => {
   useEffect(() => {
     addtocart();
   }, [items]);
+
+  const [area, setArea] = useState("");
+  const pincode = data.pinCode; 
+  useEffect(() => {
+    fetchArea();
+  }, []);
+ 
+  const fetchAreaFromPincode = async (pinCode) =>{
+    const url = `https://api.postalpincode.in/pincode/${pinCode}`;
+    return axios.get(url)
+      .then(response => {
+        const data = response.data[0];
+        if (data.Status === "Success") {
+          const area = data.PostOffice[0].District;
+          return area;
+        } else {
+          return "Invalid pincode";
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const fetchArea = async () => {
+    const area = await fetchAreaFromPincode(pincode);
+    setArea(area);
+  };
 
   return (
     <div
@@ -87,7 +116,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
               </p>
               <div className="flex items-center gap-8">
                 <p className="text-sm text-gray-500 truncate">
-                  {data.area}
+                {area}
                 </p>
               </div>
             </div>

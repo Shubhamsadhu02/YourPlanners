@@ -1,5 +1,5 @@
 import React, { useEffect,  useState } from "react";
-
+import axios from "axios";
 import Avatar from "../img/avatar.png";
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
@@ -59,6 +59,34 @@ export default function VendorProfile({ setOpen, data }) {
     }
   }, [data, database]);
 
+  const [area, setArea] = useState("");
+  const pincode = data.pinCode; 
+  useEffect(() => {
+    fetchArea();
+  }, []);
+ 
+  const fetchAreaFromPincode = async (pinCode) =>{
+    const url = `https://api.postalpincode.in/pincode/${pinCode}`;
+    return axios.get(url)
+      .then(response => {
+        const data = response.data[0];
+        if (data.Status === "Success") {
+          const area = data.PostOffice[0].District;
+          return area;
+        } else {
+          return "Invalid pincode";
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const fetchArea = async () => {
+    const area = await fetchAreaFromPincode(pincode);
+    setArea(area);
+  };
+
   return (
     <>
     <div className="">
@@ -76,10 +104,10 @@ export default function VendorProfile({ setOpen, data }) {
                     <img src={data?.imageURL ? data?.imageURL : Avatar } alt="" className=' w-28 md:w-36 h-28 md:h-36' />
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start">
-                    <h2 className='text-l w-72 md:w-96 font-bold md:text-2xl text-gray-700 capitalize break-words text-center'>{data?.company}</h2>
+                    <h2 className='text-l w-72 md:w-96 font-bold md:text-2xl text-gray-700 capitalize break-words text-center md:text-left'>{data?.company}</h2>
                     <p className={`text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified ? "Verified" : "Pending"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register}</p>
-                    <p className='text-sm md:text-base font-medium capitalize'>{data?.area}</p>
+                    <p className='text-sm md:text-base font-medium capitalize'>{area}</p>
 
                     <div className="hidden mt-8 w-full md:flex items-center">
                       <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 mr-4 rounded-full" onClick={() => setItems([...cartItems, data])}>Add to Favourite</button>
