@@ -6,15 +6,16 @@ import { BsFillTelephoneFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
-import { RxCross2 } from 'react-icons/rx';
 import Avatar from "../img/avatar.png";
 import { useStateValue } from "../context/StateProvider";
 import { collection, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import UploadImage from "./UploadImage";
-import { firestore } from "firebase/firestore";
+import Modal from 'react-modal';
+
 
 export default function Profile() {
+  const [selectedImage, setSelectedImage] = useState(null);
   const [isdotMenu, setisdotMenu] = useState(false);
   const database = getFirestore();
   const [{ user }] = useStateValue();
@@ -66,6 +67,16 @@ export default function Profile() {
   const handleTabClick = (e) => {
     setCurrentTab(e.target.id)
   }
+
+  const Modal = ({ image, onClose }) => (
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
+      <div className="bg-white p-8 rounded-lg">
+        <img src={image.imageURL} alt="" className=' w-656 rounded-md border-2 border-gray-500' />
+        <p className="mt-4 break-words">{image.title}</p>
+        <button className="mt-4 px-4 py-2 bg-gray-800 text-white rounded-md float-right" onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -170,10 +181,17 @@ export default function Profile() {
                           ) : (
                             images.map((image) => (
                               <div key={image.id} className="">
-                                <img src={image.imageURL} alt="" className=' w-64 h-48 md:h-36 rounded-md border-2 border-gray-500' />
+                                <img src={image.imageURL} alt="" className=' w-64 h-48 md:h-36 rounded-md border-2 border-gray-500' 
+                                onClick={() => setSelectedImage(image)}/>
                                 <p className=" break-words w-60">{image.title}</p>
                               </div>
                             ))
+                          )}
+                          {selectedImage && (
+                            <Modal
+                              image={selectedImage}
+                              onClose={() => setSelectedImage(null)}
+                            />
                           )}
                         </div>
                       }
