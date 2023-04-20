@@ -8,4 +8,5 @@ export const initialState = {
   plannerItems: null,
   cartShow: false,
   cartItems: cartInfo,
+  uploadImages: null,
 };

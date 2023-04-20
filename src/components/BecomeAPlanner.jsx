@@ -15,7 +15,6 @@ import { storage } from "../firebase.config";
 import { getAllPlannerItems, saveItem } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
-import { comment } from 'postcss';
 
 export default function BecomeAPlanner() {
     const [firstName, setFirstName] = useState("");
@@ -139,7 +138,7 @@ export default function BecomeAPlanner() {
                 saveItem(data, emailId);
                 setIsLoading(false);
                 setFields(true);
-                setMsg("Data Uploaded successfully And It Is Pending For Verification.");
+                setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
                 setAlertStatus("success");
                 setTimeout(() => {
                     setFields(false);
@@ -149,7 +148,7 @@ export default function BecomeAPlanner() {
         } catch (error) {
             console.log(error);
             setFields(true);
-            setMsg("Error while uploading : Try AGain 🙇");
+            setMsg("Error while uploading : Try Again 🙇");
             setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);

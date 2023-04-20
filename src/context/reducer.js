@@ -4,6 +4,7 @@ export const actionType = {
   SET_APPOINTMENT_DETAILS: "SET_APPOINTMENT_DETAILS",
   SET_CART_SHOW: "SET_CART_SHOW",
   SET_CARTITEMS: "SET_CARTITEMS",
+  SET_IMAGES: "SET_IMAGE_DETAILS",
 };
 
 const reducer = (state, action) => {
@@ -27,6 +28,12 @@ const reducer = (state, action) => {
           ...state,
           appointmentItems: action.appointmentItems,
       };
+
+      case actionType.SET_IMAGE_DETAILS:
+        return {
+            ...state,
+            uploadImages: action.uploadImages,
+        };
 
     case actionType.SET_CART_SHOW:
       return {
