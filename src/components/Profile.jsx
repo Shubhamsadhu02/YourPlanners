@@ -11,7 +11,6 @@ import { useStateValue } from "../context/StateProvider";
 import { collection, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import UploadImage from "./UploadImage";
-import Modal from 'react-modal';
 
 
 export default function Profile() {

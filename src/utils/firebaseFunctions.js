@@ -10,7 +10,7 @@ import { firestore } from "../firebase.config";
 
 // Saving new Item
 export const saveItem = async (data, emailId) => {
-  await setDoc(doc(firestore, "plannerItems", emailId+`${Date.now()}`), data, {
+  await setDoc(doc(firestore, "plannerItems", emailId), data, {
     merge: true,
   });
 };
