@@ -14,10 +14,9 @@ const HomeContainer = () => {
       <div className="py-2 flex-1 flex flex-col items-start justify-center gap-6">
 
         <p className="text-[2.5rem] lg:text-[4.5rem] font-bold tracking-wide text-headingColor">
-          Your Planners are in
-          <span className="text-textBlue text-[3rem] lg:text-[5rem] ">
-            Your City
-          </span>
+        <span className="text-textBlue text-[3rem] lg:text-[5rem] ">
+          Your Planners
+          </span> are in Your City
         </p>
 
         <p className="text-base text-textColor text-center md:text-left md:w-[80%]">

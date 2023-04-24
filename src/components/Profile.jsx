@@ -11,16 +11,19 @@ import { useStateValue } from "../context/StateProvider";
 import { collection, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import UploadImage from "./UploadImage";
+import UploadVideo from "./UploadVideo";
+import { RxCross2 } from "react-icons/rx";
 
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const [isdotMenu, setisdotMenu] = useState(false);
   const database = getFirestore();
   const [{ user }] = useStateValue();
   const [data, setData] = useState(null);
-  const [dataImg, setDataImg] = useState(null);
   const [openImage, setOpenImage] = useState(false);
+  const [openVideo, setOpenVideo] = useState(false);
 
   console.log(user);
   useEffect(() => {
@@ -51,6 +54,24 @@ export default function Profile() {
     }
   }, [user, database]);
 
+  const [videoes, setVideoes] = useState([]);
+  useEffect(() => {
+    if (user) {
+      const videoesRef = collection(database, 'uploadVideoes');
+      const userVideoesQuery = query(videoesRef, where('email', '==', user.email));
+      onSnapshot(userVideoesQuery, (querySnapshot) => {
+        const videoesData = [];
+        querySnapshot.forEach((doc) => {
+          if (doc.exists()) {
+            videoesData.push(doc.data());
+          }
+          console.log(videoesData);
+        });
+        setVideoes(videoesData);
+      });
+    }
+  }, [user, database]);
+
   const [currentTab, setCurrentTab] = useState("appointment");
 
   const activeTabStyle = {
@@ -69,10 +90,34 @@ export default function Profile() {
 
   const Modal = ({ image, onClose }) => (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
-      <div className="bg-white p-8 rounded-lg">
-        <img src={image.imageURL} alt="" className=' w-656 rounded-md border-2 border-gray-500' />
-        <p className="mt-4 break-words">{image.title}</p>
-        <button className="mt-4 px-4 py-2 bg-gray-800 text-white rounded-md float-right" onClick={onClose}>Close</button>
+      <div className=" relative bg-white p-8 rounded-lg">
+        <RxCross2 size={30}
+          className="absolute right-7 cursor-pointer"
+          onClick={onClose} />
+        <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md" onClick={onClose}>Delete</button>
+
+        <img src={image.imageURL} alt="" className=' w-300 md:w-656 rounded-md border-2 border-gray-500' />
+        <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
+      </div>
+    </div>
+  );
+
+  const VideoModal = ({ video, onClose }) => (
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
+      <div className=" relative bg-white p-8 rounded-lg">
+        <RxCross2 size={30}
+          className="absolute right-7 cursor-pointer"
+          onClick={onClose} />
+        <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md" onClick={onClose}>Delete</button>
+
+        <iframe
+          className=" w-340 h-225 md:w-656 md:h-340"
+          src={`https://www.youtube.com/embed/${video.videoURL.split('v=')[1].split('&')[0]}?modestbranding=1&autoplay=1`}
+          title={video.title}
+          allow="autoplay"
+
+        />
+        <p className="w-300 md:w-656 mt-4 break-words">{video.title}</p>
       </div>
     </div>
   );
@@ -91,7 +136,7 @@ export default function Profile() {
                 /> */}
                 <div className="flex flex-col justify-center items-center md:grid md:grid-cols-2 gap-2">
                   <div className="py-2 md:px-16 flex md:justify-end md:items-end">
-                    <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full' />
+                    <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full object-cover' />
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start">
                     <h2 className='text-xl w-72 md:w-96 font-bold md:text-2xl text-gray-700 capitalize break-words text-center md:text-left'>{data?.company || user?.displayName}</h2>
@@ -151,7 +196,7 @@ export default function Profile() {
                               >
                                 <div className="">
                                   <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                                    onClick={() => setOpenImage(!openImage)} >
+                                    onClick={() => { setOpenImage(!openImage) }} >
                                     <GrDocumentUpload className="text-xl text-textColor" /> Upload Image
                                   </p>
                                   {
@@ -159,9 +204,15 @@ export default function Profile() {
                                       <UploadImage setOpenImage={setOpenImage} />
                                     ) : null
                                   }
-                                  <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
+                                  <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                                    onClick={() => { setOpenVideo(!openVideo) }} >
                                     <RiVideoUploadFill className="text-xl text-textColor" /> Upload Video
                                   </p>
+                                  {
+                                    openVideo ? (
+                                      <UploadVideo setOpenVideo={setOpenVideo} />
+                                    ) : null
+                                  }
                                 </div>
                               </motion.div>
                             )}
@@ -174,15 +225,14 @@ export default function Profile() {
                     <div className="content mt-4 p-4 border-2 border-b-0 rounded-t-[10px] shadow-inner inset-y-4 flex justify-center bg-white ">
                       {
                         currentTab === "images" &&
-                        <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-8">
+                        <div className="grid xl:grid-cols-6 md:grid-cols-4 gap-4">
                           {images.length === 0 ? (
                             <p>No images found</p>
                           ) : (
                             images.map((image) => (
                               <div key={image.id} className="">
-                                <img src={image.imageURL} alt="" className=' w-64 h-48 md:h-36 rounded-md border-2 border-gray-500' 
-                                onClick={() => setSelectedImage(image)}/>
-                                <p className=" break-words w-60">{image.title}</p>
+                                <img src={image.imageURL} alt="" className=' w-64 h-64 md:w-40 md:h-40 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
+                                  onClick={() => setSelectedImage(image)} />                                
                               </div>
                             ))
                           )}
@@ -196,8 +246,23 @@ export default function Profile() {
                       }
                       {
                         currentTab === "videoes" &&
-                        <div className="" >
-                          video
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 gap-x-10">
+                          {videoes.length === 0 ? (
+                            <p>No videoes found</p>
+                          ) : (
+                            videoes.map((video) => (
+                              <div key={video.id} className="">
+                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('v=')[1].split('&')[0]}/mqdefault.jpg`} alt="" className=' w-64 h-150 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
+                                  onClick={() => setSelectedVideo(video)} />
+                              </div>
+                            ))
+                          )}
+                          {selectedVideo && (
+                            <VideoModal
+                              video={selectedVideo}
+                              onClose={() => setSelectedVideo(null)}
+                            />
+                          )}
                         </div>
                       }
                       {

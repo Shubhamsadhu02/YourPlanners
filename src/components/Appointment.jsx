@@ -21,19 +21,17 @@ export default function Appointment() {
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [{ appointmentItems }, dispatch] = useStateValue();
-    const [type, setType]=useState('password');
-    const [icon, setIcon]=useState(faEyeSlash);
 
-    const handleToggle=()=>{    
-        if(type==='password'){
-          setIcon(faEye);      
-          setType('text');
-        }
-        else{
-          setIcon(faEyeSlash);     
-          setType('password');
-        }
-      }
+    function generateRandomID() {
+        const AP = "APP";
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const year = new Date().getFullYear().toString().substr(-2);
+        const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
+        const randomChar = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        const randomNumber = Math.floor(1000 + Math.random() * 9000);
+        return `${AP}${year}${month}${randomChar}${randomNumber}`;
+    }
+      
 
     const saveDetails = () => {
         setIsLoading(true);
@@ -48,7 +46,7 @@ export default function Appointment() {
                 }, 4000);
             } else {
                 const dataApp = {
-                    id: `${Date.now()}`,
+                    id: generateRandomID(),
                     fullName: fullName,
                     email: email,
                     contactNo: contactNo,
@@ -99,7 +97,7 @@ export default function Appointment() {
 
     return (
         <>
-            <div className="container">
+            <div className="container h-screen">
                 <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                     <h3 className='text-2xl font-semibold capitalize text-headingColor'>Book an Appointment</h3>
                     {fields && (

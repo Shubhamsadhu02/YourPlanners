@@ -31,7 +31,6 @@ export default function BecomeAPlanner() {
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [{ plannerItems }, dispatch] = useStateValue();
-    const [area, setArea] = useState("");
 
     const uploadImage = (e) => {
         setIsLoading(true);
@@ -85,23 +84,16 @@ export default function BecomeAPlanner() {
         });
     };
 
-    async function fetchAreaFromPincode(pinCode){
-        const url = `https://api.postalpincode.in/pincode/${pinCode}`;
-        return axios.get(url)
-          .then(response => {
-            const data = response.data[0];
-            if (data.Status === "Success") {
-              const area = data.PostOffice[0].District;
-              return area;
-            } else {
-              return "Invalid pincode";
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      };
-
+    function generateRandomID() {
+        const YP = "YP";
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const year = new Date().getFullYear().toString().substr(-2);
+        const month = (new Date().getMonth() + 1).toString().padStart(2, '0');
+        const randomChar = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        const randomNumber = Math.floor(1000 + Math.random() * 9000);
+        return `${YP}${year}${month}${randomChar}${randomNumber}`;
+      }
+      
     const saveDetails = (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -115,13 +107,8 @@ export default function BecomeAPlanner() {
                     setIsLoading(false);
                 }, 4000);
             } else {
-                fetchAreaFromPincode(pinCode)
-                .then(result => {
-                    setArea(result);
-                });
-                console.log(area);
                 const data = {
-                    id: `${Date.now()}`,
+                    id: generateRandomID(),
                     imageURL: imageAsset,
                     firstName: firstName,
                     lastName: lastName,
@@ -131,7 +118,6 @@ export default function BecomeAPlanner() {
                     register : register,
                     address: address,
                     pinCode: pinCode,
-                    area: area,
                     isVerified: false,
                 };
                 const emailId= email;
@@ -169,7 +155,6 @@ export default function BecomeAPlanner() {
         setAddress("");
         setPinCode("");
         setImageAsset(null);
-        setArea("");
     };
 
     const fetchData = async () => {

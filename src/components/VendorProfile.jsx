@@ -9,8 +9,11 @@ import { RxCross2 } from 'react-icons/rx';
 import { FaHeart } from 'react-icons/fa';
 import {AiFillSchedule} from 'react-icons/ai'
 import { collection, getFirestore, onSnapshot, query, where } from "firebase/firestore";
+import { IoLocationSharp } from "react-icons/io5";
 
 export default function VendorProfile({ setOpen, data }) {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const [items, setItems] = useState([]);
   const [{ cartItems }, dispatch] = useStateValue();
 
@@ -59,6 +62,25 @@ export default function VendorProfile({ setOpen, data }) {
     }
   }, [data, database]);
 
+  const [videoes, setVideoes] = useState([]);
+  useEffect(() => {
+    if (data) {
+      const videoesRef = collection(database, 'uploadVideoes');
+      const userVideoesQuery = query(videoesRef, where('email', '==', data.email));
+      onSnapshot(userVideoesQuery, (querySnapshot) => {
+        const videoesData = [];
+        querySnapshot.forEach((doc) => {
+          if (doc.exists()) {
+            videoesData.push(doc.data());
+          }
+          console.log(videoesData);
+        });
+        setVideoes(videoesData);
+      });
+    }
+  }, [data, database]);
+
+
   const [area, setArea] = useState("");
   const pincode = data.pinCode; 
   useEffect(() => {
@@ -87,6 +109,41 @@ export default function VendorProfile({ setOpen, data }) {
     setArea(area);
   };
 
+  const Modal = ({ image, onClose }) => (
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
+      <div className="bg-white p-8 rounded-lg">
+        <p>
+        <RxCross2 size={30}
+          className="float-right mb-6 cursor-pointer"
+          onClick={onClose} />
+          </p>
+        <img src={image.imageURL} alt="" className=' w-300 md:w-656 rounded-md border-2 border-gray-500' />
+        <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
+      </div>
+    </div>
+  );
+
+  const VideoModal = ({ video, onClose }) => (
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
+      <div className="bg-white p-8 rounded-lg">
+        <p>
+        <RxCross2 size={30}
+          className=" float-right mb-6 cursor-pointer"
+          onClick={onClose} />
+        </p>
+        
+        <iframe
+          className=" w-340 h-225 md:w-656 md:h-340"
+          src={`https://www.youtube.com/embed/${video.videoURL.split('v=')[1].split('&')[0]}?modestbranding=1&autoplay=1`}
+          title={video.title}
+          allow="autoplay"
+
+        />
+        <p className="w-300 md:w-656 mt-4 break-words">{video.title}</p>
+      </div>
+    </div>
+  );
+
   return (
     <>
     <div className="">
@@ -101,13 +158,16 @@ export default function VendorProfile({ setOpen, data }) {
                 />
                 <div className="flex flex-col justify-center items-center md:grid md:grid-cols-2 gap-2">
                   <div className="py-2 md:px-16 flex md:justify-end md:items-end">
-                    <img src={data?.imageURL ? data?.imageURL : Avatar } alt="" className=' w-28 md:w-36 h-28 md:h-36' />
+                    <img src={data?.imageURL ? data?.imageURL : Avatar } alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full object-cover' />
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start">
                     <h2 className='text-l w-72 md:w-96 font-bold md:text-2xl text-gray-700 capitalize break-words text-center md:text-left'>{data?.company}</h2>
                     <p className={`text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified ? "Verified" : "Pending"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register}</p>
-                    <p className='text-sm md:text-base font-medium capitalize'>{area}</p>
+                    <div className=" flex items-baseline gap-1">
+                    <IoLocationSharp className="text-gray-700" />
+                    <p className='text-sm md:text-base font-medium capitalize w-72 md:w-96 break-words'>{data.address}, {area}</p>
+                    </div>
 
                     <div className="hidden mt-8 w-full md:flex items-center">
                       <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 mr-4 rounded-full" onClick={() => setItems([...cartItems, data])}>Add to Favourite</button>
@@ -142,26 +202,47 @@ export default function VendorProfile({ setOpen, data }) {
                     <button type="submit" className="p-3" 
                     id={"videoes"} onClick={handleTabClick} style={currentTab === 'videoes' ? activeTabStyle : inactiveTabStyle}>Videoes</button>
                   </div>
-                  <div className="content mt-4 p-4 border-2 border-b-0 rounded-t-[10px] shadow-inner inset-y-4 ">
+                  <div className="content mt-4 p-4 border-2 border-b-0 rounded-t-[10px] shadow-inner inset-y-4 flex justify-center bg-white">
                     {
                       currentTab === "images" && 
-                      <div className="grid xl:grid-cols-5 md:grid-cols-3 gap-8">
+                      <div className="grid xl:grid-cols-6 md:grid-cols-4 gap-4">
                           {images.length === 0 ? (
                             <p>No images found</p>
                           ) : (
                             images.map((image) => (
                               <div key={image.id} className="">
-                                <img src={image.imageURL} alt="" className=' w-64 h-48 md:h-36 rounded-md border-2 border-gray-500' />
-                                <p className=" break-words w-60">{image.title}</p>
+                                <img src={image.imageURL} alt="" className=' w-64 h-64 md:w-40 md:h-40 rounded-md border-2 border-gray-500 cursor-pointer object-cover' 
+                                onClick={() => setSelectedImage(image)}/>
                               </div>
                             ))
+                          )}
+                          {selectedImage && (
+                            <Modal
+                              image={selectedImage}
+                              onClose={() => setSelectedImage(null)}
+                            />
                           )}
                         </div>
                     }
                     {
                       currentTab === "videoes" && 
-                      <div className="" >
-                         video
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 gap-x-10" >
+                        {videoes.length === 0 ? (
+                            <p>No videoes found</p>
+                          ) : (
+                            videoes.map((video) => (
+                              <div key={video.id} className="">
+                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('v=')[1].split('&')[0]}/mqdefault.jpg`} alt="" className=' w-64 h-150 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
+                                  onClick={() => setSelectedVideo(video)} />
+                              </div>
+                            ))
+                          )}
+                          {selectedVideo && (
+                            <VideoModal
+                              video={selectedVideo}
+                              onClose={() => setSelectedVideo(null)}
+                            />
+                          )}
                       </div>
                     }
                   </div>

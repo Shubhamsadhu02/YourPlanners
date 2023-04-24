@@ -6,7 +6,7 @@ import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
 import VendorProfile from "./VendorProfile";
 import Avatar from "../img/avatar.png";
-import axios from "axios";
+import { IoLocationSharp } from "react-icons/io5";
 
 const RowContainer = ({ flag, data, scrollValue }) => {
   const rowContainer = useRef();
@@ -30,33 +30,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
     addtocart();
   }, [items]);
 
-  const [area, setArea] = useState("");
-  const pincode = data.pinCode; 
-  useEffect(() => {
-    fetchArea();
-  }, []);
- 
-  const fetchAreaFromPincode = async (pinCode) =>{
-    const url = `https://api.postalpincode.in/pincode/${pinCode}`;
-    return axios.get(url)
-      .then(response => {
-        const data = response.data[0];
-        if (data.Status === "Success") {
-          const area = data.PostOffice[0].District;
-          return area;
-        } else {
-          return "Invalid pincode";
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
 
-  const fetchArea = async () => {
-    const area = await fetchAreaFromPincode(pincode);
-    setArea(area);
-  };
 
   return (
     <div
@@ -87,7 +61,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
                 <img
                   src={data?.imageURL ? data?.imageURL : Avatar}
                   alt=""
-                  className="w-36 h-36 object-contain"
+                  className="w-36 h-36 object-cover rounded-full"
                 />
               </motion.div>
               <motion.div
@@ -114,9 +88,10 @@ const RowContainer = ({ flag, data, scrollValue }) => {
               <p className="mt-1 text-sm text-gray-500 capitalize">
                 {data.register}
               </p>
-              <div className="flex items-center gap-8">
+              <div className="flex items-center gap-1">
+              <IoLocationSharp className="text-gray-700" />
                 <p className="text-sm text-gray-500 truncate">
-                {area}
+                 {data.pinCode}
                 </p>
               </div>
             </div>

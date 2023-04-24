@@ -27,6 +27,12 @@ export const uploadImageItem = async (dataimg, emailId) => {
   });
 };
 
+export const uploadVideoItem = async (datavideo, emailId) => {
+  await setDoc(doc(firestore, "uploadVideoes", emailId+`${Date.now()}`), datavideo, {
+    merge: true,
+  });
+};
+
 
 // getall items
 export const getAllPlannerItems = async () => {
@@ -48,6 +54,14 @@ export const getAllAppointmentItems = async () => {
 export const getAllImagesItems = async () => {
   const items = await getDocs(
     query(collection(firestore, "uploadImages"), orderBy("id", "desc"))
+  );
+
+  return items.docs.map((doc) => doc.data());
+};
+
+export const getAllVideoesItems = async () => {
+  const items = await getDocs(
+    query(collection(firestore, "uploadVideoes"), orderBy("id", "desc"))
   );
 
   return items.docs.map((doc) => doc.data());
