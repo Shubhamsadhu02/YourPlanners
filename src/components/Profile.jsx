@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import UploadImage from "./UploadImage";
 import UploadVideo from "./UploadVideo";
 import { RxCross2 } from "react-icons/rx";
-
+import axios from "axios";
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -88,13 +88,15 @@ export default function Profile() {
     setCurrentTab(e.target.id)
   }
 
+  
   const Modal = ({ image, onClose }) => (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
       <div className=" relative bg-white p-8 rounded-lg">
         <RxCross2 size={30}
           className="absolute right-7 cursor-pointer"
           onClick={onClose} />
-        <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md" onClick={onClose}>Delete</button>
+        <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md"
+        >Delete</button>
 
         <img src={image.imageURL} alt="" className=' w-300 md:w-656 rounded-md border-2 border-gray-500' />
         <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
@@ -143,7 +145,7 @@ export default function Profile() {
                     <p className={` text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified !== undefined ? (data.isVerified ? "Verified" : "Pending") : "NA"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register || "Customer"}</p>
                     <div className="flex items-center">
-                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'>{data?.area || "N/A"}</p>
+                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 w-72 md:w-96 break-words text-center md:text-left'>{data?.address} {data?.pinCode}</p>
                     </div>
                     <div className="flex items-center">
                       <MdEmail className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'>{data?.email || user?.email}</p>
@@ -179,7 +181,7 @@ export default function Profile() {
                         </div>
                       )}
 
-                      {data ? (
+                      {data?.isVerified == true ? (
                         <div className="">
                           <div className="relative flex items-center">
                             <motion.div
@@ -225,7 +227,7 @@ export default function Profile() {
                     <div className="content mt-4 p-4 border-2 border-b-0 rounded-t-[10px] shadow-inner inset-y-4 flex justify-center bg-white ">
                       {
                         currentTab === "images" &&
-                        <div className="grid xl:grid-cols-6 md:grid-cols-4 gap-4">
+                        <div className="grid xl:grid-cols-7 md:grid-cols-4 gap-4">
                           {images.length === 0 ? (
                             <p>No images found</p>
                           ) : (

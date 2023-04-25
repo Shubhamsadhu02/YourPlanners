@@ -9,4 +9,5 @@ export const initialState = {
   cartShow: false,
   cartItems: cartInfo,
   uploadImages: null,
+  uploadVideoes: null,
 };

@@ -78,7 +78,6 @@ export default function UploadImage({ setOpenImage }) {
       });
   };
   
-  
   const saveDetails = (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -180,7 +179,6 @@ const fetchData = async () => {
                               </div>
 
                               <p className="mt-32 text-gray-400 text-center">
-                                Image Ratio Should be 1:1 <br/>
                                 Use High Quality Images less than 20MB
                               </p>
                             </div>
