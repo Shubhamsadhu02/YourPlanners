@@ -128,7 +128,7 @@ export default function BecomeAPlanner() {
                 setAlertStatus("success");
                 setTimeout(() => {
                     setFields(false);
-                }, 4000);
+                }, 6000);
                 clearData();
             }
         } catch (error) {

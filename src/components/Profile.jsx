@@ -3,17 +3,18 @@ import { BiDotsVertical } from "react-icons/bi";
 import { RiVideoUploadFill } from "react-icons/ri";
 import { GrDocumentUpload } from "react-icons/gr";
 import { BsFillTelephoneFill } from "react-icons/bs";
-import { IoLocationSharp } from "react-icons/io5";
+import { IoIdCard, IoLocationSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
 import Avatar from "../img/avatar.png";
 import { useStateValue } from "../context/StateProvider";
-import { collection, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { collection, deleteDoc, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
 import UploadImage from "./UploadImage";
 import UploadVideo from "./UploadVideo";
 import { RxCross2 } from "react-icons/rx";
-import axios from "axios";
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "../firebase.config";
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -88,6 +89,19 @@ export default function Profile() {
     setCurrentTab(e.target.id)
   }
 
+  const handleImageDelete = async (id, photo) => {
+    if(window.confirm("Are You sure to delete this image?")){
+      try {
+        setSelectedImage(null);
+        const deleteRef = ref(storage, photo);
+        await deleteObject(deleteRef);
+        await deleteDoc(doc(database, "uploadImages", id));
+        setData(data.filter((item) => item.id !== id));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   
   const Modal = ({ image, onClose }) => (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
@@ -96,7 +110,7 @@ export default function Profile() {
           className="absolute right-7 cursor-pointer"
           onClick={onClose} />
         <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md"
-        >Delete</button>
+        onClick={() => handleImageDelete(image.email+image.id , image.imageURL)}>Delete</button>
 
         <img src={image.imageURL} alt="" className=' w-300 md:w-656 rounded-md border-2 border-gray-500' />
         <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
@@ -104,13 +118,25 @@ export default function Profile() {
     </div>
   );
 
+  const handleVideoDelete = async (id) => {
+    if(window.confirm("Are You sure to delete this video?")){
+      try {
+        setSelectedVideo(null);
+        await deleteDoc(doc(database, "uploadVideoes", id));
+        setData(data.filter((item) => item.id !== id));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   const VideoModal = ({ video, onClose }) => (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
       <div className=" relative bg-white p-8 rounded-lg">
         <RxCross2 size={30}
           className="absolute right-7 cursor-pointer"
           onClick={onClose} />
-        <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md" onClick={onClose}>Delete</button>
+        <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md" 
+        onClick={() => handleVideoDelete(video.email+video.id)}>Delete</button>
 
         <iframe
           className=" w-340 h-225 md:w-656 md:h-340"
@@ -140,23 +166,32 @@ export default function Profile() {
                   <div className="py-2 md:px-16 flex md:justify-end md:items-end">
                     <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full object-cover' />
                   </div>
-                  <div className="flex flex-col justify-center items-center md:items-start">
-                    <h2 className='text-xl w-72 md:w-96 font-bold md:text-2xl text-gray-700 capitalize break-words text-center md:text-left'>{data?.company || user?.displayName}</h2>
+                  <div className="flex flex-col justify-center items-center md:items-start w-72 md:w-96">
+                    <h2 className='text-xl font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left'>{`${data?.company.substring(0, 20)}${data?.company.length > 20 ? "..." : ""}` || user?.displayName}</h2>
                     <p className={` text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified !== undefined ? (data.isVerified ? "Verified" : "Pending") : "NA"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register || "Customer"}</p>
-                    <div className="flex items-center">
-                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 w-72 md:w-96 break-words text-center md:text-left'>{data?.address} {data?.pinCode}</p>
+                    {data ? (
+                      <>
+                    <div className="flex items-center justify-center">
+                      <IoIdCard className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 break-words text-center md:text-left'>{data?.id}</p>
                     </div>
+                    <div className="flex items-center justify-center">
+                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base w-72 md:w-96 font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address.substring(0, 25)}${data?.address.length > 25 ? "..." : ""}`},{data?.pinCode}</p>
+                    </div>
+                    </>
+                    ): null }
                     <div className="flex items-center">
                       <MdEmail className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'>{data?.email || user?.email}</p>
                     </div>
+                    {data ? (
+                      <>
                     <div className="flex items-center">
                       <BsFillTelephoneFill className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'> {data?.contactNo || user?.phoneNumber || "N/A"}</p>
                     </div>
-                    {data ? (
                       <div className="mt-4">
-                        <Link to={"#"}><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 rounded-full">Edit Details</button></Link>
+                        <Link to={"/edit"} flag={false}><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 rounded-full">Edit Details</button></Link>
                       </div>
+                      </>
                     ) : null}
                   </div>
                 </div>
@@ -164,7 +199,7 @@ export default function Profile() {
                 {/* tabs */}
                 <div className="container">
                   <div className="px-0 md:px-12 mt-12">
-                    <div className="tabs flex flex-column justify-between border-b-2 border-indigo-200">
+                    <div className="tabs flex flex-column justify-between items-center border-b-2 border-indigo-200">
                       {data ? (
                         <div>
                           <button type="submit" className="p-3"

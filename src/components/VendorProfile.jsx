@@ -196,7 +196,7 @@ export default function VendorProfile({ setOpen, data }) {
                 {/* tabs */}
                 <div className="container">
                 <div className="px-0 md:px-12 mt-12">
-                  <div className="tabs flex flex-column border-b-2 border-indigo-200">
+                  <div className="tabs flex flex-column items-center border-b-2 border-indigo-200">
                     <button type="submit" className="p-3" 
                     id={"images"} onClick={handleTabClick} style={currentTab === 'images' ? activeTabStyle : inactiveTabStyle}>Images</button>
                     <button type="submit" className="p-3" 
