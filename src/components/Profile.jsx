@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import Avatar from "../img/avatar.png";
 import { useStateValue } from "../context/StateProvider";
 import { collection, deleteDoc, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UploadImage from "./UploadImage";
 import UploadVideo from "./UploadVideo";
 import { RxCross2 } from "react-icons/rx";
@@ -166,8 +166,8 @@ export default function Profile() {
                   <div className="py-2 md:px-16 flex md:justify-end md:items-end">
                     <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full object-cover' />
                   </div>
-                  <div className="flex flex-col justify-center items-center md:items-start w-72 md:w-96">
-                    <h2 className='text-xl font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left'>{data?.company || user?.displayName}</h2>
+                  <div className="flex flex-col justify-center items-center md:items-start">
+                    <h2 className='text-xl font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left w-72 md:w-96 xl:w-auto break-words'>{data?.company || user?.displayName}</h2>
                     <p className={` text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified !== undefined ? (data.isVerified ? "Verified" : "Pending") : "NA"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register || "Customer"}</p>
                     {data ? (
@@ -176,7 +176,7 @@ export default function Profile() {
                       <IoIdCard className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 break-words text-center md:text-left'>{data?.id}</p>
                     </div>
                     <div className="flex items-center justify-center">
-                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address.substring(0, 25)}${data?.address.length > 25 ? "..." : ""}`},{data?.pinCode}</p>
+                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address.substring(0, 26)}${data?.address.length > 26 ? "..." : ""}`},{data?.pinCode}</p>
                     </div>
                     </>
                     ): null }

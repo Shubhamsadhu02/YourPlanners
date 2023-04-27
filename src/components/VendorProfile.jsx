@@ -161,12 +161,12 @@ export default function VendorProfile({ setOpen, data }) {
                     <img src={data?.imageURL ? data?.imageURL : Avatar } alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full object-cover' />
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start">
-                    <h2 className='text-l w-72 md:w-96 font-bold md:text-2xl text-gray-700 capitalize break-words text-center md:text-left'>{data?.company}</h2>
+                    <h2 className='text-l font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left w-72 md:w-96 xl:w-auto break-words'>{data?.company}</h2>
                     <p className={`text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified ? "Verified" : "Pending"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register}</p>
                     <div className=" flex items-center justify-center">
                     <IoLocationSharp className="text-gray-700" />
-                    <p className='text-sm md:text-base font-medium capitalize break-words'>{data.address}, {area}</p>
+                    <p className='text-sm md:text-base font-medium capitalize break-words'>{`${data?.address.substring(0, 26)}${data?.address.length > 26 ? "..." : ""}`}, {area}</p>
                     </div>
 
                     <div className="hidden mt-8 w-full md:flex items-center">

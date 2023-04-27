@@ -94,8 +94,8 @@ export default function BecomeAPlanner() {
         const randomChar = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
         const randomNumber = Math.floor(1000 + Math.random() * 9000);
         return `${YP}${year}${month}${randomChar}${randomNumber}`;
-      }
-      
+    }
+
     const saveDetails = (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -117,12 +117,12 @@ export default function BecomeAPlanner() {
                     email: email,
                     contactNo: contactNo,
                     company: company,
-                    register : register,
+                    register: register,
                     address: address,
                     pinCode: pinCode,
                     isVerified: false,
                 };
-                const emailId= email;
+                const emailId = email;
                 saveItem(data, emailId);
                 setIsLoading(false);
                 setFields(true);
@@ -132,7 +132,6 @@ export default function BecomeAPlanner() {
                     setFields(false);
                 }, 6000);
                 clearData();
-                navigate("/" , {replace : true});
             }
         } catch (error) {
             console.log(error);
@@ -176,17 +175,20 @@ export default function BecomeAPlanner() {
                 <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                     <h3 className='text-2xl font-semibold capitalize text-headingColor'>Create Your Planner Profile</h3>
                     {fields && (
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className={`w-full p-2 rounded-lg text-center text-lg font-semibold ${alertStatus === "danger"
-                                ? "bg-red-400 text-red-800"
-                                : "bg-emerald-400 text-emerald-800"
-                                }`}
+                        <motion.div
+                            initial={{ opacity: 0, visibility: "hidden" }}
+                            animate={{ opacity: 1, visibility: "visible" }}
+                            exit={{ opacity: 0, visibility: "hidden" }}
+                            transition={{ duration: 0.3 }}
+                            className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
+                            style={{
+                                backgroundColor:
+                                    alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                                color: "#fff",
+                            }}
                         >
                             {msg}
-                        </motion.p>
+                        </motion.div>
                     )}
                     <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                         {isLoading ? (
@@ -234,25 +236,28 @@ export default function BecomeAPlanner() {
                         <div class="gap-8 my-10 flex justify-around flex-wrap w-full">
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="firstname">First Name</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="firstName" name="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name"  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="firstName" name="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" />
                             </div>
                             <div className=" flex flex-col">
                                 <label className='text-textBlue' for="lastname">Last Name</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="lastName" name="lastname" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)}  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="lastName" name="lastname" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="contactNo">WhatsApp No</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="Contact No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)}  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="Contact No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
                             </div>
 
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="email">Email Id</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)}  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
 
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="company">Company Name</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="company" name="company" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company Name"  />
+                                <div className="relative">
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="company" name="company" maxLength={35} value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company Name" />
+                                    <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{company.length}/{35}</div>
+                                </div>
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="register">Register As</label>
@@ -279,19 +284,26 @@ export default function BecomeAPlanner() {
 
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="address">Address</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address"  />
+                                <div className="relative">
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address" />
+                                    <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{address.length}/{40}</div>
+                                </div>
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="pinCode">Pin Code</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="number" id="pinCode" name="pinCode" value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code"  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="number" id="pinCode" name="pinCode" value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
                             </div>
                         </div>
                     </div>
                     <div className="">
                         <button
                             type="button"
-                            className="ml-0 md:ml-auto w-full md:w-auto border-none outline-none bg-blue-500 hover:bg-blue-700 px-12 py-2 rounded-lg text-lg text-white font-semibold"
+                            className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!firstName || !lastName || !email || !contactNo || !company || !register || !address || !pinCode
+                                    ? 'bg-red-500 cursor-not-allowed'
+                                    : 'bg-blue-500 hover:bg-blue-700'
+                                }`}
                             onClick={saveDetails}
+                            disabled={!firstName || !lastName || !email || !contactNo || !company || !register || !address || !pinCode}
                         >
                             Send
                         </button>

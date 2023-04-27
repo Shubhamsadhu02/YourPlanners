@@ -15,6 +15,7 @@ import { storage } from "../firebase.config";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { getAllImagesItems, uploadImageItem } from "../utils/firebaseFunctions";
+import classnames from "classnames";
 
 export default function UploadImage({ setOpenImage }) {
   const [title, setTitle] = useState(null);
@@ -25,6 +26,7 @@ export default function UploadImage({ setOpenImage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [{ uploadImages }, dispatch] = useStateValue();
   const [{ user }] = useStateValue();
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
 
   const uploadImage = (e) => {
       setIsLoading(true);
@@ -47,6 +49,7 @@ export default function UploadImage({ setOpenImage }) {
                   setFields(false);
                   setIsLoading(false);
               }, 4000);
+              setIsImageUploaded(false);
           },
           () => {
               getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -58,6 +61,7 @@ export default function UploadImage({ setOpenImage }) {
                   setTimeout(() => {
                       setFields(false);
                   }, 4000);
+                  setIsImageUploaded(true);
               });
           }
       );
@@ -79,6 +83,7 @@ export default function UploadImage({ setOpenImage }) {
   };
   
   const saveDetails = (event) => {
+    if (isImageUploaded) {
     event.preventDefault();
     setIsLoading(true);
     try {
@@ -120,6 +125,8 @@ export default function UploadImage({ setOpenImage }) {
     }
 
     fetchData();
+    setIsImageUploaded(false);
+  }
 };
 
 const clearData = () => {
@@ -150,18 +157,21 @@ const fetchData = async () => {
               <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                 <h3 className='text-2xl font-semibold capitalize text-headingColor'>Upload Image</h3>
                 {fields && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className={`w-full p-2 rounded-lg text-center text-lg font-semibold ${alertStatus === "danger"
-                      ? "bg-red-400 text-red-800"
-                      : "bg-emerald-400 text-emerald-800"
-                      }`}
-                  >
-                    {msg}
-                  </motion.p>
-                )}
+                        <motion.div
+                            initial={{ opacity: 0, visibility: "hidden" }}
+                            animate={{ opacity: 1, visibility: "visible" }}
+                            exit={{ opacity: 0, visibility: "hidden" }}
+                            transition={{ duration: 0.3 }}
+                            className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
+                            style={{
+                                backgroundColor:
+                                    alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                                color: "#fff",
+                            }}
+                        >
+                            {msg}
+                        </motion.div>
+                    )}
                 <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 rounded-lg p">
                   {isLoading ? (
                     <Loader />
@@ -218,8 +228,14 @@ const fetchData = async () => {
                     <div className="text-center">
                         <button
                             type="button"
-                            className=" mt-4 w-full md:w-auto border-none outline-none bg-blue-500 hover:bg-blue-700 px-12 py-2 rounded-lg text-lg text-white font-semibold"
-                            onClick={saveDetails}
+                            className={classnames(
+                              "mt-4 w-full md:w-auto border-none outline-none hover:opacity-75 px-12 py-2 rounded-lg text-lg font-semibold text-white",
+                              {
+                                "bg-red-500 cursor-not-allowed": !isImageUploaded,
+                                "bg-blue-500 hover:bg-blue-700": isImageUploaded,
+                              }
+                            )}
+                            onClick={saveDetails}  disabled={!isImageUploaded}
                         >
                             Save
                         </button>

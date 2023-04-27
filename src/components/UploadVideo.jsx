@@ -98,18 +98,21 @@ const fetchData = async () => {
               <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                 <h3 className='text-2xl font-semibold capitalize text-headingColor'>Upload Video Link</h3>
                 {fields && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className={`w-full p-2 rounded-lg text-center text-lg font-semibold ${alertStatus === "danger"
-                      ? "bg-red-400 text-red-800"
-                      : "bg-emerald-400 text-emerald-800"
-                      }`}
-                  >
-                    {msg}
-                  </motion.p>
-                )}
+                        <motion.div
+                            initial={{ opacity: 0, visibility: "hidden" }}
+                            animate={{ opacity: 1, visibility: "visible" }}
+                            exit={{ opacity: 0, visibility: "hidden" }}
+                            transition={{ duration: 0.3 }}
+                            className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
+                            style={{
+                                backgroundColor:
+                                    alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                                color: "#fff",
+                            }}
+                        >
+                            {msg}
+                        </motion.div>
+                    )}
                 <div class="border border-gray-300 rounded-lg p-4 w-full gap-4">
                     <div className="mb-5">
                       <input className='border rounded p-3 w-full hover:border-indigo-500' type="url" id="url" name="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="Paste Your Youtube Link Here" />
