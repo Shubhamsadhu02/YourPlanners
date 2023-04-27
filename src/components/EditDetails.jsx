@@ -123,6 +123,7 @@ export default function EditDetails() {
             setTimeout(() => {
                 setFields(false);
             }, 4000);
+            navigate("/profile" , {replace : true});
         }).catch((error) => {
             console.log(error);
             setFields(true);
@@ -215,7 +216,7 @@ export default function EditDetails() {
                     <div class="gap-8 my-10 flex justify-around flex-wrap w-full">
                         <div className="flex flex-col">
                             <label className='text-textBlue' for="contactNo">WhatsApp No</label>
-                            <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" value={contactNo} onChange={(e) => setConatactNo(e.target.value)}  />
+                            <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)}  />
                         </div>
 
                         <div className="flex flex-col">

@@ -15,6 +15,7 @@ import { storage } from "../firebase.config";
 import { getAllPlannerItems, saveItem } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
+import { useNavigate } from 'react-router-dom';
 
 export default function BecomeAPlanner() {
     const [firstName, setFirstName] = useState("");
@@ -31,6 +32,7 @@ export default function BecomeAPlanner() {
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [{ plannerItems }, dispatch] = useStateValue();
+    const navigate = useNavigate();
 
     const uploadImage = (e) => {
         setIsLoading(true);
@@ -130,6 +132,7 @@ export default function BecomeAPlanner() {
                     setFields(false);
                 }, 6000);
                 clearData();
+                navigate("/" , {replace : true});
             }
         } catch (error) {
             console.log(error);
@@ -239,7 +242,7 @@ export default function BecomeAPlanner() {
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="contactNo">WhatsApp No</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="Contact No" value={contactNo} onChange={(e) => setConatactNo(e.target.value)}  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="Contact No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)}  />
                             </div>
 
                             <div className="flex flex-col">

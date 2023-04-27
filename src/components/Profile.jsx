@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BiDotsVertical } from "react-icons/bi";
 import { RiVideoUploadFill } from "react-icons/ri";
-import { GrDocumentUpload } from "react-icons/gr";
+import { GrCloudUpload, GrDocumentUpload } from "react-icons/gr";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { IoIdCard, IoLocationSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import Avatar from "../img/avatar.png";
 import { useStateValue } from "../context/StateProvider";
 import { collection, deleteDoc, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import UploadImage from "./UploadImage";
 import UploadVideo from "./UploadVideo";
 import { RxCross2 } from "react-icons/rx";
@@ -25,7 +25,7 @@ export default function Profile() {
   const [data, setData] = useState(null);
   const [openImage, setOpenImage] = useState(false);
   const [openVideo, setOpenVideo] = useState(false);
-
+  const navigate = useNavigate();
   console.log(user);
   useEffect(() => {
     if (user) {
@@ -112,7 +112,7 @@ export default function Profile() {
         <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md"
         onClick={() => handleImageDelete(image.email+image.id , image.imageURL)}>Delete</button>
 
-        <img src={image.imageURL} alt="" className=' w-300 md:w-656 rounded-md border-2 border-gray-500' />
+        <img src={image.imageURL} alt="" className='w-300 md:w-656 rounded-md border-2 border-gray-500' />
         <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
       </div>
     </div>
@@ -157,11 +157,11 @@ export default function Profile() {
           <div className="">
             <div key={data?.id} className="fixed w-full h-screen top-8  md:top-16 left-0 bg-[#00000030] z-40 flex items-center justify-center">
               <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
-                {/* <RxCross2
+                <RxCross2
                   size={30}
-                  className="absolute right-3 top-3 z-50 cursor-pointer"
-                  onClick={() => setOpen(false)}
-                /> */}
+                  className=" float-right mb-6 cursor-pointer"
+                  onClick={() => navigate('/')}
+                />
                 <div className="flex flex-col justify-center items-center md:grid md:grid-cols-2 gap-2">
                   <div className="py-2 md:px-16 flex md:justify-end md:items-end">
                     <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full object-cover' />
@@ -176,7 +176,7 @@ export default function Profile() {
                       <IoIdCard className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 break-words text-center md:text-left'>{data?.id}</p>
                     </div>
                     <div className="flex items-center justify-center">
-                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base w-72 md:w-96 font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address.substring(0, 25)}${data?.address.length > 25 ? "..." : ""}`},{data?.pinCode}</p>
+                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address.substring(0, 25)}${data?.address.length > 25 ? "..." : ""}`},{data?.pinCode}</p>
                     </div>
                     </>
                     ): null }
@@ -201,12 +201,12 @@ export default function Profile() {
                   <div className="px-0 md:px-12 mt-12">
                     <div className="tabs flex flex-column justify-between items-center border-b-2 border-indigo-200">
                       {data ? (
-                        <div>
-                          <button type="submit" className="p-3"
+                        <div className="flex">
+                          <button type="submit" className="p-2 md:p-3 text-sm md:text-base"
                             id={"images"} onClick={handleTabClick} style={currentTab === 'images' ? activeTabStyle : inactiveTabStyle}>Images</button>
-                          <button type="submit" className="p-3"
+                          <button type="submit" className="p-2 md:p-3 text-sm md:text-base"
                             id={"videoes"} onClick={handleTabClick} style={currentTab === 'videoes' ? activeTabStyle : inactiveTabStyle}>Videoes</button>
-                          <button type="submit" className="p-3"
+                          <button type="submit" className="p-2 md:p-3 text-sm md:text-base"
                             id={"appointment"} onClick={handleTabClick} style={currentTab === 'appointment' ? activeTabStyle : inactiveTabStyle}>Appointment</button>
                         </div>
                       ) : (
@@ -222,7 +222,8 @@ export default function Profile() {
                             <motion.div
                               whileTap={{ scale: 0.6 }}
                             >
-                              <BiDotsVertical className="text-3xl text-textColor" onClick={() => setisdotMenu(!isdotMenu)} />
+                              <GrCloudUpload className="hidden md:flex text-3xl text-textColor cursor-pointer" onClick={() => setisdotMenu(!isdotMenu)} />
+                              <BiDotsVertical className="flex md:hidden text-2xl text-textColor cursor-pointer" onClick={() => setisdotMenu(!isdotMenu)} />
                             </motion.div>
                             {isdotMenu && (
                               <motion.div

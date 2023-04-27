@@ -110,14 +110,14 @@ export default function VendorProfile({ setOpen, data }) {
   };
 
   const Modal = ({ image, onClose }) => (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
-      <div className="bg-white p-8 rounded-lg">
+    <div className="fixed top-10 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
+      <div className="bg-white p-8 rounded-lg w-300 md:w-656 h-auto">
         <p>
         <RxCross2 size={30}
           className="float-right mb-6 cursor-pointer"
           onClick={onClose} />
           </p>
-        <img src={image.imageURL} alt="" className=' w-300 md:w-656 rounded-md border-2 border-gray-500' />
+        <img src={image.imageURL} alt="" className=' w-300 md:w-656 md:h-510 rounded-md border-2 border-gray-500 bg-cover' />
         <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
       </div>
     </div>
@@ -164,9 +164,9 @@ export default function VendorProfile({ setOpen, data }) {
                     <h2 className='text-l w-72 md:w-96 font-bold md:text-2xl text-gray-700 capitalize break-words text-center md:text-left'>{data?.company}</h2>
                     <p className={`text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified ? "Verified" : "Pending"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register}</p>
-                    <div className=" flex items-baseline gap-1">
+                    <div className=" flex items-center justify-center">
                     <IoLocationSharp className="text-gray-700" />
-                    <p className='text-sm md:text-base font-medium capitalize w-72 md:w-96 break-words'>{data.address}, {area}</p>
+                    <p className='text-sm md:text-base font-medium capitalize break-words'>{data.address}, {area}</p>
                     </div>
 
                     <div className="hidden mt-8 w-full md:flex items-center">
@@ -197,9 +197,9 @@ export default function VendorProfile({ setOpen, data }) {
                 <div className="container">
                 <div className="px-0 md:px-12 mt-12">
                   <div className="tabs flex flex-column items-center border-b-2 border-indigo-200">
-                    <button type="submit" className="p-3" 
+                    <button type="submit" className="p-2 md:p-3 text-sm md:text-base" 
                     id={"images"} onClick={handleTabClick} style={currentTab === 'images' ? activeTabStyle : inactiveTabStyle}>Images</button>
-                    <button type="submit" className="p-3" 
+                    <button type="submit" className="p-2 md:p-3 text-sm md:text-base" 
                     id={"videoes"} onClick={handleTabClick} style={currentTab === 'videoes' ? activeTabStyle : inactiveTabStyle}>Videoes</button>
                   </div>
                   <div className="content mt-4 p-4 border-2 border-b-0 rounded-t-[10px] shadow-inner inset-y-4 flex justify-center bg-white">
