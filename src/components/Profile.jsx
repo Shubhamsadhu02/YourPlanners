@@ -167,7 +167,7 @@ export default function Profile() {
                     <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full object-cover' />
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start w-72 md:w-96">
-                    <h2 className='text-xl font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left'>{`${data?.company.substring(0, 20)}${data?.company.length > 20 ? "..." : ""}` || user?.displayName}</h2>
+                    <h2 className='text-xl font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left'>{data?.company || user?.displayName}</h2>
                     <p className={` text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified !== undefined ? (data.isVerified ? "Verified" : "Pending") : "NA"}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register || "Customer"}</p>
                     {data ? (
@@ -269,7 +269,7 @@ export default function Profile() {
                           ) : (
                             images.map((image) => (
                               <div key={image.id} className="">
-                                <img src={image.imageURL} alt="" className=' w-64 h-64 md:w-40 md:h-40 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
+                                <img src={image.imageURL} alt="" className=' w-64 h-64 md:w-40 md:h-40 rounded-md border-2 border-gray-200 cursor-pointer object-cover'
                                   onClick={() => setSelectedImage(image)} />                                
                               </div>
                             ))

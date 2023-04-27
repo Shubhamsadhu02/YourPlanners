@@ -25,9 +25,9 @@ export default function VendorProfile({ setOpen, data }) {
     localStorage.setItem("cartItems", JSON.stringify(items));
   };
 
-  useEffect(() => {
-    addtocart();
-  }, [items]);
+  // useEffect(() => {
+  //   addtocart();
+  // }, [items]);
 
   const [currentTab, setCurrentTab] = useState("images");
   const activeTabStyle = {
