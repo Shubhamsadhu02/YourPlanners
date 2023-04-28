@@ -11,7 +11,7 @@ import { useStateValue } from "../context/StateProvider";
 import { comment } from 'postcss';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { firestore } from '../firebase.config';
-import { collection, doc, getDoc, getFirestore } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
 
 export default function Appointment() {
     const navigate = useNavigate();
@@ -98,26 +98,60 @@ export default function Appointment() {
         });
     };
 
+    const database = getFirestore();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const vendorId = searchParams.get('id');
+    const [vEmail, setvEmail] = useState('');
     const [vendor, setVendor] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-          const db = getFirestore();
-          const vendorDoc = doc(db, 'plannerItems', vendorId);
-          const vendorSnapshot = await getDoc(vendorDoc);
-          if (vendorSnapshot.exists()) {
-            setVendor(vendorSnapshot.data());
-          } else {
-            console.log('Vendor not found');
-          }
+        const fetchVendorData = async () => {
+            try {
+                const vendorRef = collection(database, 'plannerItems');
+                const vendorQuery = query(vendorRef, where('id', '==', vendorId));
+                const querySnapshot = await getDocs(vendorQuery);
+                if (querySnapshot.empty) {
+                    console.log('No matching documents.');
+                    return;
+                }
+                const doc = querySnapshot.docs[0];
+                const vendorData = doc.data();
+                const email = vendorData.email;
+                console.log(email);
+                setvEmail(email);
+            } catch (err) {
+                console.log(err);
+            }
         };
-    
-        fetchData();
-      }, [vendorId]);
-    
+        fetchVendorData();
+    }, [vendorId]);
+
+    useEffect(() => {
+        if (vEmail) {
+            const fetchData = async () => {
+                try {
+                    const db = getFirestore();
+                    const vendorQuery = query(collection(db, 'plannerItems'), where('email', '==', vEmail));
+                    const querySnapshot = await getDocs(vendorQuery);
+                    if (querySnapshot.empty) {
+                        console.log('Vendor not found');
+                        return;
+                    }
+                    const vendorData = querySnapshot.docs[0].data();
+                    setVendor(vendorData);
+                } catch (err) {
+                    console.log(err);
+                }
+            };
+            fetchData();
+        }
+    }, [vEmail]);
+
+    console.log(vEmail);
+    console.log(vendor);
+
+
 
     return (
         <>
@@ -137,7 +171,7 @@ export default function Appointment() {
                             {msg}
                         </motion.p>
                     )}
-                        <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
+                    <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Vendor's Details</h3>
                         <div class="gap-8 row flex justify-center flex-wrap my-10">
                             <div className="flex">
@@ -158,9 +192,9 @@ export default function Appointment() {
                             </div>
                         </div>
                     </div>
-                
+
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
-                    <h3 className=' text-xl font-bold text-blue-700'>Fill Your Appointment Details</h3>
+                        <h3 className=' text-xl font-bold text-blue-700'>Fill Your Appointment Details</h3>
                         <div class="gap-8 row flex justify-center flex-wrap my-10">
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="fullname">Full Name</label>
