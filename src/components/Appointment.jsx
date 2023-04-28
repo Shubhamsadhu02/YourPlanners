@@ -9,8 +9,10 @@ import { getAllAppointmentItems, saveAppointment } from "../utils/firebaseFuncti
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { comment } from 'postcss';
+import { useNavigate } from 'react-router-dom';
 
 export default function Appointment() {
+    const navigate = useNavigate();
     const [fullName, setFullName] = useState("");
     const [contactNo, setConatactNo] = useState("");
     const [email, setEmail] = useState("");
@@ -31,7 +33,7 @@ export default function Appointment() {
         const randomNumber = Math.floor(1000 + Math.random() * 9000);
         return `${AP}${year}${month}${randomChar}${randomNumber}`;
     }
-      
+
 
     const saveDetails = () => {
         setIsLoading(true);
@@ -97,7 +99,7 @@ export default function Appointment() {
 
     return (
         <>
-            <div className="container h-screen">
+            <div className="container h-90vh">
                 <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                     <h3 className='text-2xl font-semibold capitalize text-headingColor'>Book an Appointment</h3>
                     {fields && (
@@ -114,36 +116,46 @@ export default function Appointment() {
                         </motion.p>
                     )}
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
-                        
+
                         <div class="gap-8 row flex justify-center flex-wrap my-10">
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="fullname">Full Name</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="fullName" name="fullname" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="First Name"  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="fullName" name="fullname" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="First Name" />
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="contactNo">WhatsApp No</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="Contact No" value={contactNo} onChange={(e) => setConatactNo(e.target.value)}  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="Contact No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
                             </div>
 
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="email">Email Id</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)}  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
 
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="address">Address</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address"  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address" />
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="pinCode">Pin Code</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="number" id="pinCode" name="pinCode" value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code"  />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="pinCode" name="pinCode" maxLength={6} value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
                             </div>
                         </div>
                     </div>
                     <div className="">
                         <button
                             type="button"
-                            className="ml-0 md:ml-auto w-full md:w-auto border-none outline-none bg-blue-500 hover:bg-blue-700 px-12 py-2 rounded-lg text-lg text-white font-semibold"
+                            className="px-2 py-1 md:px-4 md:py-2 mr-24 hidden md:inline-block border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
+                            onClick={() => navigate(-1)}
+                        >
+                            Back
+                        </button>
+                        <button
+                            type="button"
+                            className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!fullName || !email || !contactNo || !address || !pinCode
+                                ? 'bg-blue-200 cursor-not-allowed'
+                                : 'bg-blue-500 hover:bg-blue-700'
+                                }`}
                             onClick={saveDetails}
                         >
                             Book Appointment

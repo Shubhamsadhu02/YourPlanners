@@ -59,7 +59,7 @@ const Header = () => {
         {/* desktop & tablet */}
         <div className="hidden md:flex w-full h-full items-center justify-between">
           <Link to={"/"} className="flex items-center gap-2">
-            <p className="text-xl font-bold text-gray-700">Your Planner</p>
+            <p className="text-xl font-bold text-gray-700">Your Planners</p>
           </Link>
 
           <div className="flex items-center gap-8">

@@ -291,16 +291,23 @@ export default function BecomeAPlanner() {
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="pinCode">Pin Code</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="number" id="pinCode" name="pinCode" value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="pinCode" name="pinCode" maxLength={6} value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
                             </div>
                         </div>
                     </div>
                     <div className="">
                         <button
                             type="button"
+                            className="px-2 py-1 md:px-4 md:py-2 mr-24 hidden md:inline-block border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
+                            onClick={() => navigate(-1)}
+                        >
+                            Back
+                        </button>
+                        <button
+                            type="button"
                             className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!firstName || !lastName || !email || !contactNo || !company || !register || !address || !pinCode
-                                    ? 'bg-red-500 cursor-not-allowed'
-                                    : 'bg-blue-500 hover:bg-blue-700'
+                                ? 'bg-blue-200 cursor-not-allowed'
+                                : 'bg-blue-500 hover:bg-blue-700'
                                 }`}
                             onClick={saveDetails}
                             disabled={!firstName || !lastName || !email || !contactNo || !company || !register || !address || !pinCode}
