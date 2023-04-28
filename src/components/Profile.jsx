@@ -15,6 +15,7 @@ import UploadVideo from "./UploadVideo";
 import { RxCross2 } from "react-icons/rx";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "../firebase.config";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -90,7 +91,7 @@ export default function Profile() {
   }
 
   const handleImageDelete = async (id, photo) => {
-    if(window.confirm("Are You sure to delete this image?")){
+    if (window.confirm("Are You sure to delete this image?")) {
       try {
         setSelectedImage(null);
         const deleteRef = ref(storage, photo);
@@ -102,7 +103,7 @@ export default function Profile() {
       }
     }
   };
-  
+
   const Modal = ({ image, onClose }) => (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
       <div className=" relative bg-white p-8 rounded-lg">
@@ -110,7 +111,7 @@ export default function Profile() {
           className="absolute right-7 cursor-pointer"
           onClick={onClose} />
         <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md"
-        onClick={() => handleImageDelete(image.email+image.id , image.imageURL)}>Delete</button>
+          onClick={() => handleImageDelete(image.email + image.id, image.imageURL)}>Delete</button>
 
         <img src={image.imageURL} alt="" className='w-300 md:w-656 rounded-md border-2 border-gray-500' />
         <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
@@ -119,7 +120,7 @@ export default function Profile() {
   );
 
   const handleVideoDelete = async (id) => {
-    if(window.confirm("Are You sure to delete this video?")){
+    if (window.confirm("Are You sure to delete this video?")) {
       try {
         setSelectedVideo(null);
         await deleteDoc(doc(database, "uploadVideoes", id));
@@ -135,8 +136,8 @@ export default function Profile() {
         <RxCross2 size={30}
           className="absolute right-7 cursor-pointer"
           onClick={onClose} />
-        <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md" 
-        onClick={() => handleVideoDelete(video.email+video.id)}>Delete</button>
+        <button className="mb-4 px-2 py-1 md:px-4 md:py-2 border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white rounded-md"
+          onClick={() => handleVideoDelete(video.email + video.id)}>Delete</button>
 
         <iframe
           className=" w-340 h-225 md:w-656 md:h-340"
@@ -168,29 +169,29 @@ export default function Profile() {
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start">
                     <h2 className='text-xl font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left w-72 md:w-96 xl:w-auto break-words'>{data?.company || user?.displayName}</h2>
-                    <p className={` text-xs font-medium capitalize ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified !== undefined ? (data.isVerified ? "Verified" : "Pending") : "NA"}</p>
+                    <p className={` text-xs font-medium capitalize mb-2 ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified !== undefined ? (data.isVerified ? "Verified" : "Pending") : ""}</p>
                     <p className='text-sm md:text-base font-medium capitalize'>{data?.register || "Customer"}</p>
                     {data ? (
                       <>
-                    <div className="flex items-center justify-center">
-                      <IoIdCard className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 break-words text-center md:text-left'>{data?.id}</p>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address.substring(0, 26)}${data?.address.length > 26 ? "..." : ""}`},{data?.pinCode}</p>
-                    </div>
-                    </>
-                    ): null }
+                        <div className="flex items-center justify-center">
+                          <IoIdCard className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 break-words text-center md:text-left'>{data?.id}</p>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address.substring(0, 26)}${data?.address.length > 26 ? "..." : ""}`},{data?.pinCode}</p>
+                        </div>
+                      </>
+                    ) : null}
                     <div className="flex items-center">
                       <MdEmail className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'>{data?.email || user?.email}</p>
                     </div>
                     {data ? (
                       <>
-                    <div className="flex items-center">
-                      <BsFillTelephoneFill className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'> {data?.contactNo || user?.phoneNumber || "N/A"}</p>
-                    </div>
-                      <div className="mt-4">
-                        <Link to={"/edit"} flag={false}><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 rounded-full">Edit Details</button></Link>
-                      </div>
+                        <div className="flex items-center">
+                          <BsFillTelephoneFill className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'> {data?.contactNo || user?.phoneNumber || "N/A"}</p>
+                        </div>
+                        <div className="mt-4">
+                          <Link to={"/edit"} flag={false}><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 rounded-full">Edit Details</button></Link>
+                        </div>
                       </>
                     ) : null}
                   </div>
@@ -220,9 +221,16 @@ export default function Profile() {
                         <div className="">
                           <div className="relative flex items-center">
                             <motion.div
-                              whileTap={{ scale: 0.6 }}
+
                             >
-                              <GrCloudUpload className="hidden md:flex text-3xl text-textColor cursor-pointer" onClick={() => setisdotMenu(!isdotMenu)} />
+                              <button
+                                type="button"
+                                className="px-2 py-1 md:px-4 md:py-2 hidden md:flex md:items-center border-none outline-none bg-blue-200 hover:bg-blue-700 rounded-lg text-sm md:text-base text-blue-700 hover:text-white font-semibold"
+                                onClick={() => setisdotMenu(!isdotMenu)}
+                              >
+                                Upload<AiOutlineCloudUpload className="ml-1" />
+                              </button>
+                              {/* <GrCloudUpload className="hidden md:flex text-3xl text-textColor cursor-pointer" onClick={() => setisdotMenu(!isdotMenu)} /> */}
                               <BiDotsVertical className="flex md:hidden text-2xl text-textColor cursor-pointer" onClick={() => setisdotMenu(!isdotMenu)} />
                             </motion.div>
                             {isdotMenu && (
@@ -270,7 +278,7 @@ export default function Profile() {
                             images.map((image) => (
                               <div key={image.id} className="">
                                 <img src={image.imageURL} alt="" className=' w-64 h-64 md:w-40 md:h-40 rounded-md border-2 border-gray-200 cursor-pointer object-cover'
-                                  onClick={() => setSelectedImage(image)} />                                
+                                  onClick={() => setSelectedImage(image)} />
                               </div>
                             ))
                           )}

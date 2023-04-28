@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,7 +9,9 @@ import { getAllAppointmentItems, saveAppointment } from "../utils/firebaseFuncti
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { comment } from 'postcss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { firestore } from '../firebase.config';
+import { collection, doc, getDoc, getFirestore } from 'firebase/firestore';
 
 export default function Appointment() {
     const navigate = useNavigate();
@@ -96,6 +98,26 @@ export default function Appointment() {
         });
     };
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const vendorId = searchParams.get('id');
+    const [vendor, setVendor] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          const db = getFirestore();
+          const vendorDoc = doc(db, 'plannerItems', vendorId);
+          const vendorSnapshot = await getDoc(vendorDoc);
+          if (vendorSnapshot.exists()) {
+            setVendor(vendorSnapshot.data());
+          } else {
+            console.log('Vendor not found');
+          }
+        };
+    
+        fetchData();
+      }, [vendorId]);
+    
 
     return (
         <>
@@ -115,8 +137,30 @@ export default function Appointment() {
                             {msg}
                         </motion.p>
                     )}
+                        <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
+                        <h3 className=' text-xl font-bold text-blue-700'>Vendor's Details</h3>
+                        <div class="gap-8 row flex justify-center flex-wrap my-10">
+                            <div className="flex">
+                                <label className='text-textBlue mr-2'>Comapny Name: </label>
+                                <p className='text-base text-gray-700 capitalize text-center'>{vendor?.company}</p>
+                            </div>
+                            <div className="flex">
+                                <label className='text-textBlue mr-2'>Vendor Id: </label>
+                                <p className='text-base text-gray-700 capitalize text-center'>{vendor?.id}</p>
+                            </div>
+                            <div className="flex">
+                                <label className='text-textBlue mr-2'>Register As: </label>
+                                <p className='text-base text-gray-700 capitalize text-center'>{vendor?.register}</p>
+                            </div>
+                            <div className="flex">
+                                <label className='text-textBlue mr-2'>Address: </label>
+                                <p className='text-base text-gray-700 capitalize text-center'>{vendor?.address}</p>
+                            </div>
+                        </div>
+                    </div>
+                
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
-
+                    <h3 className=' text-xl font-bold text-blue-700'>Fill Your Appointment Details</h3>
                         <div class="gap-8 row flex justify-center flex-wrap my-10">
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="fullname">Full Name</label>
