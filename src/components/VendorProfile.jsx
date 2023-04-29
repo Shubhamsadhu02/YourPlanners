@@ -189,7 +189,7 @@ export default function VendorProfile({ setOpen, data }) {
                         whileTap={{ scale: 0.75 }}
                         className="w-8 h-8 rounded-full bg-cartNumBg flex items-center justify-center cursor-pointer -mt-8"
                       >
-                        <Link to={"/appointment-form"}><AiFillSchedule className="text-white" /></Link>
+                        <Link to={`/appointment-form?id=${data?.id}`}><AiFillSchedule className="text-white" /></Link>
                       </motion.div>
 
                     </div>
