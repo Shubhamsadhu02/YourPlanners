@@ -28,7 +28,6 @@ export default function UploadVideo({ setOpenVideo }) {
     const [{ user }] = useStateValue();
     const [{ uploadVideoes }, dispatch] = useStateValue();
 
-
     const saveDetails = (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -86,6 +85,18 @@ export default function UploadVideo({ setOpenVideo }) {
             });
         });
     };
+
+    const [isValid, setIsValid] = useState(false);
+    const [isTouched, setIsTouched] = useState(false);
+    const regex = /^https?:\/\/(?:www\.)?youtu\.be\/(.+)$/;
+
+    const handleInputChange = (event) => {
+        const inputValue = event.target.value;
+        setUrl(inputValue);
+        setIsValid(regex.test(inputValue));
+        setIsTouched(true);
+    };
+
     return (
         <>
             <div className="">
@@ -116,8 +127,22 @@ export default function UploadVideo({ setOpenVideo }) {
                                     </motion.div>
                                 )}
                                 <div class="border border-gray-300 rounded-lg p-4 w-full gap-4">
-                                    <div className="mb-5">
-                                        <input className='border rounded p-3 w-full hover:border-indigo-500' type="url" id="url" name="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="Paste Your Youtube Link Here" />
+                                    {/* <div className="mb-5">
+                                        <input className='border rounded p-3 w-full hover:border-indigo-500' type="url" id="url" name="url" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="Paste Your Youtube Copy Link only" />
+                                    </div> */}
+                                    <div>
+                                        <input
+                                            type="url"
+                                            id="url"
+                                            name="url"
+                                            value={url}
+                                            onChange={handleInputChange}
+                                            className={'border rounded p-3 w-full mb-4 hover:border-indigo-500'}
+                                            placeholder="Paste Your Youtube Copy Link only"
+                                        />
+                                        {isTouched && !isValid && url && <p className="text-red-500">Invalid YouTube link!</p>}
+                                        {isTouched && isValid && <p className="text-green-500">Valid YouTube link!</p>}
+                                        
                                     </div>
                                     <div className="">
                                         <input className='border rounded p-3 w-full hover:border-indigo-500' type="text" id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />

@@ -26,6 +26,39 @@ export default function Appointment() {
     const [isLoading, setIsLoading] = useState(false);
     const [{ appointmentItems }, dispatch] = useStateValue();
 
+    const database = getFirestore();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const vendorId = searchParams.get('id');
+    // const [vEmail, setvEmail] = useState('');
+    const [vendorItem, setVendorItem] = useState(null);
+
+    useEffect(() => {
+        const fetchVendorData = async () => {
+            try {
+                const vendorRef = collection(database, 'plannerItems');
+                const vendorQuery = query(vendorRef, where('id', '==', vendorId));
+                const querySnapshot = await getDocs(vendorQuery);
+                if (querySnapshot.empty) {
+                    console.log('No matching documents.');
+                    return;
+                }
+                const doc = querySnapshot.docs[0];
+                // const vendorData = doc.data();
+                // const email = vendorData.email;
+                // console.log(email);
+                // setvEmail(email);
+                const vdoc = querySnapshot.docs[0];
+                const plannerItemsData = vdoc.data();
+                setVendorItem(plannerItemsData);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchVendorData();
+    }, [vendorId]);
+
+
     function generateRandomID() {
         const AP = "APP";
         const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -56,6 +89,11 @@ export default function Appointment() {
                     contactNo: contactNo,
                     address: address,
                     pinCode: pinCode,
+                    vemail: vendorItem.email,
+                    vContactNo: vendorItem.contactNo,
+                    vName: vendorItem.firstName,
+                    vRegister: vendorItem.register,
+                    BookingDate: Date().toISOString().slice(0, 10),
                 };
                 saveAppointment(dataApp);
                 setIsLoading(false);
@@ -98,99 +136,81 @@ export default function Appointment() {
         });
     };
 
-    const database = getFirestore();
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const vendorId = searchParams.get('id');
-    const [vEmail, setvEmail] = useState('');
-    const [vendor, setVendor] = useState(null);
 
-    useEffect(() => {
-        const fetchVendorData = async () => {
-            try {
-                const vendorRef = collection(database, 'plannerItems');
-                const vendorQuery = query(vendorRef, where('id', '==', vendorId));
-                const querySnapshot = await getDocs(vendorQuery);
-                if (querySnapshot.empty) {
-                    console.log('No matching documents.');
-                    return;
-                }
-                const doc = querySnapshot.docs[0];
-                const vendorData = doc.data();
-                const email = vendorData.email;
-                console.log(email);
-                setvEmail(email);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        fetchVendorData();
-    }, [vendorId]);
+    // useEffect(() => {
+    //     if (vEmail) {
+    //         const fetchData = async () => {
+    //             try {
+    //                 const db = getFirestore();
+    //                 const vendorQuery = query(collection(db, 'plannerItems'), where('email', '==', vEmail));
+    //                 const querySnapshot = await getDocs(vendorQuery);
+    //                 if (querySnapshot.empty) {
+    //                     console.log('Vendor not found');
+    //                     return;
+    //                 }
+    //                 const vendorData = querySnapshot.docs[0].data();
+    //                 setVendor(vendorData);
+    //             } catch (err) {
+    //                 console.log(err);
+    //             }
+    //         };
+    //         fetchData();
+    //     }
+    // }, [vEmail]);
 
-    useEffect(() => {
-        if (vEmail) {
-            const fetchData = async () => {
-                try {
-                    const db = getFirestore();
-                    const vendorQuery = query(collection(db, 'plannerItems'), where('email', '==', vEmail));
-                    const querySnapshot = await getDocs(vendorQuery);
-                    if (querySnapshot.empty) {
-                        console.log('Vendor not found');
-                        return;
-                    }
-                    const vendorData = querySnapshot.docs[0].data();
-                    setVendor(vendorData);
-                } catch (err) {
-                    console.log(err);
-                }
-            };
-            fetchData();
-        }
-    }, [vEmail]);
-
-    console.log(vEmail);
-    console.log(vendor);
+    // console.log(vEmail);
+    // console.log(vendor);
 
 
 
     return (
         <>
-            <div className="container h-90vh">
+            <div className="container h-screen">
                 <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                     <h3 className='text-2xl font-semibold capitalize text-headingColor'>Book an Appointment</h3>
                     {fields && (
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className={`w-full p-2 rounded-lg text-center text-lg font-semibold ${alertStatus === "danger"
-                                ? "bg-red-400 text-red-800"
-                                : "bg-emerald-400 text-emerald-800"
-                                }`}
-                        >
-                            {msg}
-                        </motion.p>
+                        <motion.div
+                        initial={{ opacity: 0, visibility: "hidden" }}
+                        animate={{ opacity: 1, visibility: "visible" }}
+                        exit={{ opacity: 0, visibility: "hidden" }}
+                        transition={{ duration: 0.3 }}
+                        className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
+                        style={{
+                            backgroundColor:
+                                alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                            color: "#fff",
+                        }}
+                    >
+                        {msg}
+                    </motion.div>
                     )}
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Vendor's Details</h3>
-                        <div class="gap-8 row flex justify-center flex-wrap my-10">
-                            <div className="flex">
-                                <label className='text-textBlue mr-2'>Comapny Name: </label>
-                                <p className='text-base text-gray-700 capitalize text-center'>{vendor?.company}</p>
-                            </div>
-                            <div className="flex">
-                                <label className='text-textBlue mr-2'>Vendor Id: </label>
-                                <p className='text-base text-gray-700 capitalize text-center'>{vendor?.id}</p>
-                            </div>
-                            <div className="flex">
-                                <label className='text-textBlue mr-2'>Register As: </label>
-                                <p className='text-base text-gray-700 capitalize text-center'>{vendor?.register}</p>
-                            </div>
-                            <div className="flex">
-                                <label className='text-textBlue mr-2'>Address: </label>
-                                <p className='text-base text-gray-700 capitalize text-center'>{vendor?.address}</p>
-                            </div>
-                        </div>
+                        {vendorItem ? (
+                            
+                                <div key={vendorItem.id} class="gap-8 row flex justify-center flex-wrap my-10">
+                                    <div className="flex">
+                                        <label className='text-textBlue mr-2'>Comapny Name: </label>
+                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.company}</p>
+                                    </div>
+                                    <div className="flex">
+                                        <label className='text-textBlue mr-2'>Vendor Id: </label>
+                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.id}</p>
+                                    </div>
+                                    <div className="flex">
+                                        <label className='text-textBlue mr-2'>Register As: </label>
+                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.register}</p>
+                                    </div>
+                                    <div className="flex">
+                                        <label className='text-textBlue mr-2'>Address: </label>
+                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.address}, {vendorItem.pinCode}</p>
+                                    </div>
+                                </div>
+                            
+                        ) : (
+                            <Loader />
+                        )}
+
                     </div>
 
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">

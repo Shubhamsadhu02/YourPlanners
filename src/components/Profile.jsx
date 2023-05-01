@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BiDotsVertical } from "react-icons/bi";
+import { BiCalendarAlt, BiCalendarCheck, BiDotsVertical } from "react-icons/bi";
 import { RiVideoUploadFill } from "react-icons/ri";
 import { GrCloudUpload, GrDocumentUpload } from "react-icons/gr";
 import { BsFillTelephoneFill } from "react-icons/bs";
@@ -74,6 +74,24 @@ export default function Profile() {
     }
   }, [user, database]);
 
+  const [appointment, setAppointment] = useState([]);
+  useEffect(() => {
+    if (user) {
+      const appRef = collection(database, 'appointmentItems');
+      const userAppQuery = query(appRef, where('vemail', '==', user.email));
+      onSnapshot(userAppQuery, (querySnapshot) => {
+        const appData = [];
+        querySnapshot.forEach((doc) => {
+          if (doc.exists()) {
+            appData.push(doc.data());
+          }
+          console.log(appData);
+        });
+        setAppointment(appData);
+      });
+    }
+  }, [user, database]);
+
   const [currentTab, setCurrentTab] = useState("appointment");
 
   const activeTabStyle = {
@@ -141,7 +159,8 @@ export default function Profile() {
 
         <iframe
           className=" w-340 h-225 md:w-656 md:h-340"
-          src={`https://www.youtube.com/embed/${video.videoURL.split('v=')[1].split('&')[0]}?modestbranding=1&autoplay=1`}
+          // src={`https://www.youtube.com/embed/${video.videoURL.split('v=')[1].split('&')[0]}?modestbranding=1&autoplay=1`}
+          src={`https://www.youtube.com/embed/${video.videoURL.split('youtu.be/')[1].split('&')[0]}?modestbranding=1&autoplay=1`}
           title={video.title}
           allow="autoplay"
 
@@ -165,7 +184,7 @@ export default function Profile() {
                 />
                 <div className="flex flex-col justify-center items-center md:grid md:grid-cols-2 gap-2">
                   <div className="py-2 md:px-16 flex md:justify-end md:items-end">
-                    <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-36 h-28 md:h-36 rounded-full object-cover' />
+                    <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-44 h-28 md:h-44 rounded-full object-cover' />
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start">
                     <h2 className='text-xl font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left w-72 md:w-96 xl:w-auto break-words'>{data?.company || user?.displayName}</h2>
@@ -298,7 +317,7 @@ export default function Profile() {
                           ) : (
                             videoes.map((video) => (
                               <div key={video.id} className="">
-                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('v=')[1].split('&')[0]}/mqdefault.jpg`} alt="" className=' w-64 h-150 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
+                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('youtu.be/')[1].split('&')[0]}/mqdefault.jpg`} alt="" className=' w-64 h-150 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
                                   onClick={() => setSelectedVideo(video)} />
                               </div>
                             ))
@@ -314,7 +333,46 @@ export default function Profile() {
                       {
                         currentTab === "appointment" &&
                         <div className="" >
-                          Appointment
+                          {appointment.length === 0 ? (
+                            <p>No Appointments found</p>
+                          ) : (
+                            appointment.map((item) => (
+                              <div
+                                key={item.id}
+                                className="w-full h-[180px] min-w-[275px] md:w-300 md:min-w-[300px] bg-gray-200 rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
+                              >
+                                <div className="w-full flex flex-col overflow-hidden">
+                                  <p className=" text-textBlue font-semibold text-base md:text-lg truncate w-28" style={{ textAlign: "end" }}>
+                                    {item.fullName}
+                                  </p>
+                                  <div className="flex items-center gap-1">
+                                  <MdEmail className="text-textBlue" />
+                                  <p className="mt-1 text-sm text-textBlue capitalize">
+                                    {item.email}
+                                  </p>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <IoLocationSharp className="text-textBlue" />
+                                    <p className="text-sm text-textBlue truncate">
+                                      {item.address}, {item.pinCode}
+                                    </p>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                  <BsFillTelephoneFill className="text-textBlue" />
+                                  <p className="text-sm text-textBlue truncate">
+                                      {item.contactNo}
+                                    </p>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                  <BiCalendarCheck className="text-textBlue" />
+                                  <p className="text-sm text-textBlue truncate">
+                                      {item.BookingDate}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))
+                          )}
                         </div>
                       }
                     </div>
