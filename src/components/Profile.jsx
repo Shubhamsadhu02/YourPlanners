@@ -193,7 +193,7 @@ export default function Profile() {
                 />
                 <div className="flex flex-col justify-center items-center md:grid md:grid-cols-2 gap-2">
                   <div className="py-2 md:px-16 flex md:justify-end md:items-end">
-                    <img src={data?.imageURL ? data?.imageURL : Avatar} alt="" className=' w-28 md:w-44 h-28 md:h-44 rounded-full object-cover' />
+                    <img src={data?.imageURL ? data?.imageURL : user?.photoURL} alt="" className=' w-28 md:w-44 h-28 md:h-44 rounded-full object-cover' />
                   </div>
                   <div className="flex flex-col justify-center items-center md:items-start">
                     <h2 className='text-xl font-bold md:text-2xl text-gray-700 capitalize text-center md:text-left w-72 md:w-96 xl:w-auto break-words'>{data?.company || user?.displayName}</h2>
@@ -205,7 +205,7 @@ export default function Profile() {
                           <IoIdCard className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 break-words text-center md:text-left'>{data?.id}</p>
                         </div>
                         <div className="flex items-center justify-center">
-                          <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address.substring(0, 26)}${data?.address.length > 26 ? "..." : ""}`},{data?.pinCode}</p>
+                          <IoLocationSharp className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2 text-center md:text-left'>{`${data?.address1.substring(0, 26)}${data?.address1.length > 26 ? "..." : ""}`},{data?.pinCode}</p>
                         </div>
                       </>
                     ) : null}
@@ -236,12 +236,12 @@ export default function Profile() {
                           <button type="submit" className="p-2 md:p-3 text-sm md:text-base"
                             id={"videoes"} onClick={handleTabClick} style={currentTab === 'videoes' ? activeTabStyle : inactiveTabStyle}>Videoes</button>
                           <button type="submit" className="p-2 md:p-3 text-sm md:text-base"
-                            id={"appointment"} onClick={handleTabClick} style={currentTab === 'appointment' ? activeTabStyle : inactiveTabStyle}>Appointment</button>
+                            id={"appointment"} onClick={handleTabClick} style={currentTab === 'appointment' ? activeTabStyle : inactiveTabStyle}>Appointments</button>
                         </div>
                       ) : (
                         <div>
                           <button type="submit" className="p-3"
-                            id={"appointment"} onClick={handleTabClick} style={currentTab === 'appointment' ? activeTabStyle : inactiveTabStyle}>Appointment</button>
+                            id={"appointment"} onClick={handleTabClick} style={currentTab === 'appointment' ? activeTabStyle : inactiveTabStyle}>Appointments</button>
                         </div>
                       )}
 
@@ -326,7 +326,8 @@ export default function Profile() {
                           ) : (
                             videoes.map((video) => (
                               <div key={video.id} className="">
-                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('youtu.be/')[1].split('&')[0]}/mqdefault.jpg`} alt="" className=' w-64 h-150 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
+                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('youtu.be/')[1].split('&')[0]}/mqdefault.jpg`} alt="" 
+                                className=' w-64 h-150 rounded-md border-2 border-gray-200 cursor-pointer object-cover'
                                   onClick={() => setSelectedVideo(video)} />
                               </div>
                             ))
@@ -341,7 +342,7 @@ export default function Profile() {
                       }
                       {
                         currentTab === "appointment" &&
-                        <div className="grid xl:grid-cols-3 md:grid-cols-2 gap-4" >
+                        <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-4" >
                           {appointment.length === 0 ? (
                             <p>No Appointments found</p>
                           ) : (
@@ -369,7 +370,7 @@ export default function Profile() {
                                             <>
                                               <IoLocationSharp className="text-textColor" />
                                               <p className="text-sm text-textColor truncate w-56 capitalize">
-                                                {item.address}, {item.pinCode}
+                                                {item.address1}, {item.pinCode}
                                               </p>
                                             </>) : item.email === user.email ? (
                                               <>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import Avatar from "../img/avatar.png";
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
@@ -81,43 +81,43 @@ export default function VendorProfile({ setOpen, data }) {
   }, [data, database]);
 
 
-  const [area, setArea] = useState("");
-  const pincode = data.pinCode;
-  useEffect(() => {
-    fetchArea();
-  }, []);
+  // const [area, setArea] = useState("");
+  // const pincode = data.pinCode;
+  // useEffect(() => {
+  //   fetchArea();
+  // }, []);
 
-  const fetchAreaFromPincode = async (pinCode) => {
-    const url = `https://api.postalpincode.in/pincode/${pinCode}`;
-    return axios.get(url)
-      .then(response => {
-        const data = response.data[0];
-        if (data.Status === "Success") {
-          const area = data.PostOffice[0].District;
-          return area;
-        } else {
-          return "Invalid pincode";
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  // const fetchAreaFromPincode = async (pinCode) => {
+  //   const url = `https://api.postalpincode.in/pincode/${pinCode}`;
+  //   return axios.get(url)
+  //     .then(response => {
+  //       const data = response.data[0];
+  //       if (data.Status === "Success") {
+  //         const area = data.PostOffice[0].District;
+  //         return area;
+  //       } else {
+  //         return "Invalid pincode";
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // };
 
-  const fetchArea = async () => {
-    const area = await fetchAreaFromPincode(pincode);
-    setArea(area);
-  };
+  // const fetchArea = async () => {
+  //   const area = await fetchAreaFromPincode(pincode);
+  //   setArea(area);
+  // };
 
   const Modal = ({ image, onClose }) => (
     <div className="fixed top-10 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
-      <div className="bg-white p-8 rounded-lg w-300 md:w-656 h-auto">
+      <div className="bg-white p-8 rounded-lg">
         <p>
           <RxCross2 size={30}
             className="float-right mb-6 cursor-pointer"
             onClick={onClose} />
         </p>
-        <img src={image.imageURL} alt="" className=' w-300 md:w-656 md:h-510 rounded-md border-2 border-gray-500 bg-cover' />
+        <img src={image.imageURL} alt="" className=' w-300 md:w-656 rounded-md border-2 border-gray-500' />
         <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
       </div>
     </div>
@@ -134,7 +134,7 @@ export default function VendorProfile({ setOpen, data }) {
 
         <iframe
           className=" w-340 h-225 md:w-656 md:h-340"
-          src={`https://www.youtube.com/embed/${video.videoURL.split('v=')[1].split('&')[0]}?modestbranding=1&autoplay=1`}
+          src={`https://www.youtube.com/embed/${video.videoURL.split('youtu.be/')[1].split('&')[0]}?modestbranding=1&autoplay=1`}
           title={video.title}
           allow="autoplay"
 
@@ -169,7 +169,7 @@ export default function VendorProfile({ setOpen, data }) {
                     </div>
                     <div className=" flex items-center justify-center">
                       <IoLocationSharp className="text-gray-700" />
-                      <p className='text-sm md:text-base font-medium capitalize break-words'>{`${data?.address.substring(0, 26)}${data?.address.length > 26 ? "..." : ""}`}, {area}</p>
+                      <p className='text-sm md:text-base font-medium capitalize break-words'>{`${data?.address1.substring(0, 26)}${data?.address1.length > 26 ? "..." : ""}`}, {data?.pinCode}</p>
                     </div>
 
                     <div className="hidden mt-8 w-full md:flex items-center">
@@ -235,7 +235,8 @@ export default function VendorProfile({ setOpen, data }) {
                           ) : (
                             videoes.map((video) => (
                               <div key={video.id} className="">
-                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('v=')[1].split('&')[0]}/mqdefault.jpg`} alt="" className=' w-64 h-150 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
+                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('youtu.be/')[1].split('&')[0]}/mqdefault.jpg`} alt="" 
+                                className=' w-64 h-150 rounded-md border-2 border-gray-200 cursor-pointer object-cover'
                                   onClick={() => setSelectedVideo(video)} />
                               </div>
                             ))

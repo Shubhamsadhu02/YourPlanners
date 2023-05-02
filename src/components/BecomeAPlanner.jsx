@@ -24,7 +24,8 @@ export default function BecomeAPlanner() {
     const [email, setEmail] = useState("");
     const [company, setCompany] = useState("");
     const [register, setRegister] = useState("");
-    const [address, setAddress] = useState("");
+    const [address1, setAddress1] = useState("");
+    const [address2, setAddress2] = useState("");
     const [pinCode, setPinCode] = useState("");
     const [imageAsset, setImageAsset] = useState(null);
     const [fields, setFields] = useState(false);
@@ -100,7 +101,7 @@ export default function BecomeAPlanner() {
         event.preventDefault();
         setIsLoading(true);
         try {
-            if (!firstName || !lastName || !email || !contactNo || !company || !register || !address || !pinCode) {
+            if (!firstName || !lastName || !email || !contactNo || !company || !register || !address1 || !address2 || !pinCode) {
                 setFields(true);
                 setMsg(" Fields can't be empty");
                 setAlertStatus("danger");
@@ -118,7 +119,8 @@ export default function BecomeAPlanner() {
                     contactNo: contactNo,
                     company: company,
                     register: register,
-                    address: address,
+                    address1: address1,
+                    address2: address2,
                     pinCode: pinCode,
                     isVerified: false,
                 };
@@ -154,7 +156,8 @@ export default function BecomeAPlanner() {
         setEmail("");
         setCompany("");
         setRegister("Select Category");
-        setAddress("");
+        setAddress1("");
+        setAddress2("");
         setPinCode("");
         setImageAsset(null);
     };
@@ -283,10 +286,16 @@ export default function BecomeAPlanner() {
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="address">Address</label>
+                                <label className='text-textBlue' for="address1">Address Line1</label>
                                 <div className="relative">
-                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address" />
-                                    <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{address.length}/{40}</div>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address1" name="address1" value={address1} onChange={(e) => setAddress1(e.target.value)} placeholder="Address Line 1" />
+                                    <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{address1.length}/{30}</div>
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                                <label className='text-textBlue' for="address2">Address Line2</label>
+                                <div className="relative">
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address2" name="address2" value={address2} onChange={(e) => setAddress2(e.target.value)} placeholder="Address Line2" />
                                 </div>
                             </div>
                             <div className="flex flex-col">
@@ -305,12 +314,12 @@ export default function BecomeAPlanner() {
                         </button>
                         <button
                             type="button"
-                            className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!firstName || !lastName || !email || !contactNo || !company || !register || !address || !pinCode
+                            className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!firstName || !lastName || !email || !contactNo || !company || !register || !address1 || !address2 || !pinCode
                                 ? 'bg-blue-200 cursor-not-allowed'
                                 : 'bg-blue-500 hover:bg-blue-700'
                                 }`}
                             onClick={saveDetails}
-                            disabled={!firstName || !lastName || !email || !contactNo || !company || !register || !address || !pinCode}
+                            disabled={!firstName || !lastName || !email || !contactNo || !company || !register || !address1 || !address2 || !pinCode}
                         >
                             Send
                         </button>

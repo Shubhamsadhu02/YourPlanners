@@ -18,7 +18,8 @@ export default function Appointment() {
     const [fullName, setFullName] = useState("");
     const [contactNo, setConatactNo] = useState("");
     const [email, setEmail] = useState("");
-    const [address, setAddress] = useState("");
+    const [address1, setAddress1] = useState("");
+    const [address2, setAddress2] = useState("");
     const [pinCode, setPinCode] = useState("");
     const [fields, setFields] = useState(false);
     const [alertStatus, setAlertStatus] = useState("danger");
@@ -73,7 +74,7 @@ export default function Appointment() {
     const saveDetails = () => {
         setIsLoading(true);
         try {
-            if (!fullName || !email || !contactNo || !address || !pinCode) {
+            if (!fullName || !email || !contactNo || !address1 || !address2 || !pinCode) {
                 setFields(true);
                 setMsg(" fields can't be empty");
                 setAlertStatus("danger");
@@ -87,7 +88,8 @@ export default function Appointment() {
                     fullName: fullName,
                     email: email,
                     contactNo: contactNo,
-                    address: address,
+                    address1: address1,
+                    address2: address2,
                     pinCode: pinCode,
                     vemail: vendorItem.email,
                     vContactNo: vendorItem.contactNo,
@@ -124,7 +126,8 @@ export default function Appointment() {
         setFullName("");
         setConatactNo("");
         setEmail("");
-        setAddress("");
+        setAddress1("");
+        setAddress2("");
         setPinCode("");
     };
 
@@ -171,43 +174,43 @@ export default function Appointment() {
                     <h3 className='text-2xl font-semibold capitalize text-headingColor'>Book an Appointment</h3>
                     {fields && (
                         <motion.div
-                        initial={{ opacity: 0, visibility: "hidden" }}
-                        animate={{ opacity: 1, visibility: "visible" }}
-                        exit={{ opacity: 0, visibility: "hidden" }}
-                        transition={{ duration: 0.3 }}
-                        className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
-                        style={{
-                            backgroundColor:
-                                alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
-                            color: "#fff",
-                        }}
-                    >
-                        {msg}
-                    </motion.div>
+                            initial={{ opacity: 0, visibility: "hidden" }}
+                            animate={{ opacity: 1, visibility: "visible" }}
+                            exit={{ opacity: 0, visibility: "hidden" }}
+                            transition={{ duration: 0.3 }}
+                            className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
+                            style={{
+                                backgroundColor:
+                                    alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                                color: "#fff",
+                            }}
+                        >
+                            {msg}
+                        </motion.div>
                     )}
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Vendor's Details</h3>
                         {vendorItem ? (
-                            
-                                <div key={vendorItem.id} class="gap-8 row flex justify-center flex-wrap my-10">
-                                    <div className="flex">
-                                        <label className='text-textBlue mr-2'>Comapny Name: </label>
-                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.company}</p>
-                                    </div>
-                                    <div className="flex">
-                                        <label className='text-textBlue mr-2'>Vendor Id: </label>
-                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.id}</p>
-                                    </div>
-                                    <div className="flex">
-                                        <label className='text-textBlue mr-2'>Register As: </label>
-                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.register}</p>
-                                    </div>
-                                    <div className="flex">
-                                        <label className='text-textBlue mr-2'>Address: </label>
-                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.address}, {vendorItem.pinCode}</p>
-                                    </div>
+
+                            <div key={vendorItem.id} class="gap-8 row flex justify-center flex-wrap my-10">
+                                <div className="flex">
+                                    <label className='text-textBlue mr-2'>Comapny Name: </label>
+                                    <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.company}</p>
                                 </div>
-                            
+                                <div className="flex">
+                                    <label className='text-textBlue mr-2'>Vendor Id: </label>
+                                    <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.id}</p>
+                                </div>
+                                <div className="flex">
+                                    <label className='text-textBlue mr-2'>Register As: </label>
+                                    <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.register}</p>
+                                </div>
+                                <div className="flex">
+                                    <label className='text-textBlue mr-2'>Address: </label>
+                                    <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.address1}, {vendorItem.pinCode}</p>
+                                </div>
+                            </div>
+
                         ) : (
                             <Loader />
                         )}
@@ -232,8 +235,15 @@ export default function Appointment() {
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="address">Address</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address" />
+                                <label className='text-textBlue' for="address1">Address Line1</label>
+                                <div className="relative">
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address1" name="address1" value={address1} onChange={(e) => setAddress1(e.target.value)} placeholder="Address Line 1" />
+                                    <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{address1.length}/{30}</div>
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                                <label className='text-textBlue' for="address2">Address Line2</label>
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address2" name="address2" value={address2} onChange={(e) => setAddress2(e.target.value)} placeholder="Address Line2" />
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="pinCode">Pin Code</label>
@@ -251,7 +261,7 @@ export default function Appointment() {
                         </button>
                         <button
                             type="button"
-                            className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!fullName || !email || !contactNo || !address || !pinCode
+                            className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!fullName || !email || !contactNo || !address1 || !address2 || !pinCode
                                 ? 'bg-blue-200 cursor-not-allowed'
                                 : 'bg-blue-500 hover:bg-blue-700'
                                 }`}
