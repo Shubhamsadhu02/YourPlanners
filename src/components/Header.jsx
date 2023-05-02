@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MdAdd, MdLogout, MdEdit, MdAdminPanelSettings } from "react-icons/md";
+import { MdLogout, MdEdit, MdAdminPanelSettings } from "react-icons/md";
 import { motion } from "framer-motion";
 import { FaHeart, FaUserAlt } from 'react-icons/fa';
 
@@ -10,15 +10,16 @@ import Avatar from "../img/avatar.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
-import Profile from "./Profile";
+import Login from "./Login";
 
 const Header = () => {
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
-  
+
   const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
   const [isMenu, setIsMenu] = useState(false);
   const navigate = useNavigate();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const login = async () => {
     if (!user) {
@@ -43,7 +44,7 @@ const Header = () => {
       type: actionType.SET_USER,
       user: null,
     });
-    navigate("/" , {replace : true})
+    navigate("/", { replace: true })
   };
 
   const showCart = () => {
@@ -83,13 +84,18 @@ const Header = () => {
             </div>
 
             <div className="relative">
-              <motion.img
-                whileTap={{ scale: 0.6 }}
-                src={user ? user.photoURL : Avatar}
-                className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
-                alt="userprofile"
-                onClick={login}
-              />
+              {user ? (
+                <motion.img
+                  whileTap={{ scale: 0.8 }}
+                  src={user.photoURL}
+                  className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
+                  alt="userprofile"
+                  onClick={login}
+                />
+              ) : (
+                <button className=" border-2 border-blue-500 hover:bg-blue-700 text-blue-700 hover:text-white font-bold py-2 px-4 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
+              )}
+              {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
               {isMenu && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.6 }}
@@ -106,14 +112,14 @@ const Header = () => {
                         <MdAdminPanelSettings /> Admin
                       </p>
                     </Link>
-                  ) : 
-                      <div className="">
-                        <Link to={"/profile"} flag={false}>
+                  ) :
+                    <div className="">
+                      <Link to={"/profile"} flag={false}>
                         <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                         onClick={() => setIsMenu(false)}>
-                           <FaUserAlt /> View profile
+                          onClick={() => setIsMenu(false)}>
+                          <FaUserAlt /> View profile
                         </p>
-                        </Link>
+                      </Link>
                       {/* <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
                         <MdEdit /> Edit profile
                       </p> */}
@@ -154,13 +160,18 @@ const Header = () => {
         </Link>
 
         <div className="relative">
-          <motion.img
-            whileTap={{ scale: 0.6 }}
-            src={user ? user.photoURL : Avatar}
-            className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
-            alt="userprofile"
-            onClick={login}
-          />
+        {user ? (
+                <motion.img
+                  whileTap={{ scale: 0.8 }}
+                  src={user.photoURL}
+                  className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
+                  alt="userprofile"
+                  onClick={login}
+                />
+              ) : (
+                <button className=" border-2 border-blue-500 hover:bg-blue-700 text-blue-700 hover:text-white font-semibold py-1 px-2 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
+              )}
+              {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
           {isMenu && (
             <motion.div
               initial={{ opacity: 0, scale: 0.6 }}
@@ -171,7 +182,7 @@ const Header = () => {
               {user && user.email === "santysadhu02@gmail.com" ? (
                 <Link to={"/createItem"}>
                   <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                  onClick={() => setIsMenu(false)}>
+                    onClick={() => setIsMenu(false)}>
                     <MdAdminPanelSettings /> Admin
                   </p>
                 </Link>
@@ -179,21 +190,21 @@ const Header = () => {
                 (
                   <div className="">
                     <Link to={"/profile"} flag={false}>
-                    <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                    onClick={() => setIsMenu(false)}>
-                      <FaUserAlt /> View profile
-                    </p>
+                      <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                        onClick={() => setIsMenu(false)}>
+                        <FaUserAlt /> View profile
+                      </p>
                     </Link>
                   </div>
 
                 )
               }
               <Link to={"/planner-form"}>
-              <p
-                className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-blue-500 text-white gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-base"
-                onClick={() => setIsMenu(false)}>
-                Become A planner
-              </p>
+                <p
+                  className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-blue-500 text-white gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-base"
+                  onClick={() => setIsMenu(false)}>
+                  Become A planner
+                </p>
               </Link>
               <p
                 className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"

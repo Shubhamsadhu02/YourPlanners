@@ -352,7 +352,7 @@ export default function Profile() {
                                   return (
                                     <div
                                       key={item.id}
-                                      className="w-full h-[180px] min-w-[275px] md:w-300 md:min-w-[300px] bg-blue-100 rounded-lg py-2 px-4  my-8 hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
+                                      className="w-full h-[180px] min-w-[275px] md:w-300 md:min-w-[300px] bg-blue-100 rounded-lg py-2 px-4 hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
                                     >
 
                                       <div className="w-full flex flex-col overflow-hidden">

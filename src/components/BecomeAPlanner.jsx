@@ -247,7 +247,7 @@ export default function BecomeAPlanner() {
                             </div>
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="contactNo">WhatsApp No</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="Contact No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="WhatsApp No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
                             </div>
 
                             <div className="flex flex-col">
