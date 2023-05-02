@@ -8,7 +8,7 @@ import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
 import Avatar from "../img/avatar.png";
 import { useStateValue } from "../context/StateProvider";
-import { collection, deleteDoc, doc, getFirestore, onSnapshot, query, where } from "firebase/firestore";
+import { and, collection, deleteDoc, doc, getFirestore, onSnapshot, or, query, where } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import UploadImage from "./UploadImage";
 import UploadVideo from "./UploadVideo";
@@ -78,7 +78,10 @@ export default function Profile() {
   useEffect(() => {
     if (user) {
       const appRef = collection(database, 'appointmentItems');
-      const userAppQuery = query(appRef, where('vemail', '==', user.email));
+      const vemailQuery = where('vemail', '==', user.email);
+      const emailQuery = where('email', '==', user.email);
+      const userAppQuery = query(appRef, or(vemailQuery, emailQuery));
+      console.log(userAppQuery);
       onSnapshot(userAppQuery, (querySnapshot) => {
         const appData = [];
         querySnapshot.forEach((doc) => {
@@ -244,7 +247,7 @@ export default function Profile() {
                             >
                               <button
                                 type="button"
-                                className="px-2 py-1 md:px-4 md:py-2 hidden md:flex md:items-center border-none outline-none bg-blue-200 hover:bg-blue-700 rounded-lg text-sm md:text-base text-blue-700 hover:text-white font-semibold"
+                                className="px-2 py-1 md:px-4 md:py-2 z-50 hidden md:flex md:items-center border-none outline-none bg-blue-200 hover:bg-blue-700 rounded-lg text-sm md:text-base text-blue-700 hover:text-white font-semibold"
                                 onClick={() => setisdotMenu(!isdotMenu)}
                               >
                                 Upload<AiOutlineCloudUpload className="ml-1" />
@@ -257,7 +260,7 @@ export default function Profile() {
                                 initial={{ opacity: 0, scale: 0.6 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.6 }}
-                                className="w-52 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute top-12 right-0"
+                                className="w-52 bg-gray-50 z-50 shadow-xl rounded-lg flex flex-col absolute top-12 right-0"
                               >
                                 <div className="">
                                   <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
@@ -332,46 +335,67 @@ export default function Profile() {
                       }
                       {
                         currentTab === "appointment" &&
-                        <div className="" >
+                        <div className="grid xl:grid-cols-3 md:grid-cols-2 gap-4" >
                           {appointment.length === 0 ? (
                             <p>No Appointments found</p>
                           ) : (
-                            appointment.map((item) => (
-                              <div
-                                key={item.id}
-                                className="w-full h-[180px] min-w-[275px] md:w-300 md:min-w-[300px] bg-gray-200 rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
-                              >
-                                <div className="w-full flex flex-col overflow-hidden">
-                                  <p className=" text-textBlue font-semibold text-base md:text-lg truncate w-28" style={{ textAlign: "end" }}>
-                                    {item.fullName}
-                                  </p>
-                                  <div className="flex items-center gap-1">
-                                  <MdEmail className="text-textBlue" />
-                                  <p className="mt-1 text-sm text-textBlue capitalize">
-                                    {item.email}
-                                  </p>
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                    <IoLocationSharp className="text-textBlue" />
-                                    <p className="text-sm text-textBlue truncate">
-                                      {item.address}, {item.pinCode}
-                                    </p>
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                  <BsFillTelephoneFill className="text-textBlue" />
-                                  <p className="text-sm text-textBlue truncate">
-                                      {item.contactNo}
-                                    </p>
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                  <BiCalendarCheck className="text-textBlue" />
-                                  <p className="text-sm text-textBlue truncate">
-                                      {item.BookingDate}
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            ))
+                            user ? (
+                              appointment.map((item) => {
+                                if (user.email === item.vemail || user.email === item.email) {
+                                  return (
+                                    <div
+                                      key={item.id}
+                                      className="w-full h-[180px] min-w-[275px] md:w-300 md:min-w-[300px] bg-blue-100 rounded-lg py-2 px-4  my-8 hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
+                                    >
+
+                                      <div className="w-full flex flex-col overflow-hidden">
+                                        <p className=" text-textColor font-semibold text-base md:text-lg truncate w-56 capitalize" >
+                                          {item.vemail === user.email ? item.fullName : (item.email === user.email ? item.vCompany : null)}
+                                        </p>
+                                        <div className="flex items-center gap-1">
+                                          <MdEmail className="text-textColor" />
+                                          <p className="mt-1 text-sm text-textColor capitalize">
+                                            {item.vemail === user.email ? item.email : (item.email === user.email ? item.vemail : null)}
+                                          </p>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          {item.vemail === user.email ? (
+                                            <>
+                                              <IoLocationSharp className="text-textColor" />
+                                              <p className="text-sm text-textColor truncate w-56 capitalize">
+                                                {item.address}, {item.pinCode}
+                                              </p>
+                                            </>) : item.email === user.email ? (
+                                              <>
+                                                <IoIdCard className="text-textColor" />
+                                                <p className="text-sm text-textColor truncate w-56 capitalize">
+                                                  {item.vRegister}
+                                                </p>
+                                              </>
+                                            ) : ""}
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          {item.vemail === user.email ? (
+                                            <>
+                                              <BsFillTelephoneFill className="text-textColor" />
+                                              <p className="text-sm text-textColor truncate">
+                                                {item.contactNo}
+                                              </p>
+                                            </>)
+                                            : ""}
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <BiCalendarCheck className="text-textColor" />
+                                          <p className="text-sm text-textColor truncate">
+                                            {item.BookingDate}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )
+                                }
+                              }
+                              )) : (null)
                           )}
                         </div>
                       }

@@ -93,7 +93,8 @@ export default function Appointment() {
                     vContactNo: vendorItem.contactNo,
                     vName: vendorItem.firstName,
                     vRegister: vendorItem.register,
-                    BookingDate: Date().toISOString().slice(0, 10),
+                    vCompany: vendorItem.company,
+                    BookingDate: Date().toString().slice(0, 10),
                 };
                 saveAppointment(dataApp);
                 setIsLoading(false);
