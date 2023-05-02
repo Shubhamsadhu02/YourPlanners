@@ -16,6 +16,7 @@ import { RxCross2 } from "react-icons/rx";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "../firebase.config";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { BsPersonCircle } from "react-icons/bs";
 
 export default function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -84,11 +85,16 @@ export default function Profile() {
       console.log(userAppQuery);
       onSnapshot(userAppQuery, (querySnapshot) => {
         const appData = [];
+        const currentDate = new Date();
         querySnapshot.forEach((doc) => {
           if (doc.exists()) {
-            appData.push(doc.data());
+            const item = doc.data();
+            const bookingDate = new Date(item.BookingDate);
+            const daysDiff = Math.ceil((currentDate - bookingDate) / (1000 * 60 * 60 * 24));
+            if (daysDiff <= 7) {
+              appData.push(item);
+            }
           }
-          console.log(appData);
         });
         setAppointment(appData);
       });
@@ -387,8 +393,31 @@ export default function Profile() {
                                         <div className="flex items-center gap-1">
                                           <BiCalendarCheck className="text-textColor" />
                                           <p className="text-sm text-textColor truncate">
-                                            {item.BookingDate}
+                                          {item.BookingDate.toString().slice(0, 10)}
                                           </p>
+                                        </div>
+                                        <div className="">
+                                        {item.email === user.email ? (
+                                          <>
+                                          <div className="flex items-center gap-1">
+                                          <p className=" text-base font-semibold mt-3 text-textColor truncate">
+                                            Customer Details
+                                          </p>
+                                        </div>
+                                          <div className="flex items-center gap-1">
+                                          <BsPersonCircle className="text-textColor" />
+                                          <p className="text-sm text-textColor truncate">
+                                            {item.fullName}
+                                          </p>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <BsFillTelephoneFill className="text-textColor" />
+                                              <p className="text-sm text-textColor truncate">
+                                                {item.contactNo}
+                                              </p>
+                                          </div>
+                                          </>
+                                        ) : ""}
                                         </div>
                                       </div>
                                     </div>
