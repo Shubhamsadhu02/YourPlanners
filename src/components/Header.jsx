@@ -66,7 +66,7 @@ const Header = () => {
           <div className="flex items-center gap-8">
 
             <div className="">
-              <Link to={"/planner-form"}><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Become A Planner</button></Link>
+              <Link to={"/planner-form"}><button type="submit" className="border-2 border-blue-500 hover:bg-blue-700 text-blue-700 hover:text-white font-bold py-2 px-4 rounded">Become A Planner</button></Link>
             </div>
 
             <div
@@ -93,7 +93,7 @@ const Header = () => {
                   onClick={login}
                 />
               ) : (
-                <button className=" border-2 border-blue-500 hover:bg-blue-700 text-blue-700 hover:text-white font-bold py-2 px-4 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
+                <button className="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
               )}
               {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
               {isMenu && (
@@ -169,7 +169,7 @@ const Header = () => {
                   onClick={login}
                 />
               ) : (
-                <button className=" border-2 border-blue-500 hover:bg-blue-700 text-blue-700 hover:text-white font-semibold py-1 px-2 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
+                <button className=" bg-blue-700 hover:bg-blue-500 text-white font-semibold py-1 px-2 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
               )}
               {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
           {isMenu && (

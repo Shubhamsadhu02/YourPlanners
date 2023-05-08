@@ -185,7 +185,7 @@ export default function Profile() {
         {user ? (
           <div className="">
             <div key={data?.id} className="fixed w-full h-screen top-8  md:top-16 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-              <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
+              <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll scrollbar-thin bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
                 <RxCross2
                   size={30}
                   className=" float-right mb-6 cursor-pointer"
@@ -210,7 +210,7 @@ export default function Profile() {
                       </>
                     ) : null}
                     <div className="flex items-center">
-                      <MdEmail className="text-gray-700" /><p className='text-sm md:text-base font-medium capitalize ml-2'>{data?.email || user?.email}</p>
+                      <MdEmail className="text-gray-700" /><p className='text-sm md:text-base font-medium ml-2'>{data?.email || user?.email}</p>
                     </div>
                     {data ? (
                       <>
@@ -361,7 +361,7 @@ export default function Profile() {
                                         </p>
                                         <div className="flex items-center gap-1">
                                           <MdEmail className="text-textColor" />
-                                          <p className="mt-1 text-sm text-textColor capitalize">
+                                          <p className="mt-1 text-sm text-textColor">
                                             {item.vemail === user.email ? item.email : (item.email === user.email ? item.vemail : null)}
                                           </p>
                                         </div>
@@ -375,7 +375,7 @@ export default function Profile() {
                                             </>) : item.email === user.email ? (
                                               <>
                                                 <IoIdCard className="text-textColor" />
-                                                <p className="text-sm text-textColor truncate w-56 capitalize">
+                                                <p className="text-sm text-textColor truncate w-56">
                                                   {item.vRegister}
                                                 </p>
                                               </>

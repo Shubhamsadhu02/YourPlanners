@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { motion } from "framer-motion";
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Loader from "./Loader";
 
 import { getAllAppointmentItems, saveAppointment } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
-import { comment } from 'postcss';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { firestore } from '../firebase.config';
-import { collection, doc, getDoc, getDocs, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 
 export default function Appointment() {
+    // const nodemailer = require('nodemailer');
     const navigate = useNavigate();
+    const form = useRef();
+    const [id, setId] = useState("");
     const [fullName, setFullName] = useState("");
     const [contactNo, setConatactNo] = useState("");
     const [email, setEmail] = useState("");
@@ -70,8 +68,8 @@ export default function Appointment() {
         return `${AP}${year}${month}${randomChar}${randomNumber}`;
     }
 
-
-    const saveDetails = () => {
+    const saveDetails = (event) => {
+        event.preventDefault();
         setIsLoading(true);
         try {
             if (!fullName || !email || !contactNo || !address1 || !address2 || !pinCode) {
@@ -83,8 +81,9 @@ export default function Appointment() {
                     setIsLoading(false);
                 }, 4000);
             } else {
+                const Appid  = generateRandomID();
                 const dataApp = {
-                    id: generateRandomID(),
+                    id: Appid,
                     fullName: fullName,
                     email: email,
                     contactNo: contactNo,
@@ -99,6 +98,37 @@ export default function Appointment() {
                     BookingDate: Date(),
                 };
                 saveAppointment(dataApp);
+                // const mailbody = {
+                    
+                // }
+                
+                const emailSendConfig = {
+                    SecureToken: "dde2d440-cb13-4dc3-9be8-691cb3f5929a",
+                    To: email,
+                    From: "santysadhu02@gmail.com",
+                    Subject: "Your Appointment is Booked Successfully",
+                    Body: `
+                        <p>Your appointment has been booked Successfully. Appointmet ID: <b>${Appid}</b> <br/>Please Find Your Submitted details:</p><br/>
+                        <p><b>Full Name: </b>${fullName}</p>
+                        <p><b>Email: </b>${email}</p>
+                        <p><b>Contact No: </b>${contactNo}</p>
+                        <p><b>Adress: </b>${address1}, ${address2}, ${pinCode}</p>
+                        <p><b>Vendor Id: </b>${vendorItem?.id}</p>
+                        <p><b>Vendor Name: </b>${vendorItem?.firstName}</p>
+                        <p><b>Vendor Company Name: </b>${vendorItem?.company}</p>
+                        <p><b>Vendor Register As: </b>${vendorItem?.register}</p>
+                        <p><b>Booking Date: </b>${Date().toString().slice(0, 10)}</p>
+                        <br/>
+                        <p>Vendor will connect you within 24hrs. And this appointment will be valid for 7days only.</p>
+                        <p>Thank you for using our service. We look forward to seeing you soon.</p><br/>
+                        <p>***Note: This is system generated email. Please don't reply to this email. For any enquiry please contact this:<b>+91 99323 33440 </b>*** </p><br/>
+                        <p>Thanks & Regards</p>
+                        <p>Your Planner</p>
+                  `
+                };
+                if(window.Email){
+                    window.Email.send(emailSendConfig).then(console.log("Email Sent Successfully."));
+                }
                 setIsLoading(false);
                 setFields(true);
                 setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
@@ -139,8 +169,7 @@ export default function Appointment() {
             });
         });
     };
-
-
+    
     // useEffect(() => {
     //     if (vEmail) {
     //         const fetchData = async () => {
@@ -191,26 +220,26 @@ export default function Appointment() {
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Vendor's Details</h3>
                         {vendorItem ? (
-
-                            <div key={vendorItem.id} class="gap-8 row flex justify-center flex-wrap my-10">
-                                <div className="flex">
-                                    <label className='text-textBlue mr-2'>Comapny Name: </label>
-                                    <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.company}</p>
+                            <form ref={form}>
+                                <div key={vendorItem.id} class="gap-8 row flex justify-center flex-wrap my-10">
+                                    <div className="flex">
+                                        <label className='text-textBlue mr-2'>Comapny Name: </label>
+                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.company}</p>
+                                    </div>
+                                    <div className="flex">
+                                        <label className='text-textBlue mr-2'>Vendor Id: </label>
+                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.id}</p>
+                                    </div>
+                                    <div className="flex">
+                                        <label className='text-textBlue mr-2'>Register As: </label>
+                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.register}</p>
+                                    </div>
+                                    <div className="flex">
+                                        <label className='text-textBlue mr-2'>Address: </label>
+                                        <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.address1}, {vendorItem.pinCode}</p>
+                                    </div>
                                 </div>
-                                <div className="flex">
-                                    <label className='text-textBlue mr-2'>Vendor Id: </label>
-                                    <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.id}</p>
-                                </div>
-                                <div className="flex">
-                                    <label className='text-textBlue mr-2'>Register As: </label>
-                                    <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.register}</p>
-                                </div>
-                                <div className="flex">
-                                    <label className='text-textBlue mr-2'>Address: </label>
-                                    <p className='text-base text-gray-700 capitalize text-center'>{vendorItem?.address1}, {vendorItem.pinCode}</p>
-                                </div>
-                            </div>
-
+                            </form>
                         ) : (
                             <Loader />
                         )}

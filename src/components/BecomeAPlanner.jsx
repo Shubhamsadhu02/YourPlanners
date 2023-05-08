@@ -100,6 +100,42 @@ export default function BecomeAPlanner() {
     const saveDetails = (event) => {
         event.preventDefault();
         setIsLoading(true);
+        // Validate contactno
+        if (!contactNo || contactNo.length !== 10 || contactNo.includes(" ")) {
+            setFields(true);
+            setMsg("Please enter a valid 10-digit WhatsApp number without spaces.");
+            setAlertStatus("danger");
+            setTimeout(() => {
+                setFields(false);
+                setIsLoading(false);
+            }, 4000);
+            return;
+        }
+
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            setFields(true);
+            setMsg("Please enter a valid email address.");
+            setAlertStatus("danger");
+            setTimeout(() => {
+                setFields(false);
+                setIsLoading(false);
+            }, 4000);
+            return;
+        }
+
+        //Validate PinCode
+        if (!pinCode || pinCode.length !== 6 || pinCode.includes(" ")) {
+            setFields(true);
+            setMsg("Please enter a valid pincode without spaces.");
+            setAlertStatus("danger");
+            setTimeout(() => {
+                setFields(false);
+                setIsLoading(false);
+            }, 4000);
+            return;
+        }
         try {
             if (!firstName || !lastName || !email || !contactNo || !company || !register || !address1 || !address2 || !pinCode) {
                 setFields(true);
@@ -174,7 +210,7 @@ export default function BecomeAPlanner() {
 
     return (
         <>
-            <div className="container">
+            <div className="container h-screen">
                 <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                     <h3 className='text-2xl font-semibold capitalize text-headingColor'>Create Your Planner Profile</h3>
                     {fields && (
@@ -252,7 +288,7 @@ export default function BecomeAPlanner() {
 
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="email">Email Id</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                             </div>
 
                             <div className="flex flex-col">

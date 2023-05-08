@@ -57,6 +57,7 @@ export default function UploadVideo({ setOpenVideo }) {
                     setFields(false);
                 }, 4000);
                 clearData();
+                setIsValid(false);
             }
         } catch (error) {
             console.log(error);
@@ -137,16 +138,16 @@ export default function UploadVideo({ setOpenVideo }) {
                                             name="url"
                                             value={url}
                                             onChange={handleInputChange}
-                                            className={'border rounded p-3 w-full hover:border-indigo-500'}
+                                            className={'border rounded p-3 w-full hover:border-indigo-500 text-sm md:text-base'}
                                             placeholder="Paste Your Youtube Copy Link only"
                                         />
-                                        <p className=' text-xs text-textColor mr-4 mb-4'>Example: https://youtu.be/</p>
+                                        <p className=' text-xs text-textColor mr-4'>Example: https://youtu.be/</p>
                                         {isTouched && !isValid && url && <p className="text-red-500">Invalid YouTube link!</p>}
                                         {isTouched && isValid && <p className="text-green-500">Valid YouTube link!</p>}
                                         
                                     </div>
                                     <div className="">
-                                        <input className='border rounded p-3 w-full hover:border-indigo-500' type="text" id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
+                                        <input className='border rounded p-3 w-full hover:border-indigo-500 mt-4' type="text" id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
                                     </div>
                                     <div className="text-center">
                                         <button
