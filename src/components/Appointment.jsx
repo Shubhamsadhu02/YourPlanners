@@ -71,6 +71,43 @@ export default function Appointment() {
     const saveDetails = (event) => {
         event.preventDefault();
         setIsLoading(true);
+        // Validate contactno
+        if (!contactNo || contactNo.length !== 10 || contactNo.includes(" ")) {
+            setFields(true);
+            setMsg("Please enter a valid 10-digit WhatsApp number without spaces.");
+            setAlertStatus("danger");
+            setTimeout(() => {
+                setFields(false);
+                setIsLoading(false);
+            }, 4000);
+            return;
+        }
+
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            setFields(true);
+            setMsg("Please enter a valid email address.");
+            setAlertStatus("danger");
+            setTimeout(() => {
+                setFields(false);
+                setIsLoading(false);
+            }, 4000);
+            return;
+        }
+
+        //Validate PinCode
+        if (!pinCode || pinCode.length !== 6 || pinCode.includes(" ")) {
+            setFields(true);
+            setMsg("Please enter a valid pincode without spaces.");
+            setAlertStatus("danger");
+            setTimeout(() => {
+                setFields(false);
+                setIsLoading(false);
+            }, 4000);
+            return;
+        }
+        
         try {
             if (!fullName || !email || !contactNo || !address1 || !address2 || !pinCode) {
                 setFields(true);

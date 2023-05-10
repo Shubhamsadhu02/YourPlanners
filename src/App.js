@@ -11,6 +11,7 @@ import Customer from "./components/Customer";
 import EditDetails from "./components/EditDetails";
 import Profile from "./components/Profile";
 import UploadImage from "./components/UploadImage";
+import Admin from "./components/Admin/Admin";
 
 const App = () => {
   const [{ plannerItems }, dispatch] = useStateValue();
@@ -42,6 +43,7 @@ const App = () => {
             <Route path="/customer" element={<Customer/>} />
             <Route path="/edit" element={<EditDetails/>} />
             <Route path="/upload-image" element={<UploadImage/>} />
+            <Route path="/admin" element={<Admin/>} />
           </Routes>
         </main>
       </div>
