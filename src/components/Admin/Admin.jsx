@@ -6,7 +6,7 @@ import VendorDetails from './VendorDetails';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 export default function Admin() {
-    const [{ plannerItems }] = useStateValue();
+    const [{ plannerItems, appointmentItems }] = useStateValue();
     const [open, setOpen] = useState(false);
     const [selectedVendor, setSelectedVendor] = useState(null);
     const [searchValue, setSearchValue] = useState("");
@@ -47,7 +47,10 @@ export default function Admin() {
                             <button type="submit" className="p-2 md:p-3 text-sm md:text-base"
                                 id={"approvedPlanners"} onClick={handleTabClick} style={currentTab === 'approvedPlanners' ? activeTabStyle : inactiveTabStyle}>Approved Planners</button>
                             <button type="submit" className="p-2 md:p-3 text-sm md:text-base"
+                                id={"pastAppointment"} onClick={handleTabClick} style={currentTab === 'pastAppointment' ? activeTabStyle : inactiveTabStyle}>Past Appointments</button>
+                            <button type="submit" className="p-2 md:p-3 text-sm md:text-base"
                                 id={"appointment"} onClick={handleTabClick} style={currentTab === 'appointment' ? activeTabStyle : inactiveTabStyle}>Appointments</button>
+                        
                         </div>
                         <div className="col-span-9 content p-4 border-2 border-b-0 rounded-[10px] shadow-inner inset-y-4 flex justify-center bg-white ">
                             {
@@ -63,6 +66,9 @@ export default function Admin() {
                                                     Company Name
                                                 </th>
                                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
+                                                    Email
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
                                                     Register As
                                                 </th>
                                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
@@ -76,6 +82,7 @@ export default function Admin() {
                                                     <tr key={item?.id}>
                                                         <td className='px-6 py-4 capitalize break-words'>{item?.firstName}</td>
                                                         <td className='px-6 py-4 w-24 capitalize break-words'>{item?.company}</td>
+                                                        <td className='px-6 py-4 w-24 capitalize break-words'>{item.email}</td>
                                                         <td className='px-6 py-4 whitespace-nowrap capitalize'>{item?.register}</td>
                                                         <td className='px-6 py-4'><motion.div
                                                             whileTap={{ scale: 0.99 }}
@@ -121,6 +128,9 @@ export default function Admin() {
                                                     Company Name
                                                 </th>
                                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
+                                                    Email
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
                                                     Register As
                                                 </th>
                                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
@@ -135,6 +145,7 @@ export default function Admin() {
                                                     <tr>
                                                         <td className='px-6 py-4 capitalize break-words'>{item.firstName}</td>
                                                         <td className='px-6 py-4 w-24 capitalize break-words'>{item.company}</td>
+                                                        <td className='px-6 py-4 w-24 capitalize break-words'>{item.email}</td>
                                                         <td className='px-6 py-4 whitespace-nowrap capitalize'>{item.register}</td>
                                                         <td className='px-6 py-4'><motion.div
                                                             whileTap={{ scale: 0.99 }}
@@ -156,6 +167,58 @@ export default function Admin() {
                                     </table>
                                 </div>
                                 </>
+                            }
+                            {
+                                currentTab === "pastAppointment" &&
+                                <>
+                                <table className="w-full divide-y divide-gray-200 table-fixed">
+                                    <thead className=" bg-blue-100 border-b-4 border-blue-500">
+                                        <tr>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
+                                               Customer Name
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
+                                                Customer Conatct No
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
+                                                Company Name
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
+                                                Vendor Contact No
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
+                                                Booking For
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">
+                                                Status
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-blue-200">
+                                        {appointmentItems?.filter((n) => n.isDone === true)
+                                            .map((item, index) => (
+                                                <tr key={item?.id}>
+                                                    <td className='px-6 py-4 capitalize break-words'>{item.fullName}</td>
+                                                    <td className='px-6 py-4 w-24 capitalize break-words'>{item.contactNo}</td>
+                                                    <td className='px-6 py-4 w-24 capitalize break-words'>{item.vCompany}</td>
+                                                    <td className='px-6 py-4 whitespace-nowrap capitalize'>{item.vContactNo}</td>
+                                                    <td className='px-6 py-4'><motion.div
+                                                        whileTap={{ scale: 0.99 }}
+                                                        className="cursor-pointer"
+                                                        onClick={() => {
+                                                            setSelectedVendor(item);
+                                                            setOpen(true);
+                                                        }}
+                                                    >
+                                                        <FaEye size={20} className="text-textBlue" />
+
+                                                    </motion.div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                    </tbody>
+                                </table>
+                            </>
                             }
                             {
                                 currentTab === "appointment" &&

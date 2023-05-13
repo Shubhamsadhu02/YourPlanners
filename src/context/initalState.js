@@ -6,6 +6,7 @@ const cartInfo = fetchCart();
 export const initialState = {
   user: userInfo,
   plannerItems: null,
+  appointmentItems: null,
   cartShow: false,
   cartItems: cartInfo,
   uploadImages: null,

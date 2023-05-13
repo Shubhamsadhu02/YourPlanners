@@ -7,6 +7,9 @@ import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+// import sendgrid from '@sendgrid/mail';
+
+const SENDGRID_API_KEY='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';
 
 export default function Appointment() {
     // const nodemailer = require('nodemailer');
@@ -133,11 +136,44 @@ export default function Appointment() {
                     vRegister: vendorItem.register,
                     vCompany: vendorItem.company,
                     BookingDate: Date(),
+                    isDone: false,
                 };
                 saveAppointment(dataApp);
-                // const mailbody = {
-                    
-                // }
+
+                // sendgrid.setApiKey(SENDGRID_API_KEY);
+                // const msg = {
+                //     to: email, // Change to your recipient
+                //     from: {
+                //         name: 'Your Planner',
+                //         email: 'santysadhu02@gmail.com',
+                //     }, // Change to your verified sender
+                //     subject: 'Your Appointment is Booked Successfully',
+                //     // text: 'and easy to do anywhere, even with Node.js',
+                //     html: `<p>Your appointment has been booked Successfully. Appointmet ID: <b>${Appid}</b> <br/>Please Find Your Submitted details:</p><br/>
+                //             <p><b>Full Name: </b>${fullName}</p>
+                //             <p><b>Email: </b>${email}</p>
+                //             <p><b>Contact No: </b>${contactNo}</p>
+                //             <p><b>Adress: </b>${address1}, ${address2}, ${pinCode}</p>
+                //             <p><b>Vendor Id: </b>${vendorItem?.id}</p>
+                //             <p><b>Vendor Name: </b>${vendorItem?.firstName}</p>
+                //             <p><b>Vendor Company Name: </b>${vendorItem?.company}</p>
+                //             <p><b>Vendor Register As: </b>${vendorItem?.register}</p>
+                //             <p><b>Booking Date: </b>${Date().toString().slice(0, 10)}</p>
+                //             <br/>
+                //             <p>Vendor will connect you within 24hrs. And this appointment will be valid for 7days only.</p>
+                //             <p>Thank you for using our service. We look forward to seeing you soon.</p><br/>
+                //             <p>***Note: This is system generated email. Please don't reply to this email. For any enquiry please contact this:<b>+91 99323 33440 </b>*** </p><br/>
+                //             <p>Thanks & Regards</p>
+                //             <p>Your Planner</p>`,
+                //   }
+                //   sendgrid
+                //     .send(msg)
+                //     .then(() => { 
+                //       console.log('Email sent')
+                //     })
+                //     .catch((error) => {
+                //       console.error(error)
+                //     })
                 
                 const emailSendConfig = {
                     SecureToken: "dde2d440-cb13-4dc3-9be8-691cb3f5929a",

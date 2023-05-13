@@ -303,7 +303,7 @@ export default function BecomeAPlanner() {
                                 <select
                                     value={register}
                                     onChange={(e) => setRegister(e.target.value)}
-                                    className="outline-none text-base border-b-2 border-gray-200 cursor-pointer className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500"
+                                    className="outline-none text-base border-b-2 border-gray-200 cursor-pointer border rounded p-3 w-64 lg:w-96 hover:border-indigo-500"
                                 >
                                     <option value="other" className="bg-white">
                                         Select Category
