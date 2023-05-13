@@ -1,10 +1,6 @@
 import React, { useEffect,  useState } from "react";
 
 import Avatar from "../img/avatar.png";
-import { Link } from 'react-router-dom';
-import { motion } from "framer-motion";
-import { useStateValue } from "../context/StateProvider";
-import { actionType } from "../context/reducer";
 
 export default function Customer() {
     const [currentTab, setCurrentTab] = useState("appointment");

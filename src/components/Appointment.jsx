@@ -5,7 +5,7 @@ import Loader from "./Loader";
 import { getAllAppointmentItems, saveAppointment } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 // import sendgrid from '@sendgrid/mail';
 
@@ -13,7 +13,6 @@ export default function Appointment() {
     // const nodemailer = require('nodemailer');
     const navigate = useNavigate();
     const form = useRef();
-    const [id, setId] = useState("");
     const [fullName, setFullName] = useState("");
     const [contactNo, setConatactNo] = useState("");
     const [email, setEmail] = useState("");
