@@ -9,8 +9,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 // import sendgrid from '@sendgrid/mail';
 
-const SENDGRID_API_KEY='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';
-
 export default function Appointment() {
     // const nodemailer = require('nodemailer');
     const navigate = useNavigate();
