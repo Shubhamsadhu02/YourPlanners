@@ -6,14 +6,15 @@ import { motion } from "framer-motion";
 import { useStateValue } from "../context/StateProvider";
 import { storage } from "../firebase.config";
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { getFirestore, onSnapshot, doc, updateDoc, collection, deleteDoc, where, query, getDocs } from 'firebase/firestore';
+import { getFirestore, onSnapshot, doc, updateDoc, collection, deleteDoc, where, query } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 export default function EditDetails() {
     const [contactNo, setConatactNo] = useState("");
     const [email, setEmail] = useState("");
     const [company, setCompany] = useState("");
-    const [address, setAddress] = useState("");
+    const [address1, setAddress1] = useState("");
+    const [address2, setAddress2] = useState("");
     const [pinCode, setPinCode] = useState("");
     const [imageAsset, setImageAsset] = useState(null);
     const [fields, setFields] = useState(false);
@@ -42,7 +43,8 @@ export default function EditDetails() {
         setConatactNo(data?.contactNo || '');
         setEmail(data?.email || '');
         setCompany(data?.company || '');
-        setAddress(data?.address || '');
+        setAddress1(data?.address1 || '');
+        setAddress2(data?.address2 || '');
         setPinCode(data?.pinCode || '');
     }, [data]);
 
@@ -106,7 +108,8 @@ export default function EditDetails() {
             contactNo,
             email,
             company,
-            address,
+            address1,
+            address2,
             pinCode,
         }).then(() => {
             setIsLoading(false);
@@ -138,9 +141,10 @@ export default function EditDetails() {
                     navigate("/", { replace: true });
                 }, 5000);
                 //delete planner profile pic
-                const deleteRef = ref(storage, photo);
-                await deleteObject(deleteRef);
-
+                if (photo != null) {
+                    const deleteRef = ref(storage, photo);
+                    await deleteObject(deleteRef);
+                }
                 //planner uploaded images
                 if (user) {
                     const imagesRef = collection(database, 'uploadImages');
@@ -200,21 +204,21 @@ export default function EditDetails() {
                     <div key={data?.id} className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                         <h3 className='text-2xl font-semibold capitalize text-headingColor'>Update Your Planner Profile</h3>
                         {fields && (
-                        <motion.div
-                            initial={{ opacity: 0, visibility: "hidden" }}
-                            animate={{ opacity: 1, visibility: "visible" }}
-                            exit={{ opacity: 0, visibility: "hidden" }}
-                            transition={{ duration: 0.3 }}
-                            className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
-                            style={{
-                                backgroundColor:
-                                    alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
-                                color: "#fff",
-                            }}
-                        >
-                            {msg}
-                        </motion.div>
-                    )}
+                            <motion.div
+                                initial={{ opacity: 0, visibility: "hidden" }}
+                                animate={{ opacity: 1, visibility: "visible" }}
+                                exit={{ opacity: 0, visibility: "hidden" }}
+                                transition={{ duration: 0.3 }}
+                                className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
+                                style={{
+                                    backgroundColor:
+                                        alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                                    color: "#fff",
+                                }}
+                            >
+                                {msg}
+                            </motion.div>
+                        )}
                         <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                             {isLoading ? (
                                 <Loader />
@@ -275,9 +279,14 @@ export default function EditDetails() {
                                 </div>
 
                                 <div className="flex flex-col">
-                                    <label className='text-textBlue' for="address">Address</label>
-                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                                    <label className='text-textBlue' for="address">Address Line1</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address1} onChange={(e) => setAddress1(e.target.value)} />
                                 </div>
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="address">Address Line2</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address2} onChange={(e) => setAddress2(e.target.value)} />
+                                </div>
+
                                 <div className="flex flex-col">
                                     <label className='text-textBlue' for="pinCode">Pin Code</label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="number" id="pinCode" name="pinCode" value={pinCode} onChange={(e) => setPinCode(e.target.value)} />

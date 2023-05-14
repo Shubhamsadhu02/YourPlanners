@@ -394,7 +394,7 @@ export default function Profile() {
                                         <div className="flex items-center gap-1">
                                           <BiCalendarCheck className="text-textColor" />
                                           <p className="text-sm text-textColor truncate">
-                                          {item.BookingDate.toString().slice(0, 10)}
+                                            {item.BookingDate.toString().slice(0, 10)}
                                           </p>
                                         </div>
                                         <div className="">

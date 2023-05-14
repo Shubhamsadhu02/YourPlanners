@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { Header, MainContainer } from "./components";
 import { useStateValue } from "./context/StateProvider";
 import { getAllPlannerItems } from "./utils/firebaseFunctions";
+import { getAllAppointmentItems } from "./utils/firebaseFunctions";
 import { actionType } from "./context/reducer";
 import BecomeAPlanner from "./components/BecomeAPlanner";
 import Appointment from "./components/Appointment";
@@ -12,15 +13,22 @@ import EditDetails from "./components/EditDetails";
 import Profile from "./components/Profile";
 import UploadImage from "./components/UploadImage";
 import Admin from "./components/Admin/Admin";
+import Copyright from "./components/Copyright";
 
 const App = () => {
-  const [{ plannerItems }, dispatch] = useStateValue();
+  const [{ plannerItems, appointmentItems }, dispatch] = useStateValue();
 
   const fetchData = async () => {
     await getAllPlannerItems().then((data) => {
       dispatch({
         type: actionType.SET_PLANNER_DETAILS,
         plannerItems: data,
+      });
+    });
+    await getAllAppointmentItems().then((dataApp) => {
+      dispatch({
+        type: actionType.SET_APPOINTMENT_DETAILS,
+        appointmentItems: dataApp,
       });
     });
   };
@@ -43,9 +51,11 @@ const App = () => {
             <Route path="/customer" element={<Customer/>} />
             <Route path="/edit" element={<EditDetails/>} />
             <Route path="/upload-image" element={<UploadImage/>} />
-            <Route path="/admin" element={<Admin/>} />
+            <Route path="/admin-dashboard" element={<Admin/>} />
           </Routes>
         </main>
+
+        <Copyright/>
       </div>
     </AnimatePresence>
   );

@@ -15,8 +15,8 @@ export const saveItem = async (data, emailId) => {
   });
 };
 
-export const saveAppointment = async (dataApp) => {
-  await setDoc(doc(firestore, "appointmentItems", `${Date.now()}`), dataApp, {
+export const saveAppointment = async (dataApp, Appid) => {
+  await setDoc(doc(firestore, "appointmentItems", Appid), dataApp, {
     merge: true,
   });
 };

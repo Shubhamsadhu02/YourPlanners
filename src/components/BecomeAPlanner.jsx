@@ -159,6 +159,7 @@ export default function BecomeAPlanner() {
                     address2: address2,
                     pinCode: pinCode,
                     isVerified: false,
+                    date: Date(),
                 };
                 const emailId = email;
                 saveItem(data, emailId);
