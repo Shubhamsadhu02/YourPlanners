@@ -81,13 +81,13 @@ export default function CustomerDetails({ setOpenCustomer, data }) {
                                             <h3 className='font-bold mr-4 text-textColor'>Email: </h3><p className=' capitalize'>{data.email}</p>
                                         </div>
                                         <div className="flex items-center mt-4">
-                                            <h3 className='font-bold mr-4 text-textColor'>Address: </h3><p className=' capitalize'>{data.address},{data.pinCode}</p>
+                                            <h3 className='font-bold mr-4 text-textColor'>Address: </h3><p className=' capitalize'>{data.address1},{data.pinCode}</p>
                                         </div>
                                         <div className="flex items-center mt-4">
                                             <h3 className='font-bold mr-4 text-textColor'>Booking Date: </h3><p className=' capitalize'>{data.BookingDate.toString().slice(0, 10)}</p>
                                         </div>
                                         <div className="flex flex-col mt-7">
-                                            <label className='text-textBlue' for="register">Done Talk</label>
+                                            <label className='text-textBlue' for="register">Done Enquiry</label>
                                             <select
                                                 value={isDone}
                                                 onChange={(e) => setisDone(e.target.value)}
