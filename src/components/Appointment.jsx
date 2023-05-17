@@ -141,7 +141,7 @@ export default function Appointment() {
                 //     to: email, // Change to your recipient
                 //     from: {
                 //         name: 'Your Planner',
-                //         email: 'santysadhu02@gmail.com',
+                //         email: 'yourplaneer2023@gmail.com',
                 //     }, // Change to your verified sender
                 //     subject: 'Your Appointment is Booked Successfully',
                 //     // text: 'and easy to do anywhere, even with Node.js',

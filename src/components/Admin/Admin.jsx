@@ -30,7 +30,7 @@ export default function Admin() {
     }
 
     const [{ user }] = useStateValue();
-    if (user && user.email !== "santysadhu02@gmail.com") {
+    if (user && user.email !== "yourplaneer2023@gmail.com") {
         return alert("You are not an admin.");
     }
 
