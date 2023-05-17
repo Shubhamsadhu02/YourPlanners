@@ -8,7 +8,7 @@ import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
 import Avatar from "../img/avatar.png";
 import { useStateValue } from "../context/StateProvider";
-import { and, collection, deleteDoc, doc, getFirestore, onSnapshot, or, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getFirestore, onSnapshot, or, query, where } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import UploadImage from "./UploadImage";
 import UploadVideo from "./UploadVideo";

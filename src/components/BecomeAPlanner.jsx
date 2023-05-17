@@ -16,6 +16,7 @@ import { getAllPlannerItems, saveItem } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { useNavigate } from 'react-router-dom';
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 
 export default function BecomeAPlanner() {
     const [firstName, setFirstName] = useState("");
@@ -97,7 +98,7 @@ export default function BecomeAPlanner() {
         return `${YP}${year}${month}${randomChar}${randomNumber}`;
     }
 
-    const saveDetails = (event) => {
+    const saveDetails = async (event) => {
         event.preventDefault();
         setIsLoading(true);
         // Validate contactno
@@ -146,31 +147,43 @@ export default function BecomeAPlanner() {
                     setIsLoading(false);
                 }, 4000);
             } else {
-                const data = {
-                    id: generateRandomID(),
-                    imageURL: imageAsset,
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    contactNo: contactNo,
-                    company: company,
-                    register: register,
-                    address1: address1,
-                    address2: address2,
-                    pinCode: pinCode,
-                    isVerified: false,
-                    date: Date(),
-                };
-                const emailId = email;
-                saveItem(data, emailId);
-                setIsLoading(false);
-                setFields(true);
-                setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
-                setAlertStatus("success");
-                setTimeout(() => {
-                    setFields(false);
-                }, 6000);
-                clearData();
+                // Check if email already exists in the database
+                const emailExists = await checkEmailExists(email);
+                if (emailExists) {
+                    setFields(true);
+                    setMsg("The email already exists as a planner.");
+                    setAlertStatus("danger");
+                    setTimeout(() => {
+                        setFields(false);
+                        setIsLoading(false);
+                    }, 4000);
+                } else {
+                    const data = {
+                        id: generateRandomID(),
+                        imageURL: imageAsset,
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        contactNo: contactNo,
+                        company: company,
+                        register: register,
+                        address1: address1,
+                        address2: address2,
+                        pinCode: pinCode,
+                        isVerified: false,
+                        date: Date(),
+                    };
+                    const emailId = email;
+                    saveItem(data, emailId);
+                    setIsLoading(false);
+                    setFields(true);
+                    setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
+                    setAlertStatus("success");
+                    setTimeout(() => {
+                        setFields(false);
+                    }, 6000);
+                    clearData();
+                }
             }
         } catch (error) {
             console.log(error);
@@ -185,6 +198,17 @@ export default function BecomeAPlanner() {
 
         fetchData();
     };
+
+    const database = getFirestore();
+    const plannerItemsCollection = collection(database,'plannerItems');
+
+    async function checkEmailExists(email) {
+        console.log(email);
+        const emailQuery = query(plannerItemsCollection, where('email', '==', email));
+        const querySnapshot = await getDocs(emailQuery);
+        console.log(!querySnapshot.empty);
+        return !querySnapshot.empty;
+    }
 
     const clearData = () => {
         setFirstName("");
