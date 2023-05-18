@@ -34,7 +34,7 @@ $fullName = $_POST['fullName'];
 $vName = $_POST['vName'];
 $cfrom = $_POST['email'];
 $vmailto = $_POST['vemail'];
-$headers = "From: yourplannercontact@gmail.com"
+$headers = "From: yourplannercontact@gmail.com";
 
 // Compose the email message
 $subject1 = 'Your Appointment Confirmation';
@@ -44,7 +44,7 @@ $message1 .= "Best regards,<br>Your Company";
 
 $subject2 = 'New Appointment';
 $message2 = "Dear $vName,<br><br>";
-$message2 .= "$fullName is Booked an appointment with. Please connect them.";
+$message2 .= "$fullName is Booked an appointment with. Please connect them.<br><br>";
 $message2 .= "Best regards,<br>Your Company";
  
 // Send the email

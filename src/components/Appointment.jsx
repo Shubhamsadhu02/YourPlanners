@@ -143,7 +143,6 @@ export default function Appointment() {
                     },
                 });
 
-                const responseData = await response.json();
                 // const emailSendConfig = {
                 //     SecureToken: "dde2d440-cb13-4dc3-9be8-691cb3f5929a",
                 //     To: email,
@@ -172,7 +171,9 @@ export default function Appointment() {
                 // if(window.Email){
                 //     window.Email.send(emailSendConfig).then(console.log("Email Sent Successfully."));
                 // }
-                if (response.ok && responseData.success) {
+                if (response.ok) {
+                    const responseData = await response.json();
+                    if (responseData.success) {
                     saveAppointment(dataApp, Appid);
                     setIsLoading(false);
                     setFields(true);
@@ -182,8 +183,13 @@ export default function Appointment() {
                         setFields(false);
                     }, 4000);
                     clearData();
-                } else {
+                }else {
+                    // Email sending failed
                     throw new Error(responseData.message || 'Failed to send the email.');
+                }
+                } else {
+                    // HTTP request failed
+                    throw new Error('Failed to send the email.');
                 }
             }
         } catch (error) {
