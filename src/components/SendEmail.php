@@ -30,10 +30,12 @@ function sendEmail($cfrom, $vmailto, $subject1, $subject2, $message1, $message2,
 }
 
 // Get the POST data from the requests
-$fullName = $_POST['fullName'];
-$vName = $_POST['vName'];
-$cfrom = $_POST['email'];
-$vmailto = $_POST['vemail'];
+$data = json_decode(file_get_contents('php://input'), true);
+
+$fullName = $data['fullName'];
+$vName = $data['vName'];
+$cfrom = $data['email'];
+$vmailto = $data['vemail'];
 $headers = "From: yourplannercontact@gmail.com";
 
 // Compose the email message
