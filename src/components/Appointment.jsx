@@ -67,7 +67,7 @@ export default function Appointment() {
         return `${AP}${year}${month}${randomChar}${randomNumber}`;
     }
 
-    const saveDetails = (event) => {
+    const saveDetails = async (event) => {
         event.preventDefault();
         setIsLoading(true);
         // Validate contactno
@@ -135,21 +135,27 @@ export default function Appointment() {
                     isDone: false,
                 };
                 saveAppointment(dataApp, Appid);
+                const response = await fetch('/SendEmail.php', {
+                    method: 'POST',
+                    body: JSON.stringify(dataApp),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
 
-                // sendgrid.setApiKey(SENDGRID_API_KEY);
-                // const msg = {
-                //     to: email, // Change to your recipient
-                //     from: {
-                //         name: 'Your Planner',
-                //         email: 'yourplaneer2023@gmail.com',
-                //     }, // Change to your verified sender
-                //     subject: 'Your Appointment is Booked Successfully',
-                //     // text: 'and easy to do anywhere, even with Node.js',
-                // html: `<p>Your appointment has been booked Successfully. Appointmet ID: <b>${Appid}</b> <br/>Please Find Your Submitted details:</p><br/>
+                const responseData = await response.json();
+                // const emailSendConfig = {
+                //     SecureToken: "dde2d440-cb13-4dc3-9be8-691cb3f5929a",
+                //     To: email,
+                //     From: "santysadhu02@gmail.com",
+                //     From_Name: "Your Planner",
+                //     Subject: "Your Appointment is Booked Successfully",
+                //     Body: `
+                //         <p>Your appointment has been booked Successfully. Appointmet ID: <b>${Appid}</b> <br/>Please Find Your Submitted details:</p><br/>
                 //         <p><b>Full Name: </b>${fullName}</p>
                 //         <p><b>Email: </b>${email}</p>
                 //         <p><b>Contact No: </b>${contactNo}</p>
-                //         <p><b>Adress: </b>${address1}, ${address2}, ${pinCode}</p>
+                //         <p><b>Address: </b>${address1}, ${address2}, ${pinCode}</p>
                 //         <p><b>Vendor Id: </b>${vendorItem?.id}</p>
                 //         <p><b>Vendor Name: </b>${vendorItem?.firstName}</p>
                 //         <p><b>Vendor Company Name: </b>${vendorItem?.company}</p>
@@ -160,53 +166,24 @@ export default function Appointment() {
                 //         <p>Thank you for using our service. We look forward to seeing you soon.</p><br/>
                 //         <p>***Note: This is system generated email. Please don't reply to this email. For any enquiry please contact this:<b>+91 99323 33440 </b>*** </p><br/>
                 //         <p>Thanks & Regards</p>
-                //         <p>Your Planner</p>`,
-                //   }
-                //   sendgrid
-                //     .send(msg)
-                //     .then(() => { 
-                //       console.log('Email sent')
-                //     })
-                //     .catch((error) => {
-                //       console.error(error)
-                //     })
-
-                const emailSendConfig = {
-                    SecureToken: "dde2d440-cb13-4dc3-9be8-691cb3f5929a",
-                    To: email,
-                    From: "santysadhu02@gmail.com",
-                    From_Name: "Your Planner",
-                    Subject: "Your Appointment is Booked Successfully",
-                    Body: `
-                        <p>Your appointment has been booked Successfully. Appointmet ID: <b>${Appid}</b> <br/>Please Find Your Submitted details:</p><br/>
-                        <p><b>Full Name: </b>${fullName}</p>
-                        <p><b>Email: </b>${email}</p>
-                        <p><b>Contact No: </b>${contactNo}</p>
-                        <p><b>Address: </b>${address1}, ${address2}, ${pinCode}</p>
-                        <p><b>Vendor Id: </b>${vendorItem?.id}</p>
-                        <p><b>Vendor Name: </b>${vendorItem?.firstName}</p>
-                        <p><b>Vendor Company Name: </b>${vendorItem?.company}</p>
-                        <p><b>Vendor Register As: </b>${vendorItem?.register}</p>
-                        <p><b>Booking Date: </b>${Date().toString().slice(0, 10)}</p>
-                        <br/>
-                        <p>Vendor will connect you within 24hrs. And this appointment will be valid for 7days only.</p>
-                        <p>Thank you for using our service. We look forward to seeing you soon.</p><br/>
-                        <p>***Note: This is system generated email. Please don't reply to this email. For any enquiry please contact this:<b>+91 99323 33440 </b>*** </p><br/>
-                        <p>Thanks & Regards</p>
-                        <p>Your Planner</p>
-                  `
-                };
-                if(window.Email){
-                    window.Email.send(emailSendConfig).then(console.log("Email Sent Successfully."));
+                //         <p>Your Planner</p>
+                //   `
+                // };
+                // if(window.Email){
+                //     window.Email.send(emailSendConfig).then(console.log("Email Sent Successfully."));
+                // }
+                if (response.ok && responseData.success) {
+                    setIsLoading(false);
+                    setFields(true);
+                    setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
+                    setAlertStatus("success");
+                    setTimeout(() => {
+                        setFields(false);
+                    }, 4000);
+                    clearData();
+                } else {
+                    throw new Error(responseData.message || 'Failed to send the email.');
                 }
-                setIsLoading(false);
-                setFields(true);
-                setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
-                setAlertStatus("success");
-                setTimeout(() => {
-                    setFields(false);
-                }, 4000);
-                clearData();
             }
         } catch (error) {
             console.log(error);
