@@ -134,7 +134,7 @@ export default function Appointment() {
                     BookingDate: Date(),
                     isDone: false,
                 };
-                saveAppointment(dataApp, Appid);
+                
                 const response = await fetch('/SendEmail.php', {
                     method: 'POST',
                     body: JSON.stringify(dataApp),
@@ -173,6 +173,7 @@ export default function Appointment() {
                 //     window.Email.send(emailSendConfig).then(console.log("Email Sent Successfully."));
                 // }
                 if (response.ok && responseData.success) {
+                    saveAppointment(dataApp, Appid);
                     setIsLoading(false);
                     setFields(true);
                     setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
@@ -295,6 +296,7 @@ export default function Appointment() {
 
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Fill Your Appointment Details</h3>
+                        <form>
                         <div class="gap-8 row flex justify-center flex-wrap my-10">
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="fullname">Full Name</label>
@@ -326,6 +328,7 @@ export default function Appointment() {
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="pinCode" name="pinCode" maxLength={6} value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
                             </div>
                         </div>
+                        </form>
                     </div>
                     <div className="">
                         <button

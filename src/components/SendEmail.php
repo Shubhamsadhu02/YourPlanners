@@ -24,7 +24,8 @@ function sendEmail($cfrom, $vmailto, $subject1, $subject2, $message1, $message2,
     //     return true;
     // }
     if($cfrom!= NULL){
-        mail($cfrom, $subject1, $message1, $headers)
+        mail($cfrom, $subject1, $message1, $headers);
+        return true;
     }
 }
 
