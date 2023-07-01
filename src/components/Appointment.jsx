@@ -7,7 +7,7 @@ import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
-// import sendgrid from '@sendgrid/mail';
+import axios from 'axios';
 
 export default function Appointment() {
     // const nodemailer = require('nodemailer');
@@ -134,18 +134,11 @@ export default function Appointment() {
                     BookingDate: Date(),
                     isDone: false,
                 };
-                
-                const response = await fetch('/SendEmail.php', {
-                    method: 'POST',
-                    body: JSON.stringify(dataApp),
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                  });
-                  
-                  const responseData = await response.json();
-                  console.log(responseData);
-                  if (response.ok && responseData.success) {
+
+                const response = await axios.post('/SendEmail.php', dataApp);
+                const responseData = response.data;
+
+                if (response.status === 200 && responseData.success) {
                     saveAppointment(dataApp, Appid);
                     setIsLoading(false);
                     setFields(true);
@@ -155,9 +148,33 @@ export default function Appointment() {
                       setFields(false);
                     }, 4000);
                     clearData();
-                  } else {
+                } else {
                     throw new Error(responseData.message || 'Failed to send the email.');
-                  }                  
+                }
+
+                // const response = await fetch('./SendEmail.php', {
+                //     method: 'POST',
+                //     body: JSON.stringify(dataApp),
+                //     headers: {
+                //       'Content-Type': 'application/json',
+                //     },
+                //   });
+
+                //   const responseData = await response.json();
+                //   console.log(responseData);
+                //   if (response.ok && responseData.success) {
+                //     saveAppointment(dataApp, Appid);
+                //     setIsLoading(false);
+                //     setFields(true);
+                //     setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
+                //     setAlertStatus("success");
+                //     setTimeout(() => {
+                //       setFields(false);
+                //     }, 4000);
+                //     clearData();
+                //   } else {
+                //     throw new Error(responseData.message || 'Failed to send the email.');
+                //   }                  
             }
         } catch (error) {
             console.log(error);
@@ -270,37 +287,37 @@ export default function Appointment() {
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Fill Your Appointment Details</h3>
                         <form>
-                        <div class="gap-8 row flex justify-center flex-wrap my-10">
-                            <div className="flex flex-col">
-                                <label className='text-textBlue' for="fullname">Full Name</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="fullName" name="fullname" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="First Name" />
-                            </div>
-                            <div className="flex flex-col">
-                                <label className='text-textBlue' for="contactNo">WhatsApp No</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="WhatsApp No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
-                            </div>
+                            <div class="gap-8 row flex justify-center flex-wrap my-10">
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="fullname">Full Name</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="fullName" name="fullname" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="First Name" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="contactNo">WhatsApp No</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="WhatsApp No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
+                                </div>
 
-                            <div className="flex flex-col">
-                                <label className='text-textBlue' for="email">Email Id</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} />
-                            </div>
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="email">Email Id</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
 
-                            <div className="flex flex-col">
-                                <label className='text-textBlue' for="address1">Address Line1</label>
-                                <div className="relative">
-                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address1" name="address1" value={address1} onChange={(e) => setAddress1(e.target.value)} placeholder="Address Line 1" />
-                                    <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{address1.length}/{30}</div>
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="address1">Address Line1</label>
+                                    <div className="relative">
+                                        <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address1" name="address1" value={address1} onChange={(e) => setAddress1(e.target.value)} placeholder="Address Line 1" />
+                                        <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{address1.length}/{30}</div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="address2">Address Line2</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address2" name="address2" value={address2} onChange={(e) => setAddress2(e.target.value)} placeholder="Address Line2" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="pinCode">Pin Code</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="pinCode" name="pinCode" maxLength={6} value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
                                 </div>
                             </div>
-                            <div className="flex flex-col">
-                                <label className='text-textBlue' for="address2">Address Line2</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address2" name="address2" value={address2} onChange={(e) => setAddress2(e.target.value)} placeholder="Address Line2" />
-                            </div>
-                            <div className="flex flex-col">
-                                <label className='text-textBlue' for="pinCode">Pin Code</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="pinCode" name="pinCode" maxLength={6} value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
-                            </div>
-                        </div>
                         </form>
                     </div>
                     <div className="">

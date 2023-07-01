@@ -1,4 +1,7 @@
 <?php
+// Set the response header to indicate JSON content
+header('Content-Type: application/json');
+
 // Retrieve the request payload from the React component
 $requestPayload = json_decode(file_get_contents('php://input'), true);
 
@@ -46,9 +49,6 @@ if ($result1 && $result2) {
     'message' => 'Failed to send the email.'
   );
 }
-
-// Set the response header to indicate JSON content
-header('Content-Type: application/json');
 
 echo json_encode($response);
 ?>
