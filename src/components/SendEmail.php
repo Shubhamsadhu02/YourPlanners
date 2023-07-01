@@ -1,13 +1,16 @@
 <?php
+// Retrieve the request payload from the React component
+$requestPayload = json_decode(file_get_contents('php://input'), true);
+
 // Getting customer data
-$mailto = $_POST['vContactNo'];  // Vendor email address
-$cname = $_POST['fullName']; // Getting customer name
-$fromEmail = $_POST['email']; // Getting customer email
-$contactNo = $_POST['contactNo']; // Getting customer phone number
-$id = $_POST['id'];
+$vmail = $requestPayload['vContactNo'];  // Vendor email address
+$cname = $requestPayload['fullName']; // Getting customer name
+$cmail = $requestPayload['email']; // Getting customer email
+$contactNo = $requestPayload['contactNo']; // Getting customer phone number
+$id = $requestPayload['id'];
 $subject2 = "Confirmation: Message was submitted successfully | HMA WebDesign"; // For customer confirmation
 
-$vName = $_POST['vName'];
+$vName = $requestPayload['vName'];
 
 // Email body Customer will receive
 $message = "Dear " . $cname . ",\n"
@@ -24,12 +27,12 @@ $message2 = "Dear " . $vName . ",\n"
   . "Phone Number: " . $contactNo ;
 
 // Email headers
-$headers = "From: " . $fromEmail; // Client email, Vendor will receive
-$headers2 = "From: " . $mailto; // This will receive client
+$headers = "From: " . $cmail; // Client email, Vendor will receive
+$headers2 = "From: " . $vmail; // This will receive client
 
 // PHP mailer function
-$result1 = mail($mailto, $subject2, $message, $headers); // This email sent to vendor address
-$result2 = mail($fromEmail, $subject2, $message2, $headers2); // This confirmation email to client
+$result1 = mail($vmail, $subject2, $message, $headers); // This email sent to vendor address
+$result2 = mail($cmail, $subject2, $message2, $headers2); // This confirmation email to client
 
 // Checking if mails sent successfully
 if ($result1 && $result2) {
