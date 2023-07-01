@@ -313,6 +313,7 @@ export default function Appointment() {
                         </button>
                         <button
                             type="submit"
+                            name='submit'
                             className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!fullName || !email || !contactNo || !address1 || !address2 || !pinCode
                                 ? 'bg-blue-200 cursor-not-allowed'
                                 : 'bg-blue-500 hover:bg-blue-700'

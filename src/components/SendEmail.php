@@ -47,5 +47,8 @@ if ($result1 && $result2) {
   );
 }
 
+// Set the response header to indicate JSON content
+header('Content-Type: application/json');
+
 echo json_encode($response);
 ?>
