@@ -53,3 +53,22 @@ if (sendEmail($cfrom, $vmailto, $subject1, $subject2, $message1, $message2, $hea
 } else {
     echo json_encode(['success' => false, 'message' => 'Failed to send the email.']);
 }
+
+
+<p>Your appointment has been booked Successfully. Appointmet ID: <b>${Appid}</b> <br/>Please Find Your Submitted details:</p><br/>
+                //         <p><b>Full Name: </b>${fullName}</p>
+                //         <p><b>Email: </b>${email}</p>
+                //         <p><b>Contact No: </b>${contactNo}</p>
+                //         <p><b>Address: </b>${address1}, ${address2}, ${pinCode}</p>
+                //         <p><b>Vendor Id: </b>${vendorItem?.id}</p>
+                //         <p><b>Vendor Name: </b>${vendorItem?.firstName}</p>
+                //         <p><b>Vendor Company Name: </b>${vendorItem?.company}</p>
+                //         <p><b>Vendor Register As: </b>${vendorItem?.register}</p>
+                //         <p><b>Booking Date: </b>${Date().toString().slice(0, 10)}</p>
+                //         <br/>
+                //         <p>Vendor will connect you within 24hrs. And this appointment will be valid for 7days only.</p>
+                //         <p>Thank you for using our service. We look forward to seeing you soon.</p><br/>
+                //         <p>***Note: This is system generated email. Please don't reply to this email. For any enquiry please contact this:<b>+91 99323 33440 </b>*** </p><br/>
+                //         <p>Thanks & Regards</p>
+                //         <p>Your Planner</p>
+                //   `
