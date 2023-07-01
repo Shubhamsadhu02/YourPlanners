@@ -1,58 +1,48 @@
 <?php
+// Getting customer data
+$mailto = $_POST['vContactNo'];  // Vendor email address
+$cname = $_POST['fullName']; // Getting customer name
+$fromEmail = $_POST['email']; // Getting customer email
+$contactNo = $_POST['contactNo']; // Getting customer phone number
+$id = $_POST['id'];
+$subject2 = "Confirmation: Message was submitted successfully | HMA WebDesign"; // For customer confirmation
 
-// Function to send the email
-function sendEmail($cfrom, $vmailto, $subject1, $subject2, $message1, $message2, $headers) {
-    // $mail = new PHPMailer;
-    // $mail->isSMTP();
-    // $mail->Host = 'your-smtp-host';  // Replace with your SMTP host
-    // $mail->SMTPAuth = true;
-    // $mail->Username = 'yourplannercontact@gmail.com';  // Replace with your SMTP username
-    // $mail->Password = 'your-smtp-password';  // Replace with your SMTP password
-    // $mail->SMTPSecure = 'tls';
-    // $mail->Port = 587;  // Replace with your SMTP port
+$vName = $_POST['vName'];
 
-    // $mail->setFrom('yourplanner2023@gmail.com', 'Your Planner');  // Replace with your email and name
-    // $mail->addAddress($cfrom);
+// Email body Customer will receive
+$message = "Dear " . $cname . ",\n"
+  ."Thank you for booking an appointment with us. Vendor will get back to you shortly!" . "\n"
+  ."You submitted the following details: " . "\n" 
+  ."Appointment Id: " . $id . "\n"
+  . "Phone Number: " . $contactNo ;
 
-    // $mail->isHTML(true);
-    // $mail->Subject = $subject1;
-    // $mail->Body = $message1;
+// Message for Vendor will receive
+$message2 = "Dear " . $vName . ",\n"
+  ."Thank you for booking an appointment with us. Vendor will get back to you shortly!" . "\n"
+  ."You submitted the following details: " . "\n" 
+  ."Appointment Id: " . $id . "\n"
+  . "Phone Number: " . $contactNo ;
 
-    // if (!$mail->send()) {
-    //     return false;
-    // } else {
-    //     return true;
-    // }
-    if($cfrom!= NULL){
-        mail($cfrom, $subject1, $message1, $headers);
-        return true;
-    }
-}
+// Email headers
+$headers = "From: " . $fromEmail; // Client email, Vendor will receive
+$headers2 = "From: " . $mailto; // This will receive client
 
-// Get the POST data from the requests
-$data = json_decode(file_get_contents('php://input'), true);
+// PHP mailer function
+$result1 = mail($mailto, $subject2, $message, $headers); // This email sent to vendor address
+$result2 = mail($fromEmail, $subject2, $message2, $headers2); // This confirmation email to client
 
-$fullName = $data['fullName'];
-$vName = $data['vName'];
-$cfrom = $data['email'];
-$vmailto = $data['vemail'];
-$headers = "From: yourplannercontact@gmail.com";
-
-// Compose the email message
-$subject1 = 'Your Appointment Confirmation';
-$message1 = "Dear $fullName,<br><br>";
-$message1 .= "Thank you for booking an appointment. Vendor will contact you within 24hrs.<br><br>";
-$message1 .= "Best regards,<br>Your Company";
-
-$subject2 = 'New Appointment';
-$message2 = "Dear $vName,<br><br>";
-$message2 .= "$fullName is Booked an appointment with. Please connect them.<br><br>";
-$message2 .= "Best regards,<br>Your Company";
- 
-// Send the email
-if (sendEmail($cfrom, $vmailto, $subject1, $subject2, $message1, $message2, $headers)) {
-    echo json_encode(['success' => true]);
+// Checking if mails sent successfully
+if ($result1 && $result2) {
+  $response = array(
+    'success' => true,
+    'message' => 'Email sent successfully.'
+  );
 } else {
-    echo json_encode(['success' => false, 'message' => 'Failed to send the email.']);
+  $response = array(
+    'success' => false,
+    'message' => 'Failed to send the email.'
+  );
 }
+
+echo json_encode($response);
 ?>
