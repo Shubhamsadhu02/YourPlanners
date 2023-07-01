@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BiCalendarAlt, BiCalendarCheck, BiDotsVertical } from "react-icons/bi";
 import { RiVideoUploadFill } from "react-icons/ri";
 import { GrCloudUpload, GrDocumentUpload } from "react-icons/gr";
-import { BsFillTelephoneFill } from "react-icons/bs";
+import { BsFillBuildingFill, BsFillTelephoneFill } from "react-icons/bs";
 import { IoIdCard, IoLocationSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
@@ -188,7 +188,7 @@ export default function Profile() {
               <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll scrollbar-thin bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
                 <RxCross2
                   size={30}
-                  className=" float-right mb-6 cursor-pointer"
+                  className=" absolute right-10 mb-6 cursor-pointer"
                   onClick={() => navigate('/')}
                 />
                 <div className="flex flex-col justify-center items-center md:grid md:grid-cols-2 gap-2">
@@ -326,8 +326,8 @@ export default function Profile() {
                           ) : (
                             videoes.map((video) => (
                               <div key={video.id} className="">
-                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('youtu.be/')[1].split('&')[0]}/mqdefault.jpg`} alt="" 
-                                className=' w-64 h-150 rounded-md border-2 border-gray-200 cursor-pointer object-cover'
+                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('youtu.be/')[1].split('&')[0]}/mqdefault.jpg`} alt=""
+                                  className=' w-64 h-150 rounded-md border-2 border-gray-200 cursor-pointer object-cover'
                                   onClick={() => setSelectedVideo(video)} />
                               </div>
                             ))
@@ -352,13 +352,22 @@ export default function Profile() {
                                   return (
                                     <div
                                       key={item.id}
-                                      className="w-full h-[180px] min-w-[275px] md:w-300 md:min-w-[300px] bg-blue-100 rounded-lg py-2 px-4 hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
+                                      className="w-full h-auto min-w-[275px] md:w-300 md:min-w-[300px] bg-blue-100 rounded-lg py-2 px-4 hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
                                     >
 
+
                                       <div className="w-full flex flex-col overflow-hidden">
-                                        <p className=" text-textColor font-semibold text-base md:text-lg truncate w-56 capitalize" >
-                                          {item.vemail === user.email ? item.fullName : (item.email === user.email ? item.vCompany : null)}
-                                        </p>
+                                        <div className="flex items-center gap-1">
+                                          <p className=" text-base font-semibold mt-3 text-textColor truncate">
+                                            {item.vemail === user.email ? "Customer Details" : (item.email === user.email ? "Vendor Details" : null)}
+                                          </p>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                        {item.vemail === user.email ? <BsPersonCircle className="text-textColor" /> : (item.email === user.email ? <BsFillBuildingFill className="text-textColor" /> : null)}
+                                          <p className=" text-sm text-textColor capitalize truncate" >
+                                            {item.vemail === user.email ? item.fullName : (item.email === user.email ? item.vCompany : null)}
+                                          </p>
+                                        </div>
                                         <div className="flex items-center gap-1">
                                           <MdEmail className="text-textColor" />
                                           <p className="mt-1 text-sm text-textColor">
@@ -398,27 +407,27 @@ export default function Profile() {
                                           </p>
                                         </div>
                                         <div className="">
-                                        {item.email === user.email ? (
-                                          <>
-                                          <div className="flex items-center gap-1">
-                                          <p className=" text-base font-semibold mt-3 text-textColor truncate">
-                                            Customer Details
-                                          </p>
-                                        </div>
-                                          <div className="flex items-center gap-1">
-                                          <BsPersonCircle className="text-textColor" />
-                                          <p className="text-sm text-textColor truncate">
-                                            {item.fullName}
-                                          </p>
-                                        </div>
-                                        <div className="flex items-center gap-1">
-                                          <BsFillTelephoneFill className="text-textColor" />
-                                              <p className="text-sm text-textColor truncate">
-                                                {item.contactNo}
-                                              </p>
-                                          </div>
-                                          </>
-                                        ) : ""}
+                                          {item.email === user.email ? (
+                                            <>
+                                              <div className="flex items-center gap-1">
+                                                <p className=" text-base font-semibold mt-3 text-textColor truncate">
+                                                  Customer Details
+                                                </p>
+                                              </div>
+                                              <div className="flex items-center gap-1">
+                                                <BsPersonCircle className="text-textColor" />
+                                                <p className="text-sm text-textColor capitalize truncate">
+                                                  {item.fullName}
+                                                </p>
+                                              </div>
+                                              <div className="flex items-center gap-1">
+                                                <BsFillTelephoneFill className="text-textColor" />
+                                                <p className="text-sm text-textColor truncate">
+                                                  {item.contactNo}
+                                                </p>
+                                              </div>
+                                            </>
+                                          ) : ""}
                                         </div>
                                       </div>
                                     </div>
