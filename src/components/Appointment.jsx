@@ -135,34 +135,10 @@ export default function Appointment() {
                     isDone: false,
                 };
 
-                const response = await axios.post('/SendEmail.php', dataApp);
-                const responseData = response.data;
+                // const response = await axios.post('/SendEmail.php', dataApp);
+                // const responseData = response.data;
 
-                if (response.status === 200 && responseData.success) {
-                    saveAppointment(dataApp, Appid);
-                    setIsLoading(false);
-                    setFields(true);
-                    setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
-                    setAlertStatus("success");
-                    setTimeout(() => {
-                      setFields(false);
-                    }, 4000);
-                    clearData();
-                } else {
-                    throw new Error(responseData.message || 'Failed to send the email.');
-                }
-
-                // const response = await fetch('./SendEmail.php', {
-                //     method: 'POST',
-                //     body: JSON.stringify(dataApp),
-                //     headers: {
-                //       'Content-Type': 'application/json',
-                //     },
-                //   });
-
-                //   const responseData = await response.json();
-                //   console.log(responseData);
-                //   if (response.ok && responseData.success) {
+                // if (response.status === 200 && responseData.success) {
                 //     saveAppointment(dataApp, Appid);
                 //     setIsLoading(false);
                 //     setFields(true);
@@ -172,9 +148,33 @@ export default function Appointment() {
                 //       setFields(false);
                 //     }, 4000);
                 //     clearData();
-                //   } else {
+                // } else {
                 //     throw new Error(responseData.message || 'Failed to send the email.');
-                //   }                  
+                // }
+
+                const response = await fetch('./SendEmail.php', {
+                    method: 'POST',
+                    body: JSON.stringify(dataApp),
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+
+                  const responseData = await response.json();
+                  console.log(responseData);
+                  if (response.ok && responseData.success) {
+                    saveAppointment(dataApp, Appid);
+                    setIsLoading(false);
+                    setFields(true);
+                    setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
+                    setAlertStatus("success");
+                    setTimeout(() => {
+                      setFields(false);
+                    }, 4000);
+                    clearData();
+                  } else {
+                    throw new Error(responseData.message || 'Failed to send the email.');
+                  }                  
             }
         } catch (error) {
             console.log(error);

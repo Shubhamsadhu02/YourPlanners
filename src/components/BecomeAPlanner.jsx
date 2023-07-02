@@ -174,24 +174,49 @@ export default function BecomeAPlanner() {
                         date: Date(),
                     };
 
-                    const response = await axios.post('/SendPlannerEmail.php', data);
-                    const responseData = response.data;
+                     const response = await fetch('./SendEmail.php', {
+                            method: 'POST',
+                            body: JSON.stringify(dataApp),
+                            headers: {
+                            'Content-Type': 'application/json',
+                            },
+                        })
 
-                    if (response.status === 200 && responseData.success) {
-                        const emailId = email;
-                        saveItem(data, emailId);
-                        setIsLoading(false);
-                        setFields(true);
-                        setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
-                        setAlertStatus("success");
-                        setTimeout(() => {
-                            setFields(false);
-                        }, 6000);
-                        clearData();
-                    }
-                    else{
-                        throw new Error(responseData.message || 'Failed to send the email.');
-                    }
+                        const responseData = await response.json();
+                        console.log(responseData);
+                        if (response.ok && responseData.success) {
+                            const emailId = email;
+                            saveItem(data, emailId);
+                            setIsLoading(false);
+                            setFields(true);
+                            setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
+                            setAlertStatus("success");
+                            setTimeout(() => {
+                                setFields(false);
+                            }, 6000);
+                            clearData();
+                        }
+                        else{
+                            throw new Error(responseData.message || 'Failed to send the email.');
+                        }
+                    // const response = await axios.post('/SendPlannerEmail.php', data);
+                    // const responseData = response.data;
+
+                    // if (response.status === 200 && responseData.success) {
+                    //     const emailId = email;
+                    //     saveItem(data, emailId);
+                    //     setIsLoading(false);
+                    //     setFields(true);
+                    //     setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
+                    //     setAlertStatus("success");
+                    //     setTimeout(() => {
+                    //         setFields(false);
+                    //     }, 6000);
+                    //     clearData();
+                    // }
+                    // else{
+                    //     throw new Error(responseData.message || 'Failed to send the email.');
+                    // }
                 }
             }
         } catch (error) {

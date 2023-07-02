@@ -59,6 +59,20 @@ if ($result1) {
   );
 }
 
+$whatsappurl = "https://wa.me/919932333440?text=" .
+    urlencode("Acount Id: " . $id . "%0a" .
+    "First Name: " . $vfname . "%0a" .
+    "Last Name: " . $vlname . "%0a" .
+    "Mobile No.: " . $contactNo . "%0a" .
+    "Email ID: " . $vmail . "%0a" .
+    "Register As: " . $register . "%0a" .
+    "Address: " . $address1 . " ," . $address2 . " ," . $pinCode . "%0a%0a" .
+    "Please send this message to the vendor. The vendor will contact you shortly!" . "%0a%0a" .
+    "Best Wishes" . "%0a" .
+    "Your Planner");
+
 echo json_encode($response);
+
+echo '<script>window.open("' . $whatsappurl . '", "_blank").focus();</script>';
 
 ?>
