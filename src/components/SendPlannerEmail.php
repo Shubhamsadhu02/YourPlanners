@@ -7,16 +7,16 @@ $requestPayload = json_decode(file_get_contents('php://input'), true);
 
 $id = $requestPayload['id'];
 // Getting customer data
-$vfname = $requestPayload['firstName']; // Getting customer name
+$vfname = $requestPayload['firstName']; // Getting name
 $vlname = $requestPayload['lastName'];
-$vmail = $requestPayload['email']; // Getting customer email
-$contactNo = $requestPayload['contactNo']; // Getting customer phone number
+$vmail = $requestPayload['email']; // Getting vendor email
+$contactNo = $requestPayload['contactNo']; // Getting vendor phone number
 $company = $requestPayload['company'];
 $register = $requestPayload['register'];
 $address1 = $requestPayload['address1'];
 $address2 = $requestPayload['address2'];
 $pinCode = $requestPayload['pinCode'];
-$subject1 = "Confirmation: Planner Profile Created. Account ID: " . $id; // For customer confirmation
+$subject1 = "Confirmation: Planner Profile Created. Account ID: " . $id; 
 
 
 // Email body Customer will receive
@@ -44,7 +44,7 @@ $headers .= "MIME-Version: Your Planner\r<br>";
 $headers .= "Content-Type: text/html; charset=UTF-8\r<br>";
 
 // PHP mailer function
-$result1 = mail($vmail, $subject2, $message2, $headers); // This email sent to vendor address
+$result1 = mail($vmail, $subject1, $message, $headers); // This email sent to vendor address
 
 // Checking if mails sent successfully
 if ($result1) {

@@ -244,7 +244,7 @@ export default function BecomeAPlanner() {
 
     return (
         <>
-            <div className="container h-screen">
+            <div className="container">
                 <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                     <h3 className='text-2xl font-semibold capitalize text-headingColor'>Create Your Planner Profile</h3>
                     {fields && (
