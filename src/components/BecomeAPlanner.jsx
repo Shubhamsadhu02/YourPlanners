@@ -174,9 +174,9 @@ export default function BecomeAPlanner() {
                         date: Date(),
                     };
 
-                     const response = await fetch('./SendEmail.php', {
+                     const response = await fetch('./SendPlannerEmail.php', {
                             method: 'POST',
-                            body: JSON.stringify(dataApp),
+                            body: JSON.stringify(data),
                             headers: {
                             'Content-Type': 'application/json',
                             },
