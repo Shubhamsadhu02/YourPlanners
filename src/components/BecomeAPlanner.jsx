@@ -261,16 +261,17 @@ export default function BecomeAPlanner() {
     function openWhatsApp(responseData) {
         const { id, firstName, lastName, contactNo, email, register, address1, address2, pinCode } = responseData;
 
-        const formattedData = `Account Id: ${id}\n` +
-            `First Name: ${firstName}\n` +
-            `Last Name: ${lastName}\n` +
-            `Mobile No.: ${contactNo}\n` +
-            `Email ID: ${email}\n` +
-            `Register As: ${register}\n` +
-            `Address1: ${address1}\n` +
-            `Address2: ${address2}\n` +
-            `Pin Code: ${pinCode}\n\n` +
-            `Please send us this message. We will authenticate you shortly!.\n\n` +
+        const formattedData = `*Account Id:* ${id}\n` +
+            `*First Name:* ${firstName}\n` +
+            `*Last Name:* ${lastName}\n` +
+            `*Mobile No.:* ${contactNo}\n` +
+            `*Email ID:* ${email}\n` +
+            `*Register As:* ${register}\n` +
+            `*Address1:* ${address1}\n` +
+            `*Address2:* ${address2}\n` +
+            `*Pin Code:* ${pinCode}\n\n` +
+            `Please send us this message. We will authenticate you shortly!\n` +
+            `Feel free to contact us.\nEmail: yourplaneer2023@gmail.com \nContact no.: +91 99323 33440 \n\n`+
             `Best Wishes`;
         console.log(responseData.id);
         console.log(responseData.email);

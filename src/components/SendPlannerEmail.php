@@ -30,7 +30,7 @@ $message = "<html><body>
   Vendor Name: $vfname $vlname <br>
   Vendor Company Name: $company <br>
   Vendor Register As: $register <br><br>
-  Your profile will be approved after verification with 24 hours. If not approved, please feel free to contact us.<br> Email: yourplaneer2023@gmail.com, Contact no.: +91 99323 33440 <br>
+  Your profile will be approved after checking within 24 hours. If it is not approved, feel free to contact us.<br> Email: yourplaneer2023@gmail.com, Contact no.: +91 99323 33440 <br>
   Thank you for using our service. We look forward to seeing you soon.<br><br>
   <em><strong>Note:</strong> This is a system-generated email. Please don't reply to this email. For any inquiry, please contact us at +91 99323 33440.</em> <br><br>
   Best Wishes<br>
