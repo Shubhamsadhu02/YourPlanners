@@ -174,31 +174,32 @@ export default function BecomeAPlanner() {
                         date: Date(),
                     };
 
-                     const response = await fetch('./SendPlannerEmail.php', {
-                            method: 'POST',
-                            body: JSON.stringify(data),
-                            headers: {
+                    const response = await fetch('./SendPlannerEmail.php', {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
                             'Content-Type': 'application/json',
-                            },
-                        })
+                        },
+                    });
 
-                        const responseData = await response.json();
-                        console.log(responseData);
-                        if (response.ok && responseData.success) {
-                            const emailId = email;
-                            saveItem(data, emailId);
-                            setIsLoading(false);
-                            setFields(true);
-                            setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
-                            setAlertStatus("success");
-                            setTimeout(() => {
-                                setFields(false);
-                            }, 6000);
-                            clearData();
-                        }
-                        else{
-                            throw new Error(responseData.message || 'Failed to send the email.');
-                        }
+                    const responseData = await response.json();
+                    console.log(responseData);
+                    if (response.ok && responseData.success) {
+                        const emailId = email;
+                        saveItem(data, emailId);
+                        setIsLoading(false);
+                        setFields(true);
+                        openWhatsApp(responseData);
+                        setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
+                        setAlertStatus("success");
+                        setTimeout(() => {
+                            setFields(false);
+                        }, 6000);
+                        clearData();
+                    }
+                    else {
+                        throw new Error(responseData.message || 'Failed to send the email.');
+                    }
                     // const response = await axios.post('/SendPlannerEmail.php', data);
                     // const responseData = response.data;
 
@@ -234,7 +235,7 @@ export default function BecomeAPlanner() {
     };
 
     const database = getFirestore();
-    const plannerItemsCollection = collection(database,'plannerItems');
+    const plannerItemsCollection = collection(database, 'plannerItems');
 
     async function checkEmailExists(email) {
         console.log(email);
@@ -256,6 +257,28 @@ export default function BecomeAPlanner() {
         setPinCode("");
         setImageAsset(null);
     };
+
+    function openWhatsApp(responseData) {
+        const { id, firstName, lastName, contactNo, email, register, address1, address2, pinCode } = responseData;
+
+        const formattedData = `Account Id: ${id}\n` +
+            `First Name: ${firstName}\n` +
+            `Last Name: ${lastName}\n` +
+            `Mobile No.: ${contactNo}\n` +
+            `Email ID: ${email}\n` +
+            `Register As: ${register}\n` +
+            `Address1: ${address1}\n` +
+            `Address2: ${address2}\n` +
+            `Pin Code: ${pinCode}\n\n` +
+            `Please send us this message. We will authenticate you shortly!.\n\n` +
+            `Best Wishes`;
+        console.log(responseData.id);
+        console.log(responseData.email);
+
+        const whatsappURL = `https://wa.me/919932333440?text=${encodeURIComponent(formattedData)}`;
+
+        window.open(whatsappURL, "_blank");
+    }
 
     const fetchData = async () => {
         await getAllPlannerItems().then((data) => {
