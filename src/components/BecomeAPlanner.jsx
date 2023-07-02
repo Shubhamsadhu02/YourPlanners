@@ -174,7 +174,7 @@ export default function BecomeAPlanner() {
                         date: Date(),
                     };
 
-                    const response = await axios.post('/SendPlannerEmail.php', dataApp);
+                    const response = await axios.post('/SendPlannerEmail.php', data);
                     const responseData = response.data;
 
                     if (response.status === 200 && responseData.success) {
