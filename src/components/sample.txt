@@ -72,3 +72,36 @@ if (sendEmail($cfrom, $vmailto, $subject1, $subject2, $message1, $message2, $hea
                 //         <p>Thanks & Regards</p>
                 //         <p>Your Planner</p>
                 //   `
+
+
+
+function whatsapp(){
+
+var name = document.getElementById("name").value; 
+var mobile = document.getElementById("mobile").value; 
+var email = document.getElementById("email").value; 
+var message = document.getElementById("message").value; 
+
+var whatsappurl="https://wa.me/91?text=" 
++"Name of Customer:" + name + "%0a" 
++"Mobile No.:" + mobile + "%0a" 
++"Email ID:"+email+ "%0a" 
++"Message:" + message; 
+
+window.open(whatsappuri,"_blank").focus();
+}
+
+
+$whatsappurl = "https://wa.me/91" . urlencode($vContactNo) . "?text=" .
+    urlencode("Appointment Id: " . $id . "%0a" .
+    "Name of Customer: " . $cname . "%0a" .
+    "Mobile No.: " . $contactNo . "%0a" .
+    "Email ID: " . $cmail . "%0a" .
+    "Address: " . $address1 . " ," . $address2 . " ," . $pinCode . "%0a%0a" .
+    "Please send this message to the vendor. The vendor will contact you shortly!" . "%0a%0a" .
+    "Best Wishes" . "%0a" .
+    "Your Planner");
+
+echo json_encode($response);
+
+echo '<script>window.open("' . $whatsappurl . '", "_blank").focus();</script>';

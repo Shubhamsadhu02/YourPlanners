@@ -173,16 +173,25 @@ export default function BecomeAPlanner() {
                         isVerified: false,
                         date: Date(),
                     };
-                    const emailId = email;
-                    saveItem(data, emailId);
-                    setIsLoading(false);
-                    setFields(true);
-                    setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
-                    setAlertStatus("success");
-                    setTimeout(() => {
-                        setFields(false);
-                    }, 6000);
-                    clearData();
+
+                    const response = await axios.post('/SendPlannerEmail.php', dataApp);
+                    const responseData = response.data;
+
+                    if (response.status === 200 && responseData.success) {
+                        const emailId = email;
+                        saveItem(data, emailId);
+                        setIsLoading(false);
+                        setFields(true);
+                        setMsg("Data Uploaded Successfully And It Is Pending For Verification.");
+                        setAlertStatus("success");
+                        setTimeout(() => {
+                            setFields(false);
+                        }, 6000);
+                        clearData();
+                    }
+                    else{
+                        throw new Error(responseData.message || 'Failed to send the email.');
+                    }
                 }
             }
         } catch (error) {

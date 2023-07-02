@@ -20,44 +20,51 @@ $vmail = $requestPayload['vemail'];  // Vendor email address
 $vName = $requestPayload['vName'];
 $vcompany = $requestPayload['vCompany'];
 $vregister = $requestPayload['vRegister'];
+$vContactNo = $requestPayload['vContactNo'];
 $subject2 = "New Appointment. Appointmet ID: " . $id;
 
 $bookingdate = $requestPayload['BookingDate'];
 
 // Email body Customer will receive
-$message = "Dear " . $cname . ",\n\n"
-  . "Thank you for booking an appointment with us. Vendor will get back to you shortly!" . "\n"
-  . "You submitted the following details: " . "\n" 
-  . "Appointment Id: " . $id . "\n"
-  . "Phone Number: " . $contactNo . "\n"
-  . "Address: " . $address1 . ", " . $address2 . ", " . $pinCode . "\n"
-  . "Vendor Name: " . $vName . "\n"
-  . "Vendor Company Name: " . $vcompany . "\n"
-  . "Vendor Register As: " . $vregister . "\n"
-  . "Booking Date: " . $bookingdate . "\n\n"
-  . "The vendor will contact you within 24 hours. And this appointment will only be valid for 7 days." ."\n"
-  . "Thank you for using our service. We look forward to seeing you soon." . "\n\n"
-  . "***Note: This is system generated email. Please don't reply to this email. For any enquiry please contact this: +91 99323 33440 ***" . "\n\n"
-  . "Best Wishes" . "\n"
-  . "Your Planner";
+$message = "<html><body>
+  Dear $cname,<br><br>
+  Thank you for booking an appointment with us. The vendor will get back to you shortly! <br>
+  You submitted the following details: <br>
+  <b>Appointment ID:</b> $id <br>
+  Phone Number: $contactNo <br>
+  Address: $address1 , $address2 , $pinCode <br>
+  Vendor Name: $vName <br>
+  Vendor Company Name: $vcompany <br>
+  Vendor Register As: $vregister <br>
+  Booking Date: <strong>$bookingdate</strong><br><br>
+  The vendor will contact you within 24 hours. And this appointment will only be valid for 7 days. <br>
+  Thank you for using our service. We look forward to seeing you soon.<br><br>
+  <em><strong>Note:</strong> This is a system-generated email. Please don't reply to this email. For any inquiry, please contact us at +91 99323 33440.</em> <br><br>
+  Best Wishes<br>
+  Your Planner
+  </body></html>";
 
 // Message for Vendor will receive
-$message2 = "Dear " . $vName . ",\n\n"
-  . $cname ." has scheduled an appointment with you. Please get in touch with them shortly." . "\n"
-  . "Customer details: " . "\n" 
-  . "Appointment Id: " . $id . "\n"
-  . "Name: " . $cname . "\n"
-  . "Phone Number: " . $contactNo . "\n"
-  . "Email: " . $cmail . "\n"
-  . "Address: " . $address1 . ", " . $address2 . ", " . $pinCode . "\n"
-  . "Booking Date: " . $bookingdate . "\n\n"
-  . "Thank you for using our service. We look forward to seeing you soon." . "\n\n"
-  . "***Note: This is system generated email. Please don't reply to this email. For any enquiry please contact this: +91 99323 33440 ***" . "\n\n"
-  . "Best Wishes" . "\n"
-  . "Your Planner";
+$message2 = "<html><body>
+  Dear $vName,<br><br>
+  $cname has scheduled an appointment with you. Please get in touch with them shortly. <br>
+  Customer details: <br>
+  <b>Appointment ID:</b> $id <br>
+  Name: $cname <br>
+  Phone Number: $contactNo <br>
+  Email: $cmail <br>
+  Address: $address1, $address2, $pinCode <br>
+  Booking Date: <strong>$bookingdate</strong> <br><br>
+  Thank you for using our service. We look forward to seeing you soon. <br><br>
+  <em><strong>Note:</strong> This is a system-generated email. Please don't reply to this email. For any inquiry, please contact us at +91 99323 33440.</em> <br><br>
+  Best Wishes <br>
+  Your Planner
+  </body></html>";
 
 // Email headers
 $headers = "From: " . "no-reply@yourplanners.in"; // Client email, Vendor will receive
+$headers .= "MIME-Version: Your Planner\r<br>";
+$headers .= "Content-Type: text/html; charset=UTF-8\r<br>";
 
 // PHP mailer function
 $result1 = mail($vmail, $subject2, $message2, $headers); // This email sent to vendor address
@@ -77,4 +84,5 @@ if ($result1 && $result2) {
 }
 
 echo json_encode($response);
+
 ?>
