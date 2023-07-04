@@ -273,7 +273,6 @@ export default function BecomeAPlanner() {
             `Please send us this message. We will authenticate you shortly!\n` +
             `Feel free to contact us.\nEmail: yourplaneer2023@gmail.com \nContact no.: +91 99323 33440 \n\n`+
             `Best Wishes`;
-        console.log(responseData.id);
         console.log(responseData.email);
 
         const whatsappURL = `https://wa.me/919932333440?text=${encodeURIComponent(formattedData)}`;

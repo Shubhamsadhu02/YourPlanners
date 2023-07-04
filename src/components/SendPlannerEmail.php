@@ -20,28 +20,29 @@ $subject1 = "Confirmation: Planner Profile Created. Account ID: " . $id;
 
 
 // Email body Customer will receive
-$message = "<html><body>
-  Dear $vfname,<br><br>
-  Thank you for become a planner. <br>
-  You submitted the following details: <br>
-  <b>Appointment ID:</b> $id <br>
-  Phone Number: $contactNo <br>
-  Address: $address1 , $address2 , $pinCode <br>
-  Vendor Name: $vfname $vlname <br>
-  Vendor Company Name: $company <br>
-  Vendor Register As: $register <br><br>
-  Your profile will be approved after checking within 24 hours. If it is not approved, feel free to contact us.<br> Email: yourplaneer2023@gmail.com, Contact no.: +91 99323 33440 <br>
-  Thank you for using our service. We look forward to seeing you soon.<br><br>
-  <em><strong>Note:</strong> This is a system-generated email. Please don't reply to this email. For any inquiry, please contact us at +91 99323 33440.</em> <br><br>
-  Best Wishes<br>
-  Your Planner
-  </body></html>";
+$message = "Dear " . $vfname . ",\n\n"
+  . "Thank you for becoming a planner." . "\n"
+  . "You submitted the following details:" . "\n"
+  . "Appointment ID: " . $id . "\n"
+  . "Vendor First Name: " . $vfname . "\n"
+  . "Vendor Last Name: " . $vlname . "\n"
+  . "Vendor Company Name: " . $company . "\n"
+  . "Vendor Register As: " . $register . "\n"
+  . "Phone Number: " . $contactNo . "\n"
+  . "Address: " . $address1 . "," . $address2 . "," . $pinCode . "\n\n"
+  . "Your profile will be approved after checking within 24 hours. If it is not approved, feel free to contact us." . "\n"
+  . "Email: yourplanner2023@gmail.com" . "\n" . "Contact no.: +91 99323 33440" . "\n"
+  . "Thank you for using our service. We look forward to seeing you soon." . "\n\n"
+  . "Note: This is a system-generated email. Please don't reply to this email. For any inquiry, please contact us at +91 99323 33440." . "\n\n"
+  . "Best Wishes" . "\n"
+  . "Your Planner";
+
 
 
 // Email headers
 $headers = "From: " . "no-reply@yourplanners.in"; // Client email, Vendor will receive
-$headers .= "MIME-Version: Your Planner\r<br>";
-$headers .= "Content-Type: text/html; charset=UTF-8\r<br>";
+$headers .= "MIME-Version: Your Planner\r\n";
+$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
 // PHP mailer function
 $result1 = mail($vmail, $subject1, $message, $headers); // This email sent to vendor address
