@@ -7,7 +7,7 @@ import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
-import axios from 'axios';
+// import axios from 'axios';
 
 export default function Appointment() {
     // const nodemailer = require('nodemailer');

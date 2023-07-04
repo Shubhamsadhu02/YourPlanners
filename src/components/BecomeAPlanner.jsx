@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion";
-import axios from 'axios';
+// import axios from 'axios';
 import { MdCloudUpload, MdDelete } from "react-icons/md";
 import Loader from "./Loader";
 
