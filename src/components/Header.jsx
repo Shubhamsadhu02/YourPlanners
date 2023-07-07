@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { MdLogout, MdAdminPanelSettings } from "react-icons/md";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { GrContact } from "react-icons/gr";
+import { AiFillInfoCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { FaHeart, FaUserAlt } from 'react-icons/fa';
 
@@ -18,6 +21,7 @@ const Header = () => {
 
   const [{ user, cartShow, cartItems }, dispatch] = useStateValue();
   const [isMenu, setIsMenu] = useState(false);
+  const [ishamMenu, setIsHamMenu] = useState(false);
   const navigate = useNavigate();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -73,7 +77,7 @@ const Header = () => {
               <Link to={"/planner-form"}><button type="submit" className="border-2 border-blue-500 hover:bg-blue-700 text-blue-700 hover:text-white font-bold py-2 px-4 rounded">Become A Planner</button></Link>
             </div>
 
-            <div
+            {/* <div
               className="relative flex items-center justify-center"
               onClick={showCart}
             >
@@ -85,7 +89,7 @@ const Header = () => {
                   </p>
                 </div>
               )}
-            </div>
+            </div> */}
 
             <div className="relative">
               {user ? (
@@ -145,7 +149,43 @@ const Header = () => {
 
       {/* mobile */}
       <div className="flex items-center justify-between md:hidden w-full h-full ">
-        <div
+        <div className="relative flex items-center justify-center"
+          onClick={() => setIsHamMenu(!ishamMenu)}>
+          <GiHamburgerMenu className="text-textColor text-2xl  cursor-pointer" />
+          {ishamMenu && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              className=" bg-gray-50 shadow-xl rounded-lg flex flex-col absolute top-10 left-1 w-48 p-2"
+            >
+              <Link to={"/planner-form"}>
+                <p
+                  className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-blue-500 text-white gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-base"
+                  onClick={() => setIsMenu(false)}>
+                  Become A planner
+                </p>
+              </Link>
+              <Link to={"/about-us"}>
+              <p
+                className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"
+                onClick={() => setIsMenu(false)}
+              >
+                About Us <AiFillInfoCircle/>
+              </p>
+              </Link>
+              <Link to={"/contact-us"}>
+              <p
+                className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"
+                onClick={() => setIsMenu(false)}
+              >
+                Contact Us <GrContact/>
+              </p>
+              </Link>
+            </motion.div>
+          )}
+        </div>
+        {/* <div
           className="relative flex items-center justify-center"
           onClick={showCart}
         >
@@ -157,25 +197,25 @@ const Header = () => {
               </p>
             </div>
           )}
-        </div>
+        </div> */}
 
         <Link to={"/"} className="flex items-center gap-2">
           <p className="text-xl font-bold text-gray-700">Your Planner</p>
         </Link>
 
         <div className="relative">
-        {user ? (
-                <motion.img
-                  whileTap={{ scale: 0.8 }}
-                  src={user.photoURL}
-                  className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
-                  alt="userprofile"
-                  onClick={login}
-                />
-              ) : (
-                <button className=" bg-blue-700 hover:bg-blue-500 text-white font-semibold py-1 px-2 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
-              )}
-              {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
+          {user ? (
+            <motion.img
+              whileTap={{ scale: 0.8 }}
+              src={user.photoURL}
+              className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
+              alt="userprofile"
+              onClick={login}
+            />
+          ) : (
+            <button className=" bg-blue-700 hover:bg-blue-500 text-white font-semibold py-1 px-2 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
+          )}
+          {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
           {isMenu && (
             <motion.div
               initial={{ opacity: 0, scale: 0.6 }}

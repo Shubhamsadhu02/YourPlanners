@@ -159,7 +159,7 @@ export default function Admin() {
                                                     </tr>
                                                 ) : (
                                                     plannerItems?.filter((n) => n.isVerified === true)
-                                                        .filter((n) => n.company.toLowerCase().includes(searchValue.toLowerCase()) || n.register.toLowerCase().includes(searchValue.toLowerCase()) || n.firstName.toLowerCase().includes(searchValue.toLowerCase()))
+                                                        .filter((n) => n.company.toLowerCase().includes(searchValue.toLowerCase()) || n.register.toLowerCase().includes(searchValue.toLowerCase()) || n.firstName.toLowerCase().includes(searchValue.toLowerCase()) || n.id.includes(searchValue))
                                                         .map((item, index) => (
                                                             <tr>
                                                                 <td className='px-6 py-4 capitalize break-words'>{item.firstName}</td>

@@ -21,7 +21,7 @@ const MenuContainer = () => {
     <section className="my-16 container" id="menu">
       <div className="w-full flex flex-col items-center justify-center">
         <p className="text-2xl font-semibold capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-16 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-blue-400 to-blue-600 transition-all ease-in-out duration-100 mr-auto">
-          Search Your Planner
+          Search Your Planner Here
         </p>
 
         <div className="w-full flex items-center justify-start lg:justify-center gap-8 py-6 overflow-x-scroll scrollbar-none">
@@ -64,7 +64,7 @@ const MenuContainer = () => {
           <div className="relative w-80 lg:w-96">
             <input
               type="text"
-              placeholder="Search With Company Name, Pincode..."
+              placeholder="Search With Id, Company Name, Pincode..."
               value={searchValue}
               onChange={handleSearch}
               className="border rounded my-8 p-3 w-80 lg:w-96 hover:border-indigo-500  text-sm md:text-base drop-shadow-xl"
@@ -73,7 +73,7 @@ const MenuContainer = () => {
           </div>
           <div className="w-full flex justify-center md:gap-5 lg:gap-5 flex-wrap">
             {plannerItems?.filter((n) => n.register === filter && n.isVerified === true)
-              .filter((n) => n.company.toLowerCase().includes(searchValue.toLowerCase()) || n.pinCode.includes(searchValue))
+              .filter((n) => n.company.toLowerCase().includes(searchValue.toLowerCase()) || n.pinCode.includes(searchValue) || n.id.includes(searchValue))
               .map((item, index) => (
                 <div className="xl:w-1/4 md:w-1/3 lg:w-1/3 2xl:w-1/5">
                   <RowContainer key={index} flag={false} data={item} />

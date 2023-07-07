@@ -173,24 +173,21 @@ export default function VendorProfile({ setOpen, data }) {
                     </div>
 
                     <div className="hidden mt-8 w-full md:flex items-center">
-                      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 mr-4 rounded-full" onClick={() => setItems([...cartItems, data])}>Add to Favourite</button>
+                      {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 mr-4 rounded-full" onClick={() => setItems([...cartItems, data])}>Add to Favourite</button> */}
                       <Link to={`/appointment-form?id=${data?.id}`}><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 rounded-full">Book An Appointment</button></Link>
                     </div>
-                    <div className="md:hidden mt-10 w-full flex justify-center items-center">
-                      <motion.div
+                    <div className="md:hidden mt-5 w-full flex justify-center items-center">
+                      {/* <motion.div
                         whileTap={{ scale: 0.75 }}
                         className="w-8 h-8 rounded-full bg-cartNumBg flex items-center justify-center cursor-pointer -mt-8 mr-4"
                         onClick={() => setItems([...cartItems, data])}
                       >
                         <FaHeart className="text-white" />
-                      </motion.div>
+                      </motion.div> */}
 
-                      <motion.div
-                        whileTap={{ scale: 0.75 }}
-                        className="w-8 h-8 rounded-full bg-cartNumBg flex items-center justify-center cursor-pointer -mt-8"
-                      >
-                        <Link to={`/appointment-form?id=${data?.id}`}><AiFillSchedule className="text-white" /></Link>
-                      </motion.div>
+                      <div className="">
+                        <Link to={`/appointment-form?id=${data?.id}`}><button type="submit" className="bg-blue-500 hover:bg-blue-700 w-56 text-white text-sm md:text-base font-medium py-1 px-4 rounded-full">Book An Appointment</button></Link>
+                      </div>
 
                     </div>
                   </div>

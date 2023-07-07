@@ -52,6 +52,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
           <div
             key={data?.id}
             className="w-full h-[180px] min-w-[275px] md:w-300 md:min-w-[300px]  bg-cardOverlay rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
+            onClick={() => setOpen(!open)}
           >
             <div className="w-full flex items-center justify-between">
               <motion.div
@@ -64,13 +65,13 @@ const RowContainer = ({ flag, data, scrollValue }) => {
                   className="w-36 h-36 object-cover rounded-full"
                 />
               </motion.div>
-              <motion.div
+              {/* <motion.div
                 whileTap={{ scale: 0.75 }}
                 className="w-8 h-8 rounded-full bg-cartNumBg flex items-center justify-center cursor-pointer -mt-8"
                 onClick={() => setItems([...cartItems, data])}
               >
                 <FaHeart className="text-white" />
-              </motion.div>
+              </motion.div> */}
               <motion.div
                 whileTap={{ scale: 0.75 }}
                 className="w-8 h-8 rounded-full bg-cartNumBg flex items-center justify-center cursor-pointer -mt-8"
