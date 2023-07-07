@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Header, MainContainer } from "./components";
 import { useStateValue } from "./context/StateProvider";
@@ -14,6 +14,8 @@ import Profile from "./components/Profile";
 import UploadImage from "./components/UploadImage";
 import Admin from "./components/Admin/Admin";
 import Copyright from "./components/Copyright";
+import AboutUs from "./components/AboutUs";
+import ContactUs from "./components/ContactUs";
 
 const App = () => {
   const [{ plannerItems, appointmentItems }, dispatch] = useStateValue();
@@ -37,12 +39,15 @@ const App = () => {
     fetchData();
   }, []);
 
+  const location = useLocation();
+  const isProfilePage = location.pathname === '/profile';
+
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="w-screen h-auto flex flex-col bg-primary">
         <Header />
 
-        <main className="mt-14 md:mt-20 px-4 md:px-16 py-4 w-full">
+        <main className="mt-14 md:mt-24 px-4 md:px-16 py-4 w-full">
           <Routes>
             <Route path="/*" element={<MainContainer />} />
             <Route path="/planner-form" element={<BecomeAPlanner />} />
@@ -52,10 +57,13 @@ const App = () => {
             <Route path="/edit" element={<EditDetails/>} />
             <Route path="/upload-image" element={<UploadImage/>} />
             <Route path="/admin-dashboard" element={<Admin/>} />
+            <Route path="/about-us" element={<AboutUs/>} />
+            <Route path="/contact-us" element={<ContactUs/>} />
           </Routes>
         </main>
 
-        <Copyright/>
+        {!isProfilePage && <Copyright />}
+
       </div>
     </AnimatePresence>
   );

@@ -33,6 +33,12 @@ export const uploadVideoItem = async (datavideo, emailId) => {
   });
 };
 
+export const uploadContactUsItem = async (dataContact) => {
+  await setDoc(doc(firestore, "ContactUs", Date.now()), dataContact, {
+    merge: true,
+  });
+};
+
 
 // getall items
 export const getAllPlannerItems = async () => {
@@ -62,6 +68,14 @@ export const getAllImagesItems = async () => {
 export const getAllVideoesItems = async () => {
   const items = await getDocs(
     query(collection(firestore, "uploadVideoes"), orderBy("id", "desc"))
+  );
+
+  return items.docs.map((doc) => doc.data());
+};
+
+export const getAllContactUsItems = async () => {
+  const items = await getDocs(
+    query(collection(firestore, "ContactUs"), orderBy("id", "desc"))
   );
 
   return items.docs.map((doc) => doc.data());

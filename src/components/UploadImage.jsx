@@ -192,7 +192,7 @@ export default function UploadImage({ setOpenImage }) {
                               </div>
 
                               <p className="mt-32 text-gray-400 text-center">
-                                Use High Quality Images less than 20MB
+                                Use High Quality Images less than 10MB
                               </p>
                             </div>
                             <input

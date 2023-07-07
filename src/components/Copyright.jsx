@@ -16,10 +16,10 @@ export default function Copyright() {
             <p className='font-semibold text-sm nd:text-base text-textBlue'>Copyright 2023 &#169; YourPlanner All Right Reserved</p>
         </div>
         <div className="social">
-          <p className='text-textBlue text-sm md:text-small font-semibold'>Follow us</p>
+          <p className='text-textBlue text-sm md:text-small font-semibold'>Follow Us</p>
           <div className="flex items-center mt-2 md:mt-3">
-            <Link to={"#"}><AiFillInstagram className="text-textBlue text-2xl md:text-3xl hover:text-blue-700"/></Link>
-            <Link to={"#"}><BsFacebook className="text-textBlue text-xl md:text-2xl hover:text-blue-700 ml-4"/></Link>
+            <Link to={"https://instagram.com/yourplanner.in?igshid=NGExMmI2YTkyZg== "} target='__blank'><AiFillInstagram className="text-textBlue text-2xl md:text-3xl hover:text-blue-700"/></Link>
+            <Link to={"https://www.facebook.com/people/your-planner/100094191707304/?mibextid=ZbWKwL"} target='__blank'><BsFacebook className="text-textBlue text-xl md:text-2xl hover:text-blue-700 ml-4"/></Link>
           </div>
         </div>
       </div>

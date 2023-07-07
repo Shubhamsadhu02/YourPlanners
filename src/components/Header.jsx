@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { MdLogout, MdEdit, MdAdminPanelSettings } from "react-icons/md";
+import { MdLogout, MdAdminPanelSettings } from "react-icons/md";
 import { motion } from "framer-motion";
 import { FaHeart, FaUserAlt } from 'react-icons/fa';
 
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "../firebase.config";
 
-import Avatar from "../img/avatar.png";
+// import Avatar from "../img/avatar.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useStateValue } from "../context/StateProvider";
 import { actionType } from "../context/reducer";
@@ -63,8 +63,12 @@ const Header = () => {
             <p className="text-xl font-bold text-gray-700">Your Planner</p>
           </Link>
 
-          <div className="flex items-center gap-8">
+          <div className="flex justify-evenly w-60">
+            <Link to={"/about-us"}><p className="text-textColor text-base font-semibold p-4 hover:text-blue-800 hover:border-b-2 hover:border-blue-800">About Us</p></Link>
+            <Link to={"/contact-us"}><p className="text-textColor text-base font-semibold p-4 hover:text-blue-800 hover:border-b-2 hover:border-blue-800">Contact Us</p></Link>
+          </div>
 
+          <div className="flex items-center gap-8">
             <div className="">
               <Link to={"/planner-form"}><button type="submit" className="border-2 border-blue-500 hover:bg-blue-700 text-blue-700 hover:text-white font-bold py-2 px-4 rounded">Become A Planner</button></Link>
             </div>

@@ -174,7 +174,7 @@ export default function BecomeAPlanner() {
                         date: Date(),
                     };
 
-                    const response = await fetch('./SendPlannerEmail.php', {
+                    const response = await fetch('./php/SendPlannerEmail.php', {
                         method: 'POST',
                         body: JSON.stringify(data),
                         headers: {
@@ -200,7 +200,7 @@ export default function BecomeAPlanner() {
                     else {
                         throw new Error(responseData.message || 'Failed to send the email.');
                     }
-                    // const response = await axios.post('/SendPlannerEmail.php', data);
+                    // const response = await axios.post('./php/SendPlannerEmail.php', data);
                     // const responseData = response.data;
 
                     // if (response.status === 200 && responseData.success) {
@@ -311,7 +311,7 @@ export default function BecomeAPlanner() {
                             {msg}
                         </motion.div>
                     )}
-                    <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
+                    <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 rounded-lg p">
                         {isLoading ? (
                             <Loader />
                         ) : (

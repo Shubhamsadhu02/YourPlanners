@@ -41,11 +41,6 @@ export default function Appointment() {
                     console.log('No matching documents.');
                     return;
                 }
-                const doc = querySnapshot.docs[0];
-                // const vendorData = doc.data();
-                // const email = vendorData.email;
-                // console.log(email);
-                // setvEmail(email);
                 const vdoc = querySnapshot.docs[0];
                 const plannerItemsData = vdoc.data();
                 setVendorItem(plannerItemsData);
@@ -135,7 +130,7 @@ export default function Appointment() {
                     isDone: false,
                 };
 
-                // const response = await axios.post('/SendEmail.php', dataApp);
+                // const response = await axios.post('./php/SendEmail.php', dataApp);
                 // const responseData = response.data;
 
                 // if (response.status === 200 && responseData.success) {
@@ -152,7 +147,7 @@ export default function Appointment() {
                 //     throw new Error(responseData.message || 'Failed to send the email.');
                 // }
 
-                const response = await fetch('./SendEmail.php', {
+                const response = await fetch('./php/SendEmail.php', {
                     method: 'POST',
                     body: JSON.stringify(dataApp),
                     headers: {
@@ -255,7 +250,7 @@ export default function Appointment() {
                             {msg}
                         </motion.div>
                     )}
-                    <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
+                    <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Vendor's Details</h3>
                         {vendorItem ? (
                             <form>
@@ -284,7 +279,7 @@ export default function Appointment() {
 
                     </div>
 
-                    <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
+                    <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Fill Your Appointment Details</h3>
                         <form>
                             <div class="gap-8 row flex justify-center flex-wrap my-10">

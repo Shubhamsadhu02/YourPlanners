@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
-import { BiCloudUpload } from 'react-icons/bi';
-import { MdDelete } from 'react-icons/md';
 import { RxCross2 } from 'react-icons/rx';
 import { motion } from "framer-motion";
-import Loader from './Loader';
-import { categories } from "../utils/data";
-import {
-    deleteObject,
-    getDownloadURL,
-    ref,
-    uploadBytesResumable,
-} from "firebase/storage";
-import { storage } from "../firebase.config";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { getAllVideoesItems, uploadVideoItem } from "../utils/firebaseFunctions";
