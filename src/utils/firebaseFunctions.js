@@ -34,7 +34,7 @@ export const uploadVideoItem = async (datavideo, emailId) => {
 };
 
 export const uploadContactUsItem = async (dataContact) => {
-  await setDoc(doc(firestore, "ContactUs", Date.now()), dataContact, {
+  await setDoc(doc(firestore, "ContactUs", `${Date.now()}`), dataContact, {
     merge: true,
   });
 };

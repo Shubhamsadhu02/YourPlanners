@@ -17,7 +17,7 @@ $subject2 = $fname . " has submitted a inquiry.";
 
 
 // Email body Customer will receive
-$message = "Dear " . $fname . ",\n\n"
+$message1 = "Dear " . $fname . ",\n\n"
   . "Thank you for submitting your inquiry." . "\n"
   . "You submitted the following information:" . "\n"
   . "Full Name: " . $fname . "\n"
@@ -29,7 +29,7 @@ $message = "Dear " . $fname . ",\n\n"
   . "Best Wishes" . "\n"
   . "Your Planner";
 
-  $message1 = $fname . "has submitted a inquiry." . "\n"
+$message2 = $fname . "has submitted a inquiry." . "\n"
   . "Submitted information:" . "\n"
   . "Full Name: " . $fname . "\n"
   . "Email: " . $cmail . "\n"
@@ -46,7 +46,7 @@ $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
 $mail = "no-reply@yourplanners.in";
 // PHP mailer function
-$result1 = mail($cmail, $subject1, $message, $headers); // This email sent to client address
+$result1 = mail($cmail, $subject1, $message1, $headers); // This email sent to client address
 $result2 = mail($mail, $subject2, $message2, $headers);
 
 // Checking if mails sent successfully

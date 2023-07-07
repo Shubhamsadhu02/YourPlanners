@@ -114,7 +114,7 @@ export default function ContactUs() {
     await getAllContactUsItems().then((dataContact) => {
       dispatch({
         type: actionType.SET_CONTACTUS_DETAILS,
-        uploadcontacus: dataContact,
+        uploadcontactus: dataContact,
       });
     });
   };
