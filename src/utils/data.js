@@ -40,5 +40,10 @@ export const categories = [
     id: 4,
     name: "Catrer",
     urlParamName: "catrer",
+  },
+  {
+    id: 5,
+    name: "Printing",
+    urlParamName: "printing",
   }
 ];

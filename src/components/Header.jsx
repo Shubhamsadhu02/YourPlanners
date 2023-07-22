@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { MdLogout, MdAdminPanelSettings } from "react-icons/md";
+import { MdLogout, MdAdminPanelSettings, MdEmail } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { GrContact } from "react-icons/gr";
 import { AiFillInfoCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { FaHeart, FaUserAlt } from 'react-icons/fa';
@@ -64,10 +63,11 @@ const Header = () => {
         {/* desktop & tablet */}
         <div className="hidden md:flex w-full h-full items-center justify-between">
           <Link to={"/"} className="flex items-center gap-2">
-            <p className="text-xl font-bold text-gray-700">Your Planner</p>
+            <p className="text-xl font-bold text-textBlue">Your Planner</p>
           </Link>
 
-          <div className="flex justify-evenly w-60">
+          <div className="flex justify-evenly">
+            <Link to={"/"}><p className="text-textColor text-base font-semibold p-4 hover:text-blue-800 hover:border-b-2 hover:border-blue-800">Home</p></Link>
             <Link to={"/about-us"}><p className="text-textColor text-base font-semibold p-4 hover:text-blue-800 hover:border-b-2 hover:border-blue-800">About Us</p></Link>
             <Link to={"/contact-us"}><p className="text-textColor text-base font-semibold p-4 hover:text-blue-800 hover:border-b-2 hover:border-blue-800">Contact Us</p></Link>
           </div>
@@ -163,24 +163,24 @@ const Header = () => {
                 <p
                   className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-blue-500 text-white gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-base"
                   onClick={() => setIsMenu(false)}>
-                  Become A planner
+                  Become A Planner
                 </p>
               </Link>
               <Link to={"/about-us"}>
-              <p
-                className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"
-                onClick={() => setIsMenu(false)}
-              >
-                About Us <AiFillInfoCircle/>
-              </p>
+                <p
+                  className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={() => setIsMenu(false)}
+                >
+                  About Us <AiFillInfoCircle />
+                </p>
               </Link>
               <Link to={"/contact-us"}>
-              <p
-                className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"
-                onClick={() => setIsMenu(false)}
-              >
-                Contact Us <GrContact/>
-              </p>
+                <p
+                  className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-gray-200 gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={() => setIsMenu(false)}
+                >
+                  Contact Us <MdEmail />
+                </p>
               </Link>
             </motion.div>
           )}
@@ -200,7 +200,7 @@ const Header = () => {
         </div> */}
 
         <Link to={"/"} className="flex items-center gap-2">
-          <p className="text-xl font-bold text-gray-700">Your Planner</p>
+          <p className="text-xl font-bold text-textBlue">Your Planner</p>
         </Link>
 
         <div className="relative">
@@ -247,7 +247,7 @@ const Header = () => {
                 <p
                   className="m-2 p-2 rounded-md shadow-md flex items-center justify-center bg-blue-500 text-white gap-3 cursor-pointer hover:bg-gray-300 transition-all duration-100 ease-in-out text-base"
                   onClick={() => setIsMenu(false)}>
-                  Become A planner
+                  Become A Planner
                 </p>
               </Link>
               <p

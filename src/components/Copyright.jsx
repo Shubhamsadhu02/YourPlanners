@@ -9,11 +9,11 @@ export default function Copyright() {
       <div className=" flex flex-col md:flex-row items-center justify-between">
         <div className="logo">
         <Link to={"/"} className="flex items-center">
-            <p className=" text-lg md:text-xl font-bold text-gray-700">Your Planner</p>
+            <p className=" text-lg md:text-xl font-bold text-textBlue">Your Planner</p>
           </Link>
         </div>
         <div className="copyright">
-            <p className='font-semibold text-sm nd:text-base text-textBlue'>Copyright 2023 &#169; YourPlanner All Right Reserved</p>
+            <p className='font-semibold text-sm nd:text-base text-textBlue'>Your Planner &#169; {new Date().getFullYear()} All Right Reserved</p>
         </div>
         <div className="social">
           <p className='text-textBlue text-sm md:text-small font-semibold'>Follow Us</p>

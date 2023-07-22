@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { BiCalendarAlt, BiCalendarCheck, BiDotsVertical } from "react-icons/bi";
+import { BiCalendarCheck, BiDotsVertical } from "react-icons/bi";
 import { RiVideoUploadFill } from "react-icons/ri";
-import { GrCloudUpload, GrDocumentUpload } from "react-icons/gr";
+import { GrDocumentUpload } from "react-icons/gr";
 import { BsFillBuildingFill, BsFillTelephoneFill } from "react-icons/bs";
 import { IoIdCard, IoLocationSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { motion } from "framer-motion";
-import Avatar from "../img/avatar.png";
+// import Avatar from "../img/avatar.png";
 import { useStateValue } from "../context/StateProvider";
 import { collection, deleteDoc, doc, getFirestore, onSnapshot, or, query, where } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
@@ -179,6 +179,13 @@ export default function Profile() {
     </div>
   );
 
+  useEffect(() => {
+    if (!user) {
+      alert("Please sign in to view your profile");
+      navigate("/", { replace: true });
+    }
+  }, [user]);
+
   return (
     <>
       <div className="">
@@ -245,7 +252,7 @@ export default function Profile() {
                         </div>
                       )}
 
-                      {data?.isVerified == true ? (
+                      {data?.isVerified === true ? (
                         <div className="">
                           <div className="relative flex items-center">
                             <motion.div
@@ -445,7 +452,7 @@ export default function Profile() {
             </div>
           </div>
         ) : (
-          alert("Please sign in to view your profile")
+          null
         )}
 
 

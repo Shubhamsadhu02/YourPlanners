@@ -2,28 +2,32 @@ import React, { useEffect, useState } from "react";
 // import axios from "axios";
 import Avatar from "../img/avatar.png";
 import { Link } from 'react-router-dom';
-import { motion } from "framer-motion";
-import { useStateValue } from "../context/StateProvider";
-import { actionType } from "../context/reducer";
+// import { motion } from "framer-motion";
+// import { useStateValue } from "../context/StateProvider";
+// import { actionType } from "../context/reducer";
 import { RxCross2 } from 'react-icons/rx';
-import { FaHeart } from 'react-icons/fa';
-import { AiFillSchedule } from 'react-icons/ai'
+// import { FaHeart } from 'react-icons/fa';
+// import { AiFillSchedule } from 'react-icons/ai'
 import { collection, getFirestore, onSnapshot, query, where } from "firebase/firestore";
 import { IoIdCard, IoLocationSharp } from "react-icons/io5";
+
+import { useStateValue } from "../context/StateProvider";
+import Login from "./Login";
 
 export default function VendorProfile({ setOpen, data }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [items, setItems] = useState([]);
-  const [{ cartItems }, dispatch] = useStateValue();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  // const [items, setItems] = useState([]);
+  // const [{ cartItems }, dispatch] = useStateValue();
 
-  const addtocart = () => {
-    dispatch({
-      type: actionType.SET_CARTITEMS,
-      cartItems: items,
-    });
-    localStorage.setItem("cartItems", JSON.stringify(items));
-  };
+  // const addtocart = () => {
+  //   dispatch({
+  //     type: actionType.SET_CARTITEMS,
+  //     cartItems: items,
+  //   });
+  //   localStorage.setItem("cartItems", JSON.stringify(items));
+  // };
 
   // useEffect(() => {
   //   addtocart();
@@ -144,6 +148,9 @@ export default function VendorProfile({ setOpen, data }) {
     </div>
   );
 
+  const [{ user }, dispatch] = useStateValue();
+
+
   return (
     <>
       <div className="">
@@ -173,8 +180,14 @@ export default function VendorProfile({ setOpen, data }) {
                     </div>
 
                     <div className="hidden mt-8 w-full md:flex items-center">
-                      {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 mr-4 rounded-full" onClick={() => setItems([...cartItems, data])}>Add to Favourite</button> */}
-                      <Link to={`/appointment-form?id=${data?.id}`}><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 rounded-full">Book An Appointment</button></Link>
+                      {user ? (<>
+                        {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 mr-4 rounded-full" onClick={() => setItems([...cartItems, data])}>Add to Favourite</button> */}
+                        <Link to={`/appointment-form?id=${data?.id}`}><button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 rounded-full">Book An Appointment</button></Link>
+                      </>) : (<>
+                        {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 mr-4 rounded-full" onClick={() => setItems([...cartItems, data])}>Add to Favourite</button> */}
+                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-4 rounded-full" onClick={() => setIsLoginModalOpen(true)}>Book An Appointment</button>
+                      </>)}
+                      {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
                     </div>
                     <div className="md:hidden mt-5 w-full flex justify-center items-center">
                       {/* <motion.div
@@ -184,14 +197,18 @@ export default function VendorProfile({ setOpen, data }) {
                       >
                         <FaHeart className="text-white" />
                       </motion.div> */}
-
-                      <div className="">
-                        <Link to={`/appointment-form?id=${data?.id}`}><button type="submit" className="bg-blue-500 hover:bg-blue-700 w-56 text-white text-sm md:text-base font-medium py-1 px-4 rounded-full">Book An Appointment</button></Link>
-                      </div>
-
+                      {user ?
+                        (<>
+                          <Link to={`/appointment-form?id=${data?.id}`}><button type="submit" className="bg-blue-500 hover:bg-blue-700 w-56 text-white text-sm md:text-base font-medium py-1 px-4 rounded-full">Book An Appointment</button></Link>
+                        </>) : (<>
+                          <button type="submit" className="bg-blue-500 hover:bg-blue-700 w-56 text-white text-sm md:text-base font-medium py-1 px-4 rounded-full" onClick={() => setIsLoginModalOpen(true)}>Book An Appointment</button>
+                        </>
+                        )}
+                        {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
                     </div>
                   </div>
                 </div>
+                {/* <Link to={`/appointment-form?id=${data?.id}`}><button type="submit" className="bg-blue-500 hover:bg-blue-700 w-56 text-white text-sm md:text-base font-medium py-1 px-4 rounded-full">Book An Appointment</button></Link> */}
 
                 {/* tabs */}
                 <div className="container">
@@ -232,8 +249,8 @@ export default function VendorProfile({ setOpen, data }) {
                           ) : (
                             videoes.map((video) => (
                               <div key={video.id} className="">
-                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('youtu.be/')[1].split('&')[0]}/mqdefault.jpg`} alt="" 
-                                className=' w-64 h-150 rounded-md border-2 border-gray-200 cursor-pointer object-cover'
+                                <img src={`https://img.youtube.com/vi/${video.videoURL.split('youtu.be/')[1].split('&')[0]}/mqdefault.jpg`} alt=""
+                                  className=' w-64 h-150 rounded-md border-2 border-gray-200 cursor-pointer object-cover'
                                   onClick={() => setSelectedVideo(video)} />
                               </div>
                             ))
