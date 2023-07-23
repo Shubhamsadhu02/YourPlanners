@@ -29,6 +29,7 @@ export default function UploadImage({ setOpenImage }) {
   const [{ uploadImages }, dispatch] = useStateValue();
   const [{ user }] = useStateValue();
   const [isImageUploaded, setIsImageUploaded] = useState(false);
+  const [isdotMenu, setisdotMenu] = useState(false);
 
   const uploadImage = (e) => {
     setIsLoading(true);
@@ -192,7 +193,8 @@ export default function UploadImage({ setOpenImage }) {
                               </div>
 
                               <p className="mt-32 text-gray-400 text-center">
-                                Use High Quality Images less than 10MB
+                                Upload One Image at a Time.<br/>
+                                Use High Quality Images Less than 10MB.
                               </p>
                             </div>
                             <input
@@ -232,7 +234,7 @@ export default function UploadImage({ setOpenImage }) {
                     <button
                       type="button"
                       className="px-2 py-1 md:px-4 md:py-2 mr-24 hidden md:inline-block border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
-                      onClick={() => navigate(-1)}
+                      onClick={() => {navigate("/profile"); setOpenImage(false); setisdotMenu(false)}}
                     >
                       Back
                     </button>

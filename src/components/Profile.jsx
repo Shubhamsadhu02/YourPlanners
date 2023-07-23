@@ -186,6 +186,26 @@ export default function Profile() {
     }
   }, [user]);
 
+  const handleUploadImage = () => {
+    setOpenImage(!openImage);
+    if (!openImage) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("upload", "upload-image");
+      const decodedURL = decodeURIComponent(url.href);
+      window.history.pushState({ path: decodedURL }, "", decodedURL);
+    }
+  };
+
+  const handleUploadVideo = () => {
+    setOpenVideo(!openVideo);
+    if (!openVideo) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("upload", "upload-video");
+      const decodedURL = decodeURIComponent(url.href);
+      window.history.pushState({ path: decodedURL }, "", decodedURL);
+    }
+  };
+
   return (
     <>
       <div className="">
@@ -277,7 +297,7 @@ export default function Profile() {
                               >
                                 <div className="">
                                   <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                                    onClick={() => { setOpenImage(!openImage) }} >
+                                    onClick={() => {handleUploadImage();}} >
                                     <GrDocumentUpload className="text-xl text-textColor" /> Upload Image
                                   </p>
                                   {
@@ -286,7 +306,7 @@ export default function Profile() {
                                     ) : null
                                   }
                                   <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                                    onClick={() => { setOpenVideo(!openVideo) }} >
+                                    onClick={handleUploadVideo} >
                                     <RiVideoUploadFill className="text-xl text-textColor" /> Upload Video
                                   </p>
                                   {

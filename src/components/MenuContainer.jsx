@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdMiscellaneousServices } from 'react-icons/md';
 import { categories } from "../utils/data";
 import { motion } from "framer-motion";
@@ -15,6 +15,26 @@ const MenuContainer = () => {
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
   };
+
+  const categoryRef = useRef();
+
+  useEffect(() => {
+    // Check if "register" parameter exists in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const registerParam = urlParams.get("register");
+
+    if (registerParam) {
+      // Find the category with the corresponding urlParamName
+      const matchedCategory = categories.find(
+        (category) => category.urlParamName === registerParam
+      );
+
+      if (matchedCategory) {
+        // Set the filter state to the matched category's urlParamName
+        setFilter(matchedCategory.urlParamName);
+      }
+    }
+  }, []);
 
   return (
 
@@ -33,6 +53,7 @@ const MenuContainer = () => {
                 className={`group ${filter === category.urlParamName ? "bg-cartNumBg" : "bg-card"
                   }  p-3 min-w-[100px] h-28 cursor-pointer rounded-lg drop-shadow-xl flex flex-col gap-3 items-center justify-center hover:bg-cartNumBg `}
                 onClick={() => setFilter(category.urlParamName)}
+                ref={category.urlParamName === filter ? categoryRef : null}
               >
                 <div
                   className={`w-10 h-10 rounded-full shadow-lg ${filter === category.urlParamName

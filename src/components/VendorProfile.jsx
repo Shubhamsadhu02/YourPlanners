@@ -18,6 +18,9 @@ export default function VendorProfile({ setOpen, data }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [{ user }, dispatch] = useStateValue();
+
+
   // const [items, setItems] = useState([]);
   // const [{ cartItems }, dispatch] = useStateValue();
 
@@ -147,9 +150,6 @@ export default function VendorProfile({ setOpen, data }) {
       </div>
     </div>
   );
-
-  const [{ user }, dispatch] = useStateValue();
-
 
   return (
     <>

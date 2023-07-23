@@ -142,13 +142,13 @@ export default function UploadVideo({ setOpenVideo }) {
                                         <button
                                             type="button"
                                             className="px-2 py-1 md:px-4 md:py-2 mr-24 hidden md:inline-block border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
-                                            onClick={() => navigate(-1)}
+                                            onClick={() => {navigate("/profile"); setOpenVideo(false);}}
                                         >
                                             Back
                                         </button>
                                         <button
                                             type="button"
-                                            className={`mt-4 w-full md:w-auto border-none outline-none bg-blue-500 hover:bg-blue-700 px-12 py-2 rounded-lg text-lg text-white font-semibold ${!url || !title
+                                            className={`mt-4 w-full md:w-auto border-none outline-none hover:opacity-75 px-12 py-2 rounded-lg text-lg font-semibold text-white ${!url || !title
                                                 ? 'bg-blue-200 cursor-not-allowed'
                                                 : 'bg-blue-500 hover:bg-blue-700'
                                                 }`}

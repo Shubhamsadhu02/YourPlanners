@@ -30,14 +30,41 @@ const RowContainer = ({ flag, data, scrollValue }) => {
     addtocart();
   }, [items]);
 
+  const handleEyeIconClick = () => {
+    setOpen(!open);
+    // Update the URL when clicking the eye icon with the vendor ID
+    if (!open) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("register", data?.register);
+      url.searchParams.set("Id", data?.id);
+      const decodedURL = decodeURIComponent(url.href);
+      window.history.pushState({ path: decodedURL }, "", decodedURL);
+    }
+  };
 
+  // Function to close the modal and remove the vendor ID from the URL when modal is closed
+  const closeModal = () => {
+    setOpen(false);
+    const url = new URL(window.location.href);
+    url.searchParams.delete("register");
+    url.searchParams.delete("Id");
+    window.history.pushState({ path: url.href }, "", url.href);
+  };
+
+  useEffect(() => {
+    // Check if vendorId exists in the URL when component mounts
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("register")) {
+      setOpen(true);
+    }
+  }, [data]);
 
   return (
     <div
       ref={rowContainer}
       className={`w-full flex items-center md:gap-3 my-0 md:my-12 lg:my-0 scroll-smooth  ${flag
-          ? "overflow-x-scroll scrollbar-none"
-          : "overflow-x-hidden flex-wrap justify-center"
+        ? "overflow-x-scroll scrollbar-none"
+        : "overflow-x-hidden flex-wrap justify-center"
         }`}
     >
       {data && data.length > 0 ? (
@@ -52,7 +79,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
           <div
             key={data?.id}
             className="w-full h-[180px] min-w-[275px] md:w-300 md:min-w-[300px]  bg-cardOverlay rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-evenly relative cursor-pointer"
-            onClick={() => setOpen(!open)}
+            onClick={handleEyeIconClick}
           >
             <div className="w-full flex items-center justify-between">
               <motion.div
@@ -75,7 +102,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
               <motion.div
                 whileTap={{ scale: 0.75 }}
                 className="w-8 h-8 rounded-full bg-cartNumBg flex items-center justify-center cursor-pointer -mt-8"
-                onClick={() => setOpen(!open)}
+                onClick={handleEyeIconClick}
               >
                 <FaEye className="text-white" />
 
@@ -84,22 +111,22 @@ const RowContainer = ({ flag, data, scrollValue }) => {
 
             <div className="w-full flex flex-col items-end justify-end -mt-8 overflow-hidden">
               <p className="text-textColor font-semibold text-base md:text-lg truncate w-28" style={{ textAlign: "end" }}>
-                {data.company}
+                {data?.company}
               </p>
               <p className="mt-1 text-sm text-gray-500 capitalize">
-                {data.register}
+                {data?.register}
               </p>
               <div className="flex items-center gap-1">
-              <IoLocationSharp className="text-gray-700" />
+                <IoLocationSharp className="text-gray-700" />
                 <p className="text-sm text-gray-500 truncate">
-                 {data.pinCode}
+                  {data?.pinCode}
                 </p>
               </div>
             </div>
           </div>
           {
             open ? (
-              <VendorProfile setOpen={setOpen} data={data} />
+              <VendorProfile setOpen={closeModal} data={data} />
             ) : null
           }
         </div>

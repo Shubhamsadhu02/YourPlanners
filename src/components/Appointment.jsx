@@ -151,25 +151,25 @@ export default function Appointment() {
                     method: 'POST',
                     body: JSON.stringify(dataApp),
                     headers: {
-                      'Content-Type': 'application/json',
+                        'Content-Type': 'application/json',
                     },
-                  });
+                });
 
-                  const responseData = await response.json();
-                  console.log(responseData);
-                  if (response.ok && responseData.success) {
+                const responseData = await response.json();
+                console.log(responseData);
+                if (response.ok && responseData.success) {
                     saveAppointment(dataApp, Appid);
                     setIsLoading(false);
                     setFields(true);
                     setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
                     setAlertStatus("success");
                     setTimeout(() => {
-                      setFields(false);
+                        setFields(false);
                     }, 4000);
                     clearData();
-                  } else {
+                } else {
                     throw new Error(responseData.message || 'Failed to send the email.');
-                  }                  
+                }
             }
         } catch (error) {
             console.log(error);
@@ -227,6 +227,30 @@ export default function Appointment() {
     // console.log(vEmail);
     // console.log(vendor);
 
+    const closeModal = () => {
+        navigate(-1);
+
+    };
+
+    useEffect(() => {
+        // Add a popstate event listener to handle navigation back
+        const handlePopstate = () => {
+            const updatedUrl = new URL(window.location.href); 
+            // Check if the vendor  or register is present in the updated URL and close the modal
+            if (updatedUrl.searchParams.has("register")) {
+                updatedUrl.searchParams.delete("register");
+                updatedUrl.searchParams.delete("Id");
+                window.history.pushState({ path: updatedUrl.href }, "", updatedUrl.href);
+            }
+        };
+
+        window.addEventListener("popstate", handlePopstate);
+
+        return () => {
+            // Clean up the event listener when the component unmounts
+            window.removeEventListener("popstate", handlePopstate);
+        };
+    }, [vendorItem]);
 
 
     return (
@@ -319,7 +343,7 @@ export default function Appointment() {
                         <button
                             type="button"
                             className="px-2 py-1 md:px-4 md:py-2 mr-24 hidden md:inline-block border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
-                            onClick={() => navigate(-1)}
+                            onClick={closeModal}
                         >
                             Back
                         </button>
