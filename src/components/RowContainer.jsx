@@ -7,6 +7,7 @@ import { actionType } from "../context/reducer";
 import VendorProfile from "./VendorProfile";
 import Avatar from "../img/avatar.png";
 import { IoLocationSharp } from "react-icons/io5";
+import { useLocation } from "react-router-dom";
 
 const RowContainer = ({ flag, data, scrollValue }) => {
   const rowContainer = useRef();
@@ -53,8 +54,12 @@ const RowContainer = ({ flag, data, scrollValue }) => {
 
   useEffect(() => {
     // Check if vendorId exists in the URL when component mounts
-    const url = new URL(window.location.href);
-    if (url.searchParams.has("register")) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const registerParam = urlParams.get("register");
+    const idParam = urlParams.get("Id");
+
+    // Check if both "register" and "Id" parameters are present in the URL
+    if (registerParam && idParam && data?.id === idParam) {
       setOpen(true);
     }
   }, [data]);
