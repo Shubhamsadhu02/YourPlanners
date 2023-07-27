@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { MdCloudUpload, MdDelete } from "react-icons/md";
 import Loader from "./Loader";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 
 import { useStateValue } from "../context/StateProvider";
 import { storage } from "../firebase.config";
@@ -18,7 +18,7 @@ export default function EditDetails() {
     const [pinCode, setPinCode] = useState("");
     const [imageAsset, setImageAsset] = useState(null);
     const [fields, setFields] = useState(false);
-    const [alertStatus, setAlertStatus] = useState("danger");
+    // const [alertStatus, setAlertStatus] = useState("danger");
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState(null);
@@ -65,7 +65,7 @@ export default function EditDetails() {
                 console.log(error);
                 setFields(true);
                 setMsg("Error while uploading : Try AGain 🙇");
-                setAlertStatus("danger");
+                // setAlertStatus("danger");
                 setTimeout(() => {
                     setFields(false);
                     setIsLoading(false);
@@ -77,7 +77,7 @@ export default function EditDetails() {
                     setIsLoading(false);
                     setFields(true);
                     setMsg("Image uploaded successfully 😊");
-                    setAlertStatus("success");
+                    // setAlertStatus("success");
                     setTimeout(() => {
                         setFields(false);
                     }, 4000);
@@ -94,7 +94,7 @@ export default function EditDetails() {
             setIsLoading(false);
             setFields(true);
             setMsg("Image deleted successfully 😊");
-            setAlertStatus("success");
+            // setAlertStatus("success");
             setTimeout(() => {
                 setFields(false);
             }, 4000);
@@ -115,7 +115,7 @@ export default function EditDetails() {
             setIsLoading(false);
             setFields(true);
             setMsg("Data Updated Successfully.");
-            setAlertStatus("success");
+            // setAlertStatus("success");
             setTimeout(() => {
                 setFields(false);
             }, 4000);
@@ -124,7 +124,7 @@ export default function EditDetails() {
             console.log(error);
             setFields(true);
             setMsg("Error while uploading : Try Again 🙇");
-            setAlertStatus("danger");
+            // setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -204,20 +204,30 @@ export default function EditDetails() {
                     <div key={data?.id} className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                         <h3 className='text-2xl font-semibold capitalize text-headingColor'>Update Your Planner Profile</h3>
                         {fields && (
-                            <motion.div
-                                initial={{ opacity: 0, visibility: "hidden" }}
-                                animate={{ opacity: 1, visibility: "visible" }}
-                                exit={{ opacity: 0, visibility: "hidden" }}
-                                transition={{ duration: 0.3 }}
-                                className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
-                                style={{
-                                    backgroundColor:
-                                        alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
-                                    color: "#fff",
-                                }}
-                            >
-                                {msg}
-                            </motion.div>
+                            // <motion.div
+                            //     initial={{ opacity: 0, visibility: "hidden" }}
+                            //     animate={{ opacity: 1, visibility: "visible" }}
+                            //     exit={{ opacity: 0, visibility: "hidden" }}
+                            //     transition={{ duration: 0.3 }}
+                            //     className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
+                            //     style={{
+                            //         backgroundColor:
+                            //             alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                            //         color: "#fff",
+                            //     }}
+                            // >
+                            //     {msg}
+                            // </motion.div>
+                            <>
+                                <div
+                                    className="fixed inset-0 bg-black opacity-50 z-40"
+                                ></div>
+                                <div className="fixed inset-0 flex items-center justify-center z-50 text-center">
+                                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                                        <p className="text-red-500 font-semibold mb-4">{msg}</p>
+                                    </div>
+                                </div>
+                            </>
                         )}
                         <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 cursor-pointer rounded-lg p">
                             {isLoading ? (

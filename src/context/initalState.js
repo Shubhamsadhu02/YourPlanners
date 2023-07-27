@@ -11,4 +11,5 @@ export const initialState = {
   cartItems: cartInfo,
   uploadImages: null,
   uploadVideoes: null,
+  uploadcontactus: null,
 };

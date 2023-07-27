@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import Loader from "./Loader";
 
 import { getAllAppointmentItems, saveAppointment } from "../utils/firebaseFunctions";
@@ -19,7 +19,7 @@ export default function Appointment() {
     const [address2, setAddress2] = useState("");
     const [pinCode, setPinCode] = useState("");
     const [fields, setFields] = useState(false);
-    const [alertStatus, setAlertStatus] = useState("danger");
+    // const [alertStatus, setAlertStatus] = useState("danger");
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [{ appointmentItems }, dispatch] = useStateValue();
@@ -69,7 +69,7 @@ export default function Appointment() {
         if (!contactNo || contactNo.length !== 10 || contactNo.includes(" ")) {
             setFields(true);
             setMsg("Please enter a valid 10-digit WhatsApp number without spaces.");
-            setAlertStatus("danger");
+            // setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -82,7 +82,7 @@ export default function Appointment() {
         if (!email || !emailRegex.test(email)) {
             setFields(true);
             setMsg("Please enter a valid email address.");
-            setAlertStatus("danger");
+            // setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -94,7 +94,7 @@ export default function Appointment() {
         if (!pinCode || pinCode.length !== 6 || pinCode.includes(" ")) {
             setFields(true);
             setMsg("Please enter a valid pincode without spaces.");
-            setAlertStatus("danger");
+            // setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -105,12 +105,12 @@ export default function Appointment() {
         try {
             if (!fullName || !email || !contactNo || !address1 || !address2 || !pinCode) {
                 setFields(true);
-                setMsg(" fields can't be empty");
-                setAlertStatus("danger");
+                setMsg(" Fields can't be empty");
+                // setAlertStatus("danger");
                 setTimeout(() => {
                     setFields(false);
                     setIsLoading(false);
-                }, 4000);
+                }, 1000);
             } else {
                 const Appid = generateRandomID();
                 const dataApp = {
@@ -162,7 +162,7 @@ export default function Appointment() {
                     setIsLoading(false);
                     setFields(true);
                     setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
-                    setAlertStatus("success");
+                    // setAlertStatus("success");
                     setTimeout(() => {
                         setFields(false);
                     }, 4000);
@@ -175,7 +175,7 @@ export default function Appointment() {
             console.log(error);
             setFields(true);
             setMsg("Error while uploading : Try AGain 🙇");
-            setAlertStatus("danger");
+            // setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -235,7 +235,7 @@ export default function Appointment() {
     useEffect(() => {
         // Add a popstate event listener to handle navigation back
         const handlePopstate = () => {
-            const updatedUrl = new URL(window.location.href); 
+            const updatedUrl = new URL(window.location.href);
             // Check if the vendor  or register is present in the updated URL and close the modal
             if (updatedUrl.searchParams.has("register")) {
                 updatedUrl.searchParams.delete("register");
@@ -259,20 +259,30 @@ export default function Appointment() {
                 <div className=" border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
                     <h3 className='text-2xl font-semibold capitalize text-headingColor'>Book an Appointment</h3>
                     {fields && (
-                        <motion.div
-                            initial={{ opacity: 0, visibility: "hidden" }}
-                            animate={{ opacity: 1, visibility: "visible" }}
-                            exit={{ opacity: 0, visibility: "hidden" }}
-                            transition={{ duration: 0.3 }}
-                            className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
-                            style={{
-                                backgroundColor:
-                                    alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
-                                color: "#fff",
-                            }}
-                        >
-                            {msg}
-                        </motion.div>
+                        // <motion.div
+                        //     initial={{ opacity: 0, visibility: "hidden" }}
+                        //     animate={{ opacity: 1, visibility: "visible" }}
+                        //     exit={{ opacity: 0, visibility: "hidden" }}
+                        //     transition={{ duration: 0.3 }}
+                        //     className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
+                        //     style={{
+                        //         backgroundColor:
+                        //             alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                        //         color: "#fff",
+                        //     }}
+                        // >
+                        //     {msg}
+                        // </motion.div>
+                        <>
+                            <div
+                                className="fixed inset-0 bg-black opacity-50 z-40"
+                            ></div>
+                            <div className="fixed inset-0 flex items-center justify-center z-50 text-center">
+                                <div className="bg-white p-6 rounded-lg shadow-lg">
+                                    <p className="text-red-500 font-semibold mb-4">{msg}</p>
+                                </div>
+                            </div>
+                        </>
                     )}
                     <div className="px-5 group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 rounded-lg p">
                         <h3 className=' text-xl font-bold text-blue-700'>Vendor's Details</h3>
@@ -348,12 +358,8 @@ export default function Appointment() {
                             Back
                         </button>
                         <button
-                            type="submit"
-                            name='submit'
-                            className={`ml-0 md:ml-auto w-full md:w-auto border-none outline-none px-12 py-2 rounded-lg text-lg text-white font-semibold ${!fullName || !email || !contactNo || !address1 || !address2 || !pinCode
-                                ? 'bg-blue-200 cursor-not-allowed'
-                                : 'bg-blue-500 hover:bg-blue-700'
-                                }`}
+                            type="button"
+                            className="px-3 py-2 md:px-4 md:py-2 border-2 border-blue-500 text-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base hover:text-white font-semibold"
                             onClick={saveDetails}
                         >
                             Book Appointment

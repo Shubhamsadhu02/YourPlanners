@@ -13,7 +13,7 @@ $contactNo = $requestPayload['contactNo']; // Getting vendor phone number
 $message = $requestPayload['message'];
 
 $subject1 = "Thank you! for submitting your inquiry.";  //Client subject
-$subject2 = $fname . " has submitted a inquiry.";  
+$subject2 = $fname . " has submitted an inquiry.";  
 
 
 // Email body Customer will receive

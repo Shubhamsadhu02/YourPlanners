@@ -39,7 +39,7 @@ $message = "Dear " . $cname . ",\n\n"
   . "The vendor will contact you within 24 hours. And this appointment will only be valid for 7 days." . "\n"
   . "Thank you for using our service. We look forward to seeing you soon." . "\n\n"
   . "Note: This is a system-generated email. Please don't reply to this email. For any inquiry, feel free to contact us." . "\n"
-  . "Email: yourplanner2023@gmail.com" . "\n" . "Contact no.: +91 99323 33440" . "\n\n"
+  . "Email: yourplannercontactus@gmail.com" . "\n" . "Contact no.: +91 99323 33440" . "\n\n"
   . "Best Wishes" . "\n"
   . "Your Planner";
 
@@ -55,7 +55,7 @@ $message2 = "Dear " . $vName . ",\n\n"
   . "Booking Date: " . $bookingdate . "\n\n"
   . "Thank you for using our service. We look forward to seeing you soon." . "\n\n"
   . "Note: This is a system-generated email. Please don't reply to this email. For any inquiry, feel free to contact us." . "\n"
-  . "Email: yourplanner2023@gmail.com" . "\n" . "Contact no.: +91 99323 33440" . "\n\n"
+  . "Email: yourplannercontactus@gmail.com" . "\n" . "Contact no.: +91 99323 33440" . "\n\n"
   . "Best Wishes" . "\n"
   . "Your Planner";
 
