@@ -19,7 +19,7 @@ export default function Appointment() {
     const [address2, setAddress2] = useState("");
     const [pinCode, setPinCode] = useState("");
     const [fields, setFields] = useState(false);
-    // const [alertStatus, setAlertStatus] = useState("danger");
+    const [alertStatus, setAlertStatus] = useState("danger");
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [{ appointmentItems }, dispatch] = useStateValue();
@@ -69,7 +69,7 @@ export default function Appointment() {
         if (!contactNo || contactNo.length !== 10 || contactNo.includes(" ")) {
             setFields(true);
             setMsg("Please enter a valid 10-digit WhatsApp number without spaces.");
-            // setAlertStatus("danger");
+            setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -82,7 +82,7 @@ export default function Appointment() {
         if (!email || !emailRegex.test(email)) {
             setFields(true);
             setMsg("Please enter a valid email address.");
-            // setAlertStatus("danger");
+            setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -94,7 +94,7 @@ export default function Appointment() {
         if (!pinCode || pinCode.length !== 6 || pinCode.includes(" ")) {
             setFields(true);
             setMsg("Please enter a valid pincode without spaces.");
-            // setAlertStatus("danger");
+            setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -106,7 +106,7 @@ export default function Appointment() {
             if (!fullName || !email || !contactNo || !address1 || !address2 || !pinCode) {
                 setFields(true);
                 setMsg(" Fields can't be empty");
-                // setAlertStatus("danger");
+                setAlertStatus("danger");
                 setTimeout(() => {
                     setFields(false);
                     setIsLoading(false);
@@ -162,7 +162,7 @@ export default function Appointment() {
                     setIsLoading(false);
                     setFields(true);
                     setMsg("Your Appointment is Booked. Vendor Will Contact You Within 24hrs.");
-                    // setAlertStatus("success");
+                    setAlertStatus("success");
                     setTimeout(() => {
                         setFields(false);
                     }, 4000);
@@ -175,7 +175,7 @@ export default function Appointment() {
             console.log(error);
             setFields(true);
             setMsg("Error while uploading : Try AGain 🙇");
-            // setAlertStatus("danger");
+            setAlertStatus("danger");
             setTimeout(() => {
                 setFields(false);
                 setIsLoading(false);
@@ -265,11 +265,11 @@ export default function Appointment() {
                         //     exit={{ opacity: 0, visibility: "hidden" }}
                         //     transition={{ duration: 0.3 }}
                         //     className="fixed bottom-0 left-0 w-full p-2 rounded-lg text-center text-lg font-semibold z-10"
-                        //     style={{
-                        //         backgroundColor:
-                        //             alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
-                        //         color: "#fff",
-                        //     }}
+                        // style={{
+                        //     backgroundColor:
+                        //         alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)",
+                        //     color: "#fff",
+                        // }}
                         // >
                         //     {msg}
                         // </motion.div>
@@ -279,7 +279,9 @@ export default function Appointment() {
                             ></div>
                             <div className="fixed inset-0 flex items-center justify-center z-50 text-center">
                                 <div className="bg-white p-6 rounded-lg shadow-lg">
-                                    <p className="text-red-500 font-semibold mb-4">{msg}</p>
+                                    <p className="font-semibold mb-4" style={{
+                                        color: alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)"
+                                    }}>{msg}</p>
                                 </div>
                             </div>
                         </>
