@@ -100,7 +100,6 @@ const MenuContainer = () => {
                   <RowContainer key={index} flag={false} data={item} />
                 </div>
               ))}
-
           </div>
         </div>
       </div>

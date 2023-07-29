@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { MdCloudUpload, MdDelete } from "react-icons/md";
 import Loader from "./Loader";
 // import { motion } from "framer-motion";
-
+import { FaLessThan } from "react-icons/fa";
 import { useStateValue } from "../context/StateProvider";
 import { storage } from "../firebase.config";
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -306,10 +306,10 @@ export default function EditDetails() {
                         <div className="w-full flex justify-between xl:justify-around">
                             <button
                                 type="button"
-                                className="px-2 py-1 md:px-4 md:py-2 border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
+                                className="px-2 py-1 md:px-4 md:py-2 border-none flex items-center outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
                                 onClick={() => navigate(-1)}
                             >
-                                Back
+                                <FaLessThan />Back
                             </button>
                             <button
                                 type="button"

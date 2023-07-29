@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 // import { motion } from "framer-motion";
 import Loader from "./Loader";
-
+import { FaLessThan } from "react-icons/fa";
 import { getAllAppointmentItems, saveAppointment } from "../utils/firebaseFunctions";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
@@ -351,17 +351,17 @@ export default function Appointment() {
                             </div>
                         </form>
                     </div>
-                    <div className="">
+                    <div className="flex">
                         <button
                             type="button"
-                            className="px-2 py-1 md:px-4 md:py-2 mr-24 hidden md:inline-block border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
+                            className="px-3 py-2 md:px-4 md:py-2 mr-24 hidden md:flex items-center border-2 border-blue-500 text-blue-500 hover:bg-blue-700 hover:text-white rounded-lg text-sm md:text-base font-semibold"
                             onClick={closeModal}
                         >
-                            Back
+                            <FaLessThan />Back
                         </button>
                         <button
                             type="button"
-                            className="px-3 py-2 md:px-4 md:py-2 border-2 border-blue-500 text-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base hover:text-white font-semibold"
+                            className="px-3 py-2 md:px-4 md:py-2 mr-24 border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
                             onClick={saveDetails}
                         >
                             Book Appointment

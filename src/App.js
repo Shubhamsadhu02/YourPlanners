@@ -17,6 +17,7 @@ import Copyright from "./components/Copyright";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
 import ScrollToTop from "./components/ScrollToTop";
+import TnC from "./components/TnC";
 
 const App = () => {
   const [{ plannerItems, appointmentItems }, dispatch] = useStateValue();
@@ -60,6 +61,7 @@ const App = () => {
             <Route path="/admin-dashboard" element={<Admin/>} />
             <Route path="/about-us" element={<AboutUs/>} />
             <Route path="/contact-us" element={<ContactUs/>} />
+            <Route path="/terms" element={<TnC/>} />
           </Routes>
         </main>
 

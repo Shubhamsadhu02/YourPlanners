@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 // import { motion } from "framer-motion";
 // import axios from 'axios';
 import { MdCloudUpload, MdDelete } from "react-icons/md";
+import { FaLessThan } from "react-icons/fa";
 import Loader from "./Loader";
 
 import { categories } from "../utils/data";
@@ -364,6 +365,7 @@ export default function BecomeAPlanner() {
                                     </>
                                 ) : (
                                     <>
+                                    <div className="flex justify-center">
                                         <div className="relative h-32 rounded-full">
                                             <img
                                                 src={imageAsset}
@@ -377,6 +379,7 @@ export default function BecomeAPlanner() {
                                             >
                                                 <MdDelete className="text-white" />
                                             </button>
+                                        </div>
                                         </div>
                                     </>
                                 )}
@@ -451,20 +454,20 @@ export default function BecomeAPlanner() {
                         </div>
                         <div className="flex items-center">
                             <input type="checkbox" name='tnc' className='w-5 h-5' checked={TnC} onChange={(e) => setTnC(e.target.checked)} />
-                            <label for="tnc" className=' ml-4'>I accept the <Link to={"#"} target='__blank' className='text-textBlue'>Terms and Policy</Link>.</label>
+                            <p className=' ml-4'>I accept the <Link to={"/terms"} target='__blank' className='text-textBlue'>Terms and Policy</Link>.</p>
                         </div>
                     </div>
-                    <div className="">
+                    <div className="flex">
                         <button
                             type="button"
-                            className="px-2 py-1 md:px-4 md:py-2 mr-24 hidden md:inline-block border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
+                            className="px-3 py-2 md:px-4 md:py-2 mr-24 hidden md:flex items-center border-2 border-blue-500 text-blue-500 hover:bg-blue-700 hover:text-white rounded-lg text-sm md:text-base font-semibold"
                             onClick={() => navigate(-1)}
                         >
-                            Back
+                           <FaLessThan /> Back
                         </button>
                         <button
                             type="button"
-                            className="px-3 py-2 md:px-4 md:py-2 border-2 border-blue-500 text-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base hover:text-white font-semibold"
+                            className="px-3 py-2 md:px-4 md:py-2 mr-24 border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
                             onClick={saveDetails}
                         >
                             Send
