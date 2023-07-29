@@ -7,14 +7,13 @@ import { actionType } from "../context/reducer";
 import VendorProfile from "./VendorProfile";
 import Avatar from "../img/avatar.png";
 import { IoLocationSharp } from "react-icons/io5";
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const RowContainer = ({ flag, data, scrollValue }) => {
   const rowContainer = useRef();
   const [items, setItems] = useState([]);
   const [{ cartItems }, dispatch] = useStateValue();
   const [open, setOpen] = useState(false);
-  const [{ user }] = useStateValue();
 
   const addtocart = () => {
     dispatch({
@@ -64,7 +63,6 @@ const RowContainer = ({ flag, data, scrollValue }) => {
       setOpen(true);
     }
   }, [data]);
-  
 
   return (
     <div
@@ -81,7 +79,7 @@ const RowContainer = ({ flag, data, scrollValue }) => {
             Items Not Available
           </p>
         </div>
-      ) : (  data?.email === user.email ? "" :
+      ) : (
         <div>
           <div
             key={data?.id}

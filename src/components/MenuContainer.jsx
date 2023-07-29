@@ -12,6 +12,8 @@ const MenuContainer = () => {
   const [{ plannerItems }, dispatch] = useStateValue();
   const [searchValue, setSearchValue] = useState("");
 
+  const [{ user }] = useStateValue();
+
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
   };
@@ -85,7 +87,7 @@ const MenuContainer = () => {
           <div className="relative w-80 lg:w-96">
             <input
               type="text"
-              placeholder="Search With Id, Company Name, Pincode..."
+              placeholder="Search With Id, Pincode, Company Name..."
               value={searchValue}
               onChange={handleSearch}
               className="border rounded my-8 p-3 w-80 lg:w-96 hover:border-indigo-500  text-sm md:text-base drop-shadow-xl"
@@ -95,10 +97,12 @@ const MenuContainer = () => {
           <div className="w-full flex justify-center md:gap-5 lg:gap-5 flex-wrap">
             {plannerItems?.filter((n) => n.register === filter && n.isVerified === true)
               .filter((n) => n.company.toLowerCase().includes(searchValue.toLowerCase()) || n.pinCode.includes(searchValue) || n.id.includes(searchValue))
-              .map((item, index) => (
-                <div className="xl:w-1/4 md:w-1/3 lg:w-1/3 2xl:w-1/5">
-                  <RowContainer key={index} flag={false} data={item} />
-                </div>
+              .map((item, index) => ( 
+                (!user || item.email !== user.email) && (
+                  <div className="xl:w-1/4 md:w-1/3 lg:w-1/3 2xl:w-1/5" key={index}>
+                    <RowContainer flag={false} data={item} />
+                  </div>
+                )
               ))}
           </div>
         </div>

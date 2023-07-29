@@ -25,7 +25,7 @@ export default function Copyright() {
             <MdEmail className="text-gray-500 mr-2 text-xl md:text-2xl"/><p className=' text-sm md:text-base text-gray-500'>yourplannercontactus@gmail.com</p>
           </div>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col md:items-center col-span-2 md:col-span-1">
           <p className='text-textColor text-lg md:text-base font-semibold'>Quick Links</p>
           <div className="mt-2 md:mt-3">
             <Link to={"/"}><p className='text-sm md:text-base text-gray-500'>Home</p></Link>
@@ -33,7 +33,7 @@ export default function Copyright() {
             <Link to={"/contact-us"}><p className='text-sm md:text-base text-gray-500'>Contact Us</p></Link>
           </div>
         </div>
-        <div className="social flex flex-col items-end col-span-2 md:col-span-1">
+        <div className="social flex flex-col items-end col-span-1">
           <p className='text-textColor text-lg md:text-base font-semibold'>Follow Us</p>
           <div className="flex items-center mt-2 md:mt-3">
             <Link to={"https://instagram.com/yourplanner.in?igshid=NGExMmI2YTkyZg== "} target='__blank'><AiFillInstagram className="text-gray-500 text-2xl md:text-3xl hover:text-blue-700" /></Link>
