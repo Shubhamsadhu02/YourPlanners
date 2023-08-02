@@ -21,7 +21,7 @@ export default function EditDetails() {
     const [id, setId] = useState(null);
     const [images, setImages] = useState([]);
     const [videoes, setVideoes] = useState([]);
-    // const [alertStatus, setAlertStatus] = useState("danger");
+    const [alertStatus, setAlertStatus] = useState("danger");
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState(null);
@@ -67,7 +67,7 @@ export default function EditDetails() {
                 console.log(error);
                 setFields(true);
                 setMsg("Error while uploading : Try AGain 🙇");
-                // setAlertStatus("danger");
+                setAlertStatus("danger");
                 setTimeout(() => {
                     setFields(false);
                     setIsLoading(false);
@@ -79,7 +79,7 @@ export default function EditDetails() {
                     setIsLoading(false);
                     setFields(true);
                     setMsg("Image uploaded successfully 😊");
-                    // setAlertStatus("success");
+                    setAlertStatus("success");
                     setTimeout(() => {
                         setFields(false);
                     }, 4000);
@@ -223,7 +223,9 @@ export default function EditDetails() {
                                 ></div>
                                 <div className="fixed inset-0 flex items-center justify-center z-50 text-center">
                                     <div className="bg-white p-6 rounded-lg shadow-lg">
-                                        <p className="text-red-500 font-semibold mb-4">{msg}</p>
+                                        <p className="font-semibold mb-4" style={{
+                                            color: alertStatus === "danger" ? "rgba(255, 75, 75, 0.8)" : "rgba(64, 175, 95, 0.8)"
+                                        }}>{msg}</p>
                                     </div>
                                 </div>
                             </>
