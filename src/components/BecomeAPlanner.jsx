@@ -454,7 +454,7 @@ export default function BecomeAPlanner() {
                         </div>
                         <div className="flex items-center">
                             <input type="checkbox" name='tnc' className='w-5 h-5' checked={TnC} onChange={(e) => setTnC(e.target.checked)} />
-                            <p className=' ml-4'>I accept the <Link to={"/terms"} target='__blank' className='text-textBlue'>Terms and Policy</Link>.</p>
+                            <p className=' ml-4'>By ticking, you are confirming that you have read, understood and agree to Your Planner <Link to={"/terms"} target='__blank' className='text-textBlue'>Terms and Policy</Link>.</p>
                         </div>
                     </div>
                     <div className="flex">

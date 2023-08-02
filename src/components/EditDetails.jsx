@@ -6,18 +6,21 @@ import { FaLessThan } from "react-icons/fa";
 import { useStateValue } from "../context/StateProvider";
 import { storage } from "../firebase.config";
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { getFirestore, onSnapshot, doc, updateDoc, collection, deleteDoc, where, query } from 'firebase/firestore';
+import { getFirestore, onSnapshot, doc, updateDoc, collection, deleteDoc, where, query, setDoc, getDoc, writeBatch } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 export default function EditDetails() {
     const [contactNo, setConatactNo] = useState("");
-    const [email, setEmail] = useState("");
     const [company, setCompany] = useState("");
     const [address1, setAddress1] = useState("");
     const [address2, setAddress2] = useState("");
     const [pinCode, setPinCode] = useState("");
     const [imageAsset, setImageAsset] = useState(null);
     const [fields, setFields] = useState(false);
+    const [title, setTitle] = useState(null);
+    const [id, setId] = useState(null);
+    const [images, setImages] = useState([]);
+    const [videoes, setVideoes] = useState([]);
     // const [alertStatus, setAlertStatus] = useState("danger");
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +44,6 @@ export default function EditDetails() {
     useEffect(() => {
         setImageAsset(data?.imageURL || '');
         setConatactNo(data?.contactNo || '');
-        setEmail(data?.email || '');
         setCompany(data?.company || '');
         setAddress1(data?.address1 || '');
         setAddress2(data?.address2 || '');
@@ -106,7 +108,6 @@ export default function EditDetails() {
         updateDoc(docRef, {
             imageURL: imageAsset,
             contactNo,
-            email,
             company,
             address1,
             address2,
@@ -132,8 +133,6 @@ export default function EditDetails() {
         });
     };
 
-    const [images, setImages] = useState([]);
-    const [videoes, setVideoes] = useState([]);
     const handleProfileDelete = async (email, photo) => {
         if (window.confirm("Are you sure! You want to delete your account?")) {
             try {
@@ -280,7 +279,7 @@ export default function EditDetails() {
 
                                 <div className="flex flex-col">
                                     <label className='text-textBlue' for="email">Email Id</label>
-                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" value={data?.email} title="This field cannot be edited." disabled />
                                 </div>
 
                                 <div className="flex flex-col">
