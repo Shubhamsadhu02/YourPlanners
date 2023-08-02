@@ -15,6 +15,8 @@ $company = $requestPayload['company'];
 $register = $requestPayload['register'];
 $address1 = $requestPayload['address1'];
 $address2 = $requestPayload['address2'];
+$state = $requestPayload['state'];
+$district = $requestPayload['district'];
 $pinCode = $requestPayload['pinCode'];
 $subject1 = "Confirmation: Planner Profile Created. Account ID: " . $id; 
 
@@ -29,7 +31,7 @@ $message = "Dear " . $vfname . ",\n\n"
   . "Vendor Company Name: " . $company . "\n"
   . "Vendor Register As: " . $register . "\n"
   . "Phone Number: " . $contactNo . "\n"
-  . "Address: " . $address1 . ", " . $address2 . ", " . $pinCode . "\n\n"
+  . "Address: " . $address1 . ", " . $address2 . ", ". $district. ", " . $state. ", " . $pinCode . "\n\n"
   . "Your profile will be approved after checking within 24 hours. If it is not approved, feel free to contact us." . "\n"
   . "Email: yourplannercontactus@gmail.com" . "\n" . "Contact no.: +91 99323 33440" . "\n"
   . "Thank you for using our service. We look forward to seeing you soon." . "\n\n"
@@ -60,8 +62,9 @@ if ($result1) {
     'register' => $register,
     'address1' => $address1,
     'address2' => $address2,
-    'pinCode' => $pinCode
-            
+    'pinCode' => $pinCode,
+    'state' => $state,
+    'district' => $district      
   );
 } else {
   $response = array(

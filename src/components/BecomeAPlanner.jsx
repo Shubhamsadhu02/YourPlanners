@@ -29,13 +29,17 @@ export default function BecomeAPlanner() {
     const [register, setRegister] = useState("");
     const [address1, setAddress1] = useState("");
     const [address2, setAddress2] = useState("");
+    const [state, setState] = useState("");
+    const [district, setDistrict] = useState("");
     const [pinCode, setPinCode] = useState("");
     const [imageAsset, setImageAsset] = useState(null);
+    const [govtidimageAsset, setGovtidimageAsset] = useState(null);
     const [TnC, setTnC] = useState(false);
     const [fields, setFields] = useState(false);
     const [alertStatus, setAlertStatus] = useState("danger");
     const [msg, setMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isidLoading, setIsIdLoading] = useState(false);
     const [{ plannerItems }, dispatch] = useStateValue();
     const navigate = useNavigate();
     const [showPopup, setShowPopup] = useState(false);
@@ -77,6 +81,43 @@ export default function BecomeAPlanner() {
         );
     };
 
+    const uploadGovtIdImage = (e) => {
+        setIsIdLoading(true);
+        const imageFile = e.target.files[0];
+        const storageRef = ref(storage, `plannerProfileId/${Date.now()}-${imageFile.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const uploadProgress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            },
+            (error) => {
+                console.log(error);
+                setFields(true);
+                setMsg("Error while uploading : Try AGain 🙇");
+                setAlertStatus("danger");
+                setTimeout(() => {
+                    setFields(false);
+                    setIsIdLoading(false);
+                }, 4000);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setGovtidimageAsset(downloadURL);
+                    setIsIdLoading(false);
+                    setFields(true);
+                    setMsg("Id Proof uploaded successfully 😊");
+                    setAlertStatus("success");
+                    setTimeout(() => {
+                        setFields(false);
+                    }, 4000);
+                });
+            }
+        );
+    };
+
     const deleteImage = () => {
         setIsLoading(true);
         const deleteRef = ref(storage, imageAsset);
@@ -85,6 +126,18 @@ export default function BecomeAPlanner() {
             setIsLoading(false);
             setFields(true);
             setMsg("Image deleted successfully 😊");
+            setAlertStatus("success");
+            setTimeout(() => {
+                setFields(false);
+            }, 4000);
+        });
+    };
+    const deleteGovtIdImage = () => {
+        const deleteRef = ref(storage, govtidimageAsset);
+        deleteObject(deleteRef).then(() => {
+            setGovtidimageAsset(null);
+            setFields(true);
+            setMsg("Id Proof deleted successfully 😊");
             setAlertStatus("success");
             setTimeout(() => {
                 setFields(false);
@@ -148,7 +201,7 @@ export default function BecomeAPlanner() {
                     setFields(false);
                     setIsLoading(false);
                 }, 3000);
-            } else if (!firstName || !lastName || !email || !contactNo || !company || !register || !address1 || !address2 || !pinCode || !TnC) {
+            } else if (!firstName || !lastName || !email || !contactNo || !company || !register || !address1 || !address2 || !pinCode || !TnC || !district || !state || !govtidimageAsset) {
                 setFields(true);
                 setMsg(" Fields can't be empty");
                 setAlertStatus("danger");
@@ -172,6 +225,7 @@ export default function BecomeAPlanner() {
                     const data = {
                         id: generateRandomID(),
                         imageURL: imageAsset,
+                        govtIdProof: govtidimageAsset,
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
@@ -180,6 +234,8 @@ export default function BecomeAPlanner() {
                         register: register,
                         address1: address1,
                         address2: address2,
+                        state: state,
+                        district: district,
                         pinCode: pinCode,
                         isVerified: false,
                         tnc: "Accepted",
@@ -267,12 +323,15 @@ export default function BecomeAPlanner() {
         setAddress1("");
         setAddress2("");
         setPinCode("");
+        setState("");
+        setDistrict("");
         setImageAsset(null);
+        setGovtidimageAsset(null);
         setTnC(null);
     };
 
     function openWhatsApp(responseData) {
-        const { id, firstName, lastName, contactNo, email, register, address1, address2, pinCode } = responseData;
+        const { id, firstName, lastName, contactNo, email, register, address1, address2, state, district, pinCode } = responseData;
 
         const formattedData = `*Account Id:* ${id}\n` +
             `*First Name:* ${firstName}\n` +
@@ -282,6 +341,8 @@ export default function BecomeAPlanner() {
             `*Register As:* ${register}\n` +
             `*Address1:* ${address1}\n` +
             `*Address2:* ${address2}\n` +
+            `*District:* ${district}\n` +
+            `*State:* ${state}\n` +
             `*Pin Code:* ${pinCode}\n\n` +
             `Please send us this message. We will authenticate you shortly!\n` +
             `Feel free to contact us.\nEmail: yourplaneer2023@gmail.com \nContact no.: +91 99323 33440 \n\n` +
@@ -365,21 +426,21 @@ export default function BecomeAPlanner() {
                                     </>
                                 ) : (
                                     <>
-                                    <div className="flex justify-center">
-                                        <div className="relative h-32 rounded-full">
-                                            <img
-                                                src={imageAsset}
-                                                alt="uploaded image"
-                                                className="w-32 h-32 object-cover rounded-full"
-                                            />
-                                            <button
-                                                type="button"
-                                                className="absolute bottom-0 right-1 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md  duration-500 transition-all ease-in-out"
-                                                onClick={deleteImage}
-                                            >
-                                                <MdDelete className="text-white" />
-                                            </button>
-                                        </div>
+                                        <div className="flex justify-center">
+                                            <div className="relative h-32 rounded-full">
+                                                <img
+                                                    src={imageAsset}
+                                                    alt="uploaded image"
+                                                    className="w-32 h-32 object-cover rounded-full"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className="absolute bottom-0 right-1 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md  duration-500 transition-all ease-in-out"
+                                                    onClick={deleteImage}
+                                                >
+                                                    <MdDelete className="text-white" />
+                                                </button>
+                                            </div>
                                         </div>
                                     </>
                                 )}
@@ -448,9 +509,60 @@ export default function BecomeAPlanner() {
                                 </div>
                             </div>
                             <div className="flex flex-col">
+                                <label className='text-textBlue' for="state">State</label>
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="state" name="state" value={state} onChange={(e) => setState(e.target.value)} placeholder="State" />
+                            </div>
+                            <div className="flex flex-col">
+                                <label className='text-textBlue' for="district">District</label>
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="district" name="district" value={district} onChange={(e) => setDistrict(e.target.value)} placeholder="District" />
+                            </div>
+                            <div className="flex flex-col">
                                 <label className='text-textBlue' for="pinCode">Pin Code</label>
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="pinCode" name="pinCode" maxLength={6} value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
                             </div>
+                            {isidLoading ? (
+                                <div className="flex justify-center w-64 lg:w-96 h-52">
+                                    <Loader />
+                                </div>
+                            ) : (
+                                <>
+                                    {!govtidimageAsset ? (
+                                        <>
+                                            <div className="flex flex-col">
+                                                <label className='text-textBlue' for="govtId">Upload Govt Id Proof</label>
+                                                <input
+                                                    type="file"
+                                                    name="uploadGovtIdimage"
+                                                    accept="image/*"
+                                                    onChange={uploadGovtIdImage}
+                                                    className='border rounded p-3 w-64 lg:w-96 bg-white hover:border-indigo-500'
+                                                    placeholder='Upload Govt Id Proof'
+                                                />
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="flex flex-col">
+                                                <label className='text-textBlue' for="govtId">Uploaded Govt Id Proof</label>
+                                                <div className="relative h-52 w-64 lg:w-96">
+                                                    <img
+                                                        src={govtidimageAsset}
+                                                        alt="uploaded id proof image"
+                                                        className="w-64 lg:w-96 h-52 object-cover"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        className="absolute bottom-0 right-1 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md  duration-500 transition-all ease-in-out"
+                                                        onClick={deleteGovtIdImage}
+                                                    >
+                                                        <MdDelete className="text-white" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
+                                </>
+                            )}
                         </div>
                         <div className="flex items-center">
                             <input type="checkbox" name='tnc' className='w-5 h-5' checked={TnC} onChange={(e) => setTnC(e.target.checked)} />
@@ -463,7 +575,7 @@ export default function BecomeAPlanner() {
                             className="px-3 py-2 md:px-4 md:py-2 mr-24 hidden md:flex items-center border-2 border-blue-500 text-blue-500 hover:bg-blue-700 hover:text-white rounded-lg text-sm md:text-base font-semibold"
                             onClick={() => navigate(-1)}
                         >
-                           <FaLessThan /> Back
+                            <FaLessThan /> Back
                         </button>
                         <button
                             type="button"
