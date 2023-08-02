@@ -17,6 +17,8 @@ export default function EditDetails() {
     const [pinCode, setPinCode] = useState("");
     const [imageAsset, setImageAsset] = useState(null);
     const [fields, setFields] = useState(false);
+    const [state, setState] = useState("");
+    const [district, setDistrict] = useState("");
     const [title, setTitle] = useState(null);
     const [id, setId] = useState(null);
     const [images, setImages] = useState([]);
@@ -48,6 +50,8 @@ export default function EditDetails() {
         setAddress1(data?.address1 || '');
         setAddress2(data?.address2 || '');
         setPinCode(data?.pinCode || '');
+        setDistrict(data?.district || '');
+        setState(data?.state || '');
     }, [data]);
 
 
@@ -112,6 +116,8 @@ export default function EditDetails() {
             address1,
             address2,
             pinCode,
+            district,
+            state,
         }).then(() => {
             setIsLoading(false);
             setFields(true);
@@ -297,7 +303,14 @@ export default function EditDetails() {
                                     <label className='text-textBlue' for="address">Address Line2</label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address" name="address" value={address2} onChange={(e) => setAddress2(e.target.value)} />
                                 </div>
-
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="state">State</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="state" name="state" value={state} onChange={(e) => setState(e.target.value)} placeholder="State" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="district">District</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="district" name="district" value={district} onChange={(e) => setDistrict(e.target.value)} placeholder="District" />
+                                </div>
                                 <div className="flex flex-col">
                                     <label className='text-textBlue' for="pinCode">Pin Code</label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="number" id="pinCode" name="pinCode" value={pinCode} onChange={(e) => setPinCode(e.target.value)} />

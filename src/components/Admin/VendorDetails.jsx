@@ -44,11 +44,11 @@ export default function VendorDetails({ setOpen, data }) {
         if (window.confirm("Are you sure! You want to delete your account?")) {
             try {
                 //delete planner profile pic
-                if(photo != null){
+                if (photo != null) {
                     const deleteRef = ref(storage, photo);
                     await deleteObject(deleteRef);
                 }
-                
+
 
                 // planner uploaded images
                 // if (email) {
@@ -93,7 +93,7 @@ export default function VendorDetails({ setOpen, data }) {
 
                 //delete planner profile docs
                 await deleteDoc(doc(database, 'plannerItems', email));
-                
+
 
             } catch (err) {
                 console.log(err);
@@ -139,6 +139,10 @@ export default function VendorDetails({ setOpen, data }) {
                                         </div>
                                         <div className="mt-2">
                                             <p className={`text-xs font-medium capitalize mb-2 ${data?.isVerified ? 'bg-green-500 p-1 px-2 rounded-full text-white' : 'bg-yellow-500 p-1 px-2 rounded-full text-gray-800'}`}>{data?.isVerified ? "Verified" : "Pending"}</p>
+                                        </div>
+                                        <div className="mt-2">
+                                            <h3 className='font-bold mr-4 text-textColor'>Vendor Id: </h3>
+                                            <img src={data?.govtIdProof} alt="" className=' w-36 md:w-64 h-28 md:h-44 border-2 border-black object-cover' />
                                         </div>
                                         <div className="flex flex-col mt-7">
                                             <label className='text-textBlue' for="register">Verified</label>
@@ -189,6 +193,12 @@ export default function VendorDetails({ setOpen, data }) {
                                             <h3 className='font-bold mr-4 text-textColor'>Address 2: </h3><p className=' capitalize'>{data.address2}</p>
                                         </div>
                                         <div className="flex items-center mt-4">
+                                            <h3 className='font-bold mr-4 text-textColor'>District: </h3><p className=' capitalize'>{data.district}</p>
+                                        </div>
+                                        <div className="flex items-center mt-4">
+                                            <h3 className='font-bold mr-4 text-textColor'>State: </h3><p className=' capitalize'>{data.state}</p>
+                                        </div>
+                                        <div className="flex items-center mt-4">
                                             <h3 className='font-bold mr-4 text-textColor'>Pin Code: </h3><p className=' capitalize'>{data.pinCode}</p>
                                         </div>
 
@@ -203,15 +213,15 @@ export default function VendorDetails({ setOpen, data }) {
                                         Approve
                                     </button>
                                     {data.isVerified === false &&
-                                     <button
-                                     type="button"
-                                     className=" px-4 py-2 md:px-12 md:py-2 ml-4 rounded-lg text-lg font-semibold border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white"
-                                     onClick={() => handleProfileDelete(data.email, data.imageURL)}
-                                 >
-                                     Delete Account
-                                 </button>
-                                 }
-                                   
+                                        <button
+                                            type="button"
+                                            className=" px-4 py-2 md:px-12 md:py-2 ml-4 rounded-lg text-lg font-semibold border-2 border-red-700 text-red-700 hover:bg-red-700 hover:text-white"
+                                            onClick={() => handleProfileDelete(data.email, data.imageURL)}
+                                        >
+                                            Delete Account
+                                        </button>
+                                    }
+
                                 </div>
 
                             </div>
