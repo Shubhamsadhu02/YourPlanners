@@ -24,7 +24,7 @@ $message1 = "Dear " . $fname . ",\n\n"
   . "Email: " . $cmail . "\n"
   . "Phone Number: " . $contactNo . "\n"
   . "Message: " . $message . "\n\n\n"
-  . "Thank you for using our service. We look forward to seeing you soon." . "\n\n"
+  . "Thank you for using our service. We look forward to see you soon." . "\n\n"
   . "Note: This is a system-generated email. Please don't reply to this email." . "\n\n"
   . "Best Wishes" . "\n"
   . "Your Planner";

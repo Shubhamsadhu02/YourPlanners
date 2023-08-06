@@ -10,6 +10,8 @@ import { getFirestore, onSnapshot, doc, updateDoc, collection, deleteDoc, where,
 import { useNavigate } from 'react-router-dom';
 
 export default function EditDetails() {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [contactNo, setConatactNo] = useState("");
     const [company, setCompany] = useState("");
     const [address1, setAddress1] = useState("");
@@ -44,6 +46,8 @@ export default function EditDetails() {
     }, [user, database]);
 
     useEffect(() => {
+        setFirstName(data?.firstName || '');
+        setLastName(data?.lastName || '');
         setImageAsset(data?.imageURL || '');
         setConatactNo(data?.contactNo || '');
         setCompany(data?.company || '');
@@ -280,6 +284,14 @@ export default function EditDetails() {
                                 </>
                             )}
                             <div class="gap-8 my-10 flex justify-around flex-wrap w-full">
+                                <div className="flex flex-col">
+                                    <label className='text-textBlue' for="firstname">First Name</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="firstName" name="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)}  />
+                                </div>
+                                <div className=" flex flex-col">
+                                    <label className='text-textBlue' for="lastname">Last Name</label>
+                                    <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="lastName" name="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                </div>
                                 <div className="flex flex-col">
                                     <label className='text-textBlue' for="contactNo">WhatsApp No</label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />

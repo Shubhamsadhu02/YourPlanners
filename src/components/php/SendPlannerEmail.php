@@ -34,7 +34,7 @@ $message = "Dear " . $vfname . ",\n\n"
   . "Address: " . $address1 . ", " . $address2 . ", ". $district. ", " . $state. ", " . $pinCode . "\n\n"
   . "Your profile will be approved after checking within 24 hours. If it is not approved, feel free to contact us." . "\n"
   . "Email: yourplannercontactus@gmail.com" . "\n" . "Contact no.: +91 99323 33440" . "\n"
-  . "Thank you for using our service. We look forward to seeing you soon." . "\n\n"
+  . "Thank you for using our service. We look forward to see you soon." . "\n\n"
   . "Note: This is a system-generated email. Please don't reply to this email." . "\n\n"
   . "Best Wishes" . "\n"
   . "Your Planner";
