@@ -130,7 +130,7 @@ export default function UploadVideo({ setOpenVideo }) {
                                             className={'border rounded p-3 w-full hover:border-indigo-500 text-sm md:text-base'}
                                             placeholder="Paste Your Youtube Copy Link only"
                                         />
-                                        <p className=' text-xs text-textColor mr-4'>Example: https://youtu.be/</p>
+                                        <p className='text-xs text-textColor mr-4'>Example: https://youtu.be/</p>
                                         {isTouched && !isValid && url && <p className="text-red-500">Invalid YouTube link!</p>}
                                         {isTouched && isValid && <p className="text-green-500">Valid YouTube link!</p>}
                                         

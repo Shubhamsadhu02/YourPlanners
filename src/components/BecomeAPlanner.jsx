@@ -43,6 +43,9 @@ export default function BecomeAPlanner() {
     const [{ plannerItems }, dispatch] = useStateValue();
     const navigate = useNavigate();
     const [showPopup, setShowPopup] = useState(false);
+    const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [enteredEmail, setEnteredEmail] = useState('');
 
     const uploadImage = (e) => {
         setIsLoading(true);
@@ -154,6 +157,35 @@ export default function BecomeAPlanner() {
         const randomNumber = Math.floor(1000 + Math.random() * 9000);
         return `${YP}${year}${month}${randomChar}${randomNumber}`;
     }
+
+    const handleEmailConfirmation = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleModalConfirm = () => {
+        if (enteredEmail === email) {
+            setFields(true);
+            setMsg("Enter Email Match.");
+            setAlertStatus("success");
+            setTimeout(() => {
+                setFields(false);
+            }, 1500);
+            setIsEmailConfirmed(true);
+            setIsModalVisible(false);
+        } else {
+            setFields(true);
+            setMsg("Enter email is not match!");
+            setAlertStatus("danger");
+            setTimeout(() => {
+                setFields(false);
+            }, 1500);
+            setIsEmailConfirmed(false);
+        }
+    };
+
+    const handleModalCancel = () => {
+        setIsModalVisible(false);
+    };
 
     const saveDetails = async (event) => {
         event.preventDefault();
@@ -328,6 +360,7 @@ export default function BecomeAPlanner() {
         setImageAsset(null);
         setGovtidimageAsset(null);
         setTnC(null);
+        setIsEmailConfirmed(false);
     };
 
     function openWhatsApp(responseData) {
@@ -462,7 +495,8 @@ export default function BecomeAPlanner() {
 
                             <div className="flex flex-col">
                                 <label className='text-textBlue' for="email">Email Id</label>
-                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                                <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" title="This can't be edit later" value={email} onChange={(e) => setEmail(e.target.value)} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+                                <p className='text-xs text-red-600'>This can't be edit later</p>
                             </div>
 
                             <div className="flex flex-col">
@@ -577,13 +611,46 @@ export default function BecomeAPlanner() {
                         >
                             <FaLessThan /> Back
                         </button>
-                        <button
-                            type="button"
-                            className="px-3 py-2 md:px-4 md:py-2 mr-24 border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
-                            onClick={saveDetails}
-                        >
-                            Send
-                        </button>
+
+                        {isModalVisible && (
+                            <>
+                                <div
+                                    className="fixed inset-0 bg-black opacity-50 z-0"></div>
+                                <div className="fixed inset-0 flex items-center justify-center z-0 text-center">
+                                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                                        <div className="flex flex-col">
+                                            <label className='text-textBlue' for="district">Confirm your email</label>
+                                            <input
+                                                type="email"
+                                                value={enteredEmail}
+                                                onChange={(e) => setEnteredEmail(e.target.value)}
+                                                className='border rounded p-3 w-64 lg:w-96 mb-4 hover:border-indigo-500'
+                                                placeholder="Enter your email"
+                                            />
+                                        </div>
+                                        <button className="px-3 py-2 md:px-4 md:py-2 mx-4 border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold" onClick={handleModalConfirm}>Confirm</button>
+                                        <button className="px-3 py-2 md:px-4 md:py-2 mx-4 border-2 border-blue-500 text-blue-500 hover:bg-blue-700 hover:text-white rounded-lg text-sm md:text-base font-semibold" onClick={handleModalCancel}>Cancel</button>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {!isEmailConfirmed ? (
+                        <>
+                            <button type="button"
+                                className="px-3 py-2 md:px-4 md:py-2 mr-24 border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
+                                onClick={handleEmailConfirmation}>Confirm Email
+                            </button>
+                        </>
+                        ):(
+                            <button
+                                type="button"
+                                className="px-3 py-2 md:px-4 md:py-2 mr-24 border-none outline-none bg-blue-500 hover:bg-blue-700 rounded-lg text-sm md:text-base text-white font-semibold"
+                                onClick={saveDetails}
+                            >
+                                Send
+                            </button>
+                        )}
                         {showPopup && (
                             <>
                                 <div
