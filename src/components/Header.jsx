@@ -24,18 +24,26 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  const login = async () => {
-    if (!user) {
-      const {
-        user: { refreshToken, providerData },
-      } = await signInWithPopup(firebaseAuth, provider);
-      dispatch({
-        type: actionType.SET_USER,
-        user: providerData[0],
-      });
-      localStorage.setItem("user", JSON.stringify(providerData[0]));
+  // const login = async () => {
+  //   if (!user) {
+  //     const {
+  //       user: { refreshToken, providerData },
+  //     } = await signInWithPopup(firebaseAuth, provider);
+  //     dispatch({
+  //       type: actionType.SET_USER,
+  //       user: providerData[0],
+  //     });
+  //     localStorage.setItem("user", JSON.stringify(providerData[0]));
+  //   } else {
+  //     setIsMenu(!isMenu);
+  //   }
+  // };
+
+  const handleLogin = () => {
+    if (user) {
+      setIsMenu(!isMenu); 
     } else {
-      setIsMenu(!isMenu);
+      setIsLoginModalOpen(true);
     }
   };
 
@@ -94,11 +102,11 @@ const Header = () => {
             <div className="relative">
               {user ? (
                 <motion.img
-                  whileTap={{ scale: 0.8 }}
+                  whileTap={{ scale: 0.9 }}
                   src={user.photoURL}
                   className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
                   alt="userprofile"
-                  onClick={login}
+                  onClick={handleLogin}
                 />
               ) : (
                 <button className="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
@@ -109,7 +117,7 @@ const Header = () => {
                   initial={{ opacity: 0, scale: 0.6 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.6 }}
-                  className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute top-12 right-0"
+                  className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute top-12 right-0 overflow-hidden"
                 >
                   {user && user.email === "yourplaneer2023@gmail.com" ? (
                     <Link to={"/admin-dashboard"}>
@@ -210,7 +218,7 @@ const Header = () => {
               src={user.photoURL}
               className="w-10 min-w-[40px] h-10 min-h-[40px] drop-shadow-xl cursor-pointer rounded-full"
               alt="userprofile"
-              onClick={login}
+              onClick={handleLogin}
             />
           ) : (
             <button className=" bg-blue-700 hover:bg-blue-500 text-white font-semibold py-1 px-2 rounded" onClick={() => setIsLoginModalOpen(true)}>Login/Register</button>
