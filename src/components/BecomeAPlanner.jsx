@@ -431,6 +431,7 @@ export default function BecomeAPlanner() {
                         </>
                     )}
                     <div className="group flex flex-col border-2 border-dotted border-gray-300 w-full h-full p-3 rounded-lg">
+                        {/* <p className='text-gray-500 text-center font-semibold'>All fields are mandatory to fill.</p> */}
                         {isLoading ? (
                             <div className="flex justify-center">
                                 <Loader />
@@ -481,33 +482,33 @@ export default function BecomeAPlanner() {
                         )}
                         <div class="gap-8 my-10 flex justify-around flex-wrap w-full">
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="firstname">First Name</label>
+                                <label className='text-textBlue' for="firstname">First Name<span className=' text-red-600'>*</span></label>
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="firstName" name="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" />
                             </div>
                             <div className=" flex flex-col">
-                                <label className='text-textBlue' for="lastname">Last Name</label>
+                                <label className='text-textBlue' for="lastname">Last Name<span className=' text-red-600'>*</span></label>
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="lastName" name="lastname" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                             </div>
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="contactNo">WhatsApp No</label>
+                                <label className='text-textBlue' for="contactNo">WhatsApp No<span className=' text-red-600'>*</span></label>
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="WhatsApp No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="email">Email Id</label>
+                                <label className='text-textBlue' for="email">Email Id<span className=' text-red-600'>*</span></label>
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" title="This can't be edit later" value={email} onChange={(e) => setEmail(e.target.value)} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
                                 <p className='text-xs text-red-600'>This can't be edit later</p>
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="company">Company Name</label>
+                                <label className='text-textBlue' for="company">Company Name<span className=' text-red-600'>*</span></label>
                                 <div className="relative">
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="company" name="company" maxLength={35} value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company Name" />
                                     <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{company.length}/{35}</div>
                                 </div>
                             </div>
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="register">Register As</label>
+                                <label className='text-textBlue' for="register">Register As<span className=' text-red-600'>*</span></label>
                                 <select
                                     value={register}
                                     onChange={(e) => setRegister(e.target.value)}
@@ -530,28 +531,28 @@ export default function BecomeAPlanner() {
                             </div>
 
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="address1">Address Line1</label>
+                                <label className='text-textBlue' for="address1">Address Line1<span className=' text-red-600'>*</span></label>
                                 <div className="relative">
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address1" name="address1" value={address1} onChange={(e) => setAddress1(e.target.value)} placeholder="Address Line 1" />
                                     <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{address1.length}/{30}</div>
                                 </div>
                             </div>
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="address2">Address Line2</label>
+                                <label className='text-textBlue' for="address2">Address Line2<span className=' text-red-600'>*</span></label>
                                 <div className="relative">
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address2" name="address2" value={address2} onChange={(e) => setAddress2(e.target.value)} placeholder="Address Line2" />
                                 </div>
                             </div>
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="state">State</label>
+                                <label className='text-textBlue' for="state">State<span className=' text-red-600'>*</span></label>
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="state" name="state" value={state} onChange={(e) => setState(e.target.value)} placeholder="State" />
                             </div>
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="district">District</label>
+                                <label className='text-textBlue' for="district">District<span className=' text-red-600'>*</span></label>
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="district" name="district" value={district} onChange={(e) => setDistrict(e.target.value)} placeholder="District" />
                             </div>
                             <div className="flex flex-col">
-                                <label className='text-textBlue' for="pinCode">Pin Code</label>
+                                <label className='text-textBlue' for="pinCode">Pin Code<span className=' text-red-600'>*</span></label>
                                 <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="pinCode" name="pinCode" maxLength={6} value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
                             </div>
                             {isidLoading ? (
@@ -563,7 +564,7 @@ export default function BecomeAPlanner() {
                                     {!govtidimageAsset ? (
                                         <>
                                             <div className="flex flex-col">
-                                                <label className='text-textBlue' for="govtId">Upload Govt Id Proof</label>
+                                                <label className='text-textBlue' for="govtId">Upload Govt Id Proof<span className=' text-red-600'>*</span></label>
                                                 <input
                                                     type="file"
                                                     name="uploadGovtIdimage"

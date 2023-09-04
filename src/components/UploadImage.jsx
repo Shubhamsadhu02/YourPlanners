@@ -151,7 +151,7 @@ export default function UploadImage({ setOpenImage }) {
     <>
       <div className="">
         <div className="fixed w-full h-screen top-8  md:top-16 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-          <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
+          <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
             <RxCross2
               size={30}
               className="absolute right-3 top-3 z-50 cursor-pointer"
@@ -211,7 +211,7 @@ export default function UploadImage({ setOpenImage }) {
                             <img
                               src={imageAsset}
                               alt="uploaded image"
-                              className="h-96 w-full object-cover"
+                              className="h-72 w-full object-cover"
                             />
                             <button
                               type="button"

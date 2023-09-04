@@ -4,6 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { AiFillInfoCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { FaHeart, FaUserAlt } from 'react-icons/fa';
+import Logo from "../img/logo.png";
 
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { app } from "../firebase.config";
@@ -41,7 +42,7 @@ const Header = () => {
 
   const handleLogin = () => {
     if (user) {
-      setIsMenu(!isMenu); 
+      setIsMenu(!isMenu);
     } else {
       setIsLoginModalOpen(true);
     }
@@ -71,6 +72,7 @@ const Header = () => {
         {/* desktop & tablet */}
         <div className="hidden md:flex w-full h-full items-center justify-between">
           <Link to={"/"} className="flex items-center gap-2">
+            <img src={Logo} alt="logo" width={45} height={45} />
             <p className="text-xl font-bold text-textBlue">Your Planner</p>
           </Link>
 
@@ -208,6 +210,7 @@ const Header = () => {
         </div> */}
 
         <Link to={"/"} className="flex items-center gap-2">
+          <img src={Logo} alt="logo" width={45} height={45} />
           <p className="text-xl font-bold text-textBlue">Your Planner</p>
         </Link>
 

@@ -57,13 +57,13 @@ export default function Login({ closeModal }) {
           >
             Login with Email
           </button> */}
-          <h2 className="text-xl font-bold mt-10 mb-4">Login with Gmail</h2>
+          <h2 className="text-xl font-bold mt-10 mb-4">Login with Google</h2>
           <div className=" block md:flex items-center">
             <button
               className="border-2 border-blue-500 hover:bg-blue-700 text-blue-700 hover:text-white font-bold py-2 px-4 rounded flex items-center"
               onClick={login}
             >
-              <FcGoogle size={30} className='mr-2' /> Login with Gmail
+              <FcGoogle size={30} className='mr-2' /> Login with Goggle
             </button>
             {/* <button
           className="ml-4 text-gray-600 hover:text-gray-800 font-bold py-2 px-4 rounded"

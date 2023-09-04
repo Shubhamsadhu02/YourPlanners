@@ -320,32 +320,32 @@ export default function Appointment() {
                         <form>
                             <div class="gap-8 row flex justify-center flex-wrap my-10">
                                 <div className="flex flex-col">
-                                    <label className='text-textBlue' for="fullname">Full Name</label>
+                                    <label className='text-textBlue' for="fullname">Full Name<span className=' text-red-600'>*</span></label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="fullName" name="fullname" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="First Name" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label className='text-textBlue' for="contactNo">WhatsApp No</label>
+                                    <label className='text-textBlue' for="contactNo">WhatsApp No<span className=' text-red-600'>*</span></label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="WhatsApp No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
                                 </div>
 
                                 <div className="flex flex-col">
-                                    <label className='text-textBlue' for="email">Email Id</label>
+                                    <label className='text-textBlue' for="email">Email Id<span className=' text-red-600'>*</span></label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} />
                                 </div>
 
                                 <div className="flex flex-col">
-                                    <label className='text-textBlue' for="address1">Address Line1</label>
+                                    <label className='text-textBlue' for="address1">Address Line1<span className=' text-red-600'>*</span></label>
                                     <div className="relative">
                                         <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address1" name="address1" value={address1} onChange={(e) => setAddress1(e.target.value)} placeholder="Address Line 1" />
                                         <div className="absolute right-0 bottom-0 p-1 text-xs text-gray-500">{address1.length}/{30}</div>
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
-                                    <label className='text-textBlue' for="address2">Address Line2</label>
+                                    <label className='text-textBlue' for="address2">Address Line2<span className=' text-red-600'>*</span></label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="text" id="address2" name="address2" value={address2} onChange={(e) => setAddress2(e.target.value)} placeholder="Address Line2" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <label className='text-textBlue' for="pinCode">Pin Code</label>
+                                    <label className='text-textBlue' for="pinCode">Pin Code<span className=' text-red-600'>*</span></label>
                                     <input className='border rounded p-3 w-64 lg:w-96 hover:border-indigo-500' type="tel" id="pinCode" name="pinCode" maxLength={6} value={pinCode} onChange={(e) => setPinCode(e.target.value)} placeholder="Pin Code" />
                                 </div>
                             </div>

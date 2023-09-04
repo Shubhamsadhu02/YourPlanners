@@ -157,21 +157,21 @@ export default function ContactUs() {
             <form>
               <div class="gap-8 row flex flex-wrap my-10">
                 <div className="flex flex-col">
-                  <label className='text-textBlue' for="fullname">Full Name</label>
+                  <label className='text-textBlue' for="fullname">Full Name<span className=' text-red-600'>*</span></label>
                   <input className='border rounded p-3 w-72 lg:w-96 hover:border-indigo-500' type="text" id="fullName" name="fullname" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="First Name" />
                 </div>
                 <div className="flex flex-col">
-                  <label className='text-textBlue' for="contactNo">Contact No</label>
+                  <label className='text-textBlue' for="contactNo">Contact No<span className=' text-red-600'>*</span></label>
                   <input className='border rounded p-3 w-72 lg:w-96 hover:border-indigo-500' type="tel" id="contactno" name="contactno" placeholder="Contact No" maxLength={10} value={contactNo} onChange={(e) => setConatactNo(e.target.value)} />
                 </div>
 
                 <div className="flex flex-col">
-                  <label className='text-textBlue' for="email">Email Id</label>
+                  <label className='text-textBlue' for="email">Email Id<span className=' text-red-600'>*</span></label>
                   <input className='border rounded p-3 w-72 lg:w-96 hover:border-indigo-500' type="email" id="emailId" name="email" placeholder="Email Id" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
               </div>
               <div className="flex flex-col">
-                <label className='text-textBlue' for="message">Message</label>
+                <label className='text-textBlue' for="message">Message<span className=' text-red-600'>*</span></label>
                 <textarea className='border rounded p-3 hover:border-indigo-500 h-32 resize-none' name="message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
               </div>
             </form>

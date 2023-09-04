@@ -10,12 +10,13 @@ import { RxCross2 } from 'react-icons/rx';
 // import { AiFillSchedule } from 'react-icons/ai'
 import { collection, getFirestore, onSnapshot, query, where } from "firebase/firestore";
 import { IoIdCard, IoLocationSharp } from "react-icons/io5";
+import { FaLessThan, FaGreaterThan } from "react-icons/fa";
 
 import { useStateValue } from "../context/StateProvider";
 import Login from "./Login";
 
 export default function VendorProfile({ setOpen, data }) {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [{ user }, dispatch] = useStateValue();
@@ -116,19 +117,66 @@ export default function VendorProfile({ setOpen, data }) {
   //   setArea(area);
   // };
 
-  const Modal = ({ image, onClose }) => (
+  const ImageModal = ({ images, selectedImageIndex, onClose, onNext, onPrev }) => (
     <div className="fixed top-10 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
-      <div className="bg-white p-8 rounded-lg">
+      <div className="bg-white flex flex-col p-6 rounded-lg">
         <p>
-          <RxCross2 size={30}
-            className="float-right mb-6 cursor-pointer"
-            onClick={onClose} />
+          <RxCross2
+            size={30}
+            className="float-right mb-4 cursor-pointer"
+            onClick={onClose}
+          />
         </p>
-        <img src={image.imageURL} alt="" className=' w-300 md:w-656 rounded-md border-2 border-gray-500' />
-        <p className="w-300 md:w-656 mt-4 break-words">{image.title}</p>
+        {selectedImageIndex !== null && (
+          <div className="flex justify-center items-center">
+            <img
+              src={images[selectedImageIndex].imageURL}
+              alt=""
+              className="w-300 md:w-656 rounded-md border-2 border-gray-500"
+            />
+          </div>
+        )}
+        {selectedImageIndex !== null && (
+          <div className="flex items-center justify-between mt-5">
+          <p className=" w-300 md:w-600 break-words">
+            {images[selectedImageIndex].title}
+          </p>
+          <div className="border-2 flex items-center p-1 rounded gap-3">
+          <button
+              className="text-gray-500 cursor-pointer"
+              onClick={onPrev}
+              disabled={selectedImageIndex === 0}
+              title="Previous"
+            >
+              <FaLessThan className="text-base md:text-lg"/>
+            </button>
+            <button
+              className="text-gray-500 cursor-pointer"
+              onClick={onNext}
+              disabled={selectedImageIndex === images.length - 1}
+              title="Next"
+            >
+              <FaGreaterThan className="text-base md:text-lg"/>
+            </button>
+          </div>
+          </div>
+        )}
       </div>
     </div>
   );
+
+  const handleNextImage = () => {
+    setSelectedImageIndex((prevIndex) =>
+      prevIndex < images.length - 1 ? prevIndex + 1 : prevIndex
+    );
+  };
+
+  const handlePrevImage = () => {
+    setSelectedImageIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : prevIndex
+    );
+  };
+
 
   const VideoModal = ({ video, onClose }) => (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-500 bg-opacity-75">
@@ -157,7 +205,7 @@ export default function VendorProfile({ setOpen, data }) {
         {
           data ? (
             <div key={data?.id} className="fixed w-full h-screen top-8  md:top-16 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-              <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
+              <div className="w-[90%] 800px:w-[60%] h-[80vh]  800px:h-[75vh] overflow-y-scroll scrollbar-thin bg-primary rounded-md shadow-sm relative p-4 pt-10 md:p-4 md:pt-16">
                 <RxCross2
                   size={30}
                   className="absolute right-3 top-3 z-50 cursor-pointer"
@@ -204,7 +252,7 @@ export default function VendorProfile({ setOpen, data }) {
                           <button type="submit" className="bg-blue-500 hover:bg-blue-700 w-56 text-white text-sm md:text-base font-medium py-1 px-4 rounded-full" onClick={() => setIsLoginModalOpen(true)}>Book An Appointment</button>
                         </>
                         )}
-                        {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
+                      {isLoginModalOpen && <Login closeModal={() => setIsLoginModalOpen(false)} />}
                     </div>
                   </div>
                 </div>
@@ -226,19 +274,32 @@ export default function VendorProfile({ setOpen, data }) {
                           {images.length === 0 ? (
                             <p>No images found</p>
                           ) : (
-                            images.map((image) => (
-                              <div key={image.id} className="">
-                                <img src={image.imageURL} alt="" className=' w-64 h-64 md:w-40 md:h-40 rounded-md border-2 border-gray-500 cursor-pointer object-cover'
-                                  onClick={() => setSelectedImage(image)} />
+                            images.map((image, index) => (
+                              <div
+                                key={image.id}
+                                className=""
+                                onClick={() => {
+                                  setSelectedImageIndex(index);
+                                }}
+                              >
+                                <img
+                                  src={image.imageURL}
+                                  alt=""
+                                  className="w-64 h-64 md:w-40 md:h-40 rounded-md border-2 border-gray-500 cursor-pointer object-cover"
+                                />
                               </div>
                             ))
                           )}
-                          {selectedImage && (
-                            <Modal
-                              image={selectedImage}
-                              onClose={() => setSelectedImage(null)}
+                          {selectedImageIndex !== null && (
+                            <ImageModal
+                              images={images}
+                              selectedImageIndex={selectedImageIndex}
+                              onClose={() => setSelectedImageIndex(null)}
+                              onNext={handleNextImage}
+                              onPrev={handlePrevImage}
                             />
                           )}
+
                         </div>
                       }
                       {
